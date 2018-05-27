@@ -492,6 +492,11 @@ class Application extends _react2.default.Component {
         'Start'
       ),
       _react2.default.createElement(
+        'label',
+        { className: 'arrow-input-label' },
+        'Current State:'
+      ),
+      _react2.default.createElement(
         'table',
         { align: 'center' },
         _react2.default.createElement(
@@ -516,27 +521,27 @@ class Application extends _react2.default.Component {
       ),
       _react2.default.createElement(
         'a',
-        { href: 'http://www.tobias-erichsen.de/software/loopmidi.html', target: '_blank', className: 'image-credit aStyle' },
+        { href: 'http://www.tobias-erichsen.de/software/loopmidi.html', target: '_blank', className: 'aButton' },
         'Click here to learn how to create a Virtual MIDI Device'
       ),
       _react2.default.createElement(
         'a',
-        { href: 'http://earslap.com/page/otomata.html', target: '_blank', className: 'image-credit aStyle' },
+        { href: 'http://earslap.com/page/otomata.html', target: '_blank', className: 'aButton' },
         'Inspiration: Otomata by Earslap'
       ),
       _react2.default.createElement(
         'a',
-        { href: 'https://www.flickr.com/photos/aigle_dore', target: '_blank', className: 'image-credit aStyle' },
-        'Image Credit: Moyan Brenn'
+        { href: 'https://vincentgarreau.com/particles.js/', target: '_blank', className: 'aButton' },
+        'Background Credit: Vincent Garreau'
       ),
       _react2.default.createElement(
         'a',
-        { href: 'http://www.tobias-erichsen.de', target: '_blank', className: 'image-credit aStyle' },
+        { href: 'http://www.tobias-erichsen.de', target: '_blank', className: 'aButton' },
         'MIDI Wizard: Tobias Erichsen'
       ),
       _react2.default.createElement(
         'a',
-        { href: 'https://github.com/cwilso', target: '_blank', className: 'image-credit aStyle' },
+        { href: 'https://github.com/cwilso', target: '_blank', className: 'aButton' },
         'Web-MIDI Wizard: Chris Wilson'
       )
     );

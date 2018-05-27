@@ -408,6 +408,8 @@ render() {
         <button className='arrow-input' onClick={this.pauseHandler}>{'Stop'}</button> :
         <button className='arrow-input' onClick={this.playHandler}>{'Start'}</button>
     }
+    
+    <label className='arrow-input-label'>{'Current State:'}</label>
       <table align="center">
         <tbody>
           {renderGrid(this.state.grid, this.addToGridHandler)}
@@ -432,19 +434,19 @@ render() {
   </div>
 </div> */}
 
-    <a href="http://www.tobias-erichsen.de/software/loopmidi.html" target="_blank" className="image-credit aStyle">
+    <a href="http://www.tobias-erichsen.de/software/loopmidi.html" target="_blank" className="aButton">
         Click here to learn how to create a Virtual MIDI Device
     </a>
-    <a href= 'http://earslap.com/page/otomata.html' target="_blank" className='image-credit aStyle'>
+    <a href= 'http://earslap.com/page/otomata.html' target="_blank" className='aButton'>
     Inspiration: Otomata by Earslap
     </a>
-    <a href="https://www.flickr.com/photos/aigle_dore" target="_blank" className="image-credit aStyle">
-        Image Credit: Moyan Brenn
+    <a href="https://vincentgarreau.com/particles.js/" target="_blank" className="aButton">
+        Background Credit: Vincent Garreau
     </a>
-    <a href="http://www.tobias-erichsen.de" target="_blank" className="image-credit aStyle">
+    <a href="http://www.tobias-erichsen.de" target="_blank" className="aButton">
         MIDI Wizard: Tobias Erichsen
     </a>
-    <a href="https://github.com/cwilso" target="_blank" className="image-credit aStyle">
+    <a href="https://github.com/cwilso" target="_blank" className="aButton">
         Web-MIDI Wizard: Chris Wilson
     </a>
   </div>

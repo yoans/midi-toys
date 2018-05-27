@@ -8,6 +8,33 @@ body {
     left: 0;
     margin: 0;
 }
+.aButton {
+    margin:auto;
+    background-color: #5f799f;
+    box-shadow: 1px 8px 8px #425d8d;
+    color: white;
+    padding: 1em 1.5em;
+    position: relative;
+    text-decoration: none;
+    width: 300px;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+    display: block;
+    margin-top: 4%;
+}
+a.aButton:hover {
+  background-color: #79aaff;
+  cursor: pointer;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  transition: 300ms;
+}
+
+a.aButton:active {
+  box-shadow: none;
+  top: 5px;
+}
 #fullscreen {
     z-index: -999;
     min-height: 100%;
@@ -27,7 +54,6 @@ body {
 select,
 input {
     background-color: transparent;
-    border: none;
     color: white;
     border-radius: 2px;
     padding: 5px 0px 5px 0px;
@@ -57,7 +83,7 @@ button {
     width: 140px;
     border-color: white;
     border-width: 2px;
-    border-style: solid
+    border-style: solid;
 }
 h1 {
     color: white;
@@ -164,7 +190,9 @@ a:hover {
 }
 }
 table {
-    padding: 20px;
+    border-color: white;
+    border-width: 2px;
+    border-style: solid;
 }
 
 p{
