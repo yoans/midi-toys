@@ -78,6 +78,8 @@ h3 {
     text-align: center;
 }
 ul {
+    margin: auto;
+    padding: 2%;
     list-style: none;
     padding: 0;
 }
