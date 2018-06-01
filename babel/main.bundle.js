@@ -79,12 +79,12 @@ const getArrow = exports.getArrow = function (size) {
     };
   };
 };
-const addToGrid = exports.addToGrid = function (grid, x, y) {
+const addToGrid = exports.addToGrid = function (grid, x, y, dir) {
   const nextGrid = _extends({}, grid, {
     arrows: [...grid.arrows, {
       x,
       y,
-      vector: 0
+      vector: dir
     }]
   });
   return nextGrid;
@@ -329,12 +329,12 @@ const renderGrid = function (grid, spawnArrowFunction) {
   return populatedLivingGrid.map(renderRow);
 };
 
-const maxArrows = 30;
+const maxArrows = 50;
 const minArrows = 1;
-const maxSize = 18;
-const minSize = 2;
-const minNoteLength = 50;
-const maxNoteLength = 500;
+const maxSize = 30;
+const minSize = 1;
+const minNoteLength = 1;
+const maxNoteLength = 5000;
 const interactSound = function (note, state) {
   return state.muted ? undefined : makePizzaSound(note, 50).play();
 };
@@ -345,6 +345,7 @@ class Application extends _react2.default.Component {
 
     this.state = {
       gridSize: 8,
+      inputDirection: 0,
       noteLength: 150,
       numberOfArows: 8,
       grid: newGrid(8, 8),
@@ -360,6 +361,7 @@ class Application extends _react2.default.Component {
     this.pauseHandler = this.pause.bind(this);
     this.muteToggleHandler = this.muteToggle.bind(this);
     this.addToGridHandler = this.addToGrid.bind(this);
+    this.newInputDirectionHandler = this.newInputDirection.bind(this);
   }
 
   componentDidMount() {
@@ -393,9 +395,11 @@ class Application extends _react2.default.Component {
       input = minArrows;
     }
     this.setState({
-      gridSize: input
+      gridSize: input,
+      grid: _extends({}, this.state.grid, {
+        size: input
+      })
     });
-    this.newGridHandler(this.state.numberOfArows, input);
     interactSound(2, this.state);
   }
   newNoteLength(e) {
@@ -426,12 +430,17 @@ class Application extends _react2.default.Component {
     this.setState({
       numberOfArows: input
     });
-    this.newGridHandler(input, this.state.gridSize);
+    // this.newGridHandler(input, this.state.gridSize)
     interactSound(4, this.state);
   }
   nextGrid(length) {
     this.setState({
       grid: nextGrid(_extends({}, this.state.grid, { muted: this.state.muted }), length)
+    });
+  }
+  newInputDirection(inputDirection) {
+    this.setState({
+      inputDirection
     });
   }
   newGrid(number, size) {
@@ -441,10 +450,11 @@ class Application extends _react2.default.Component {
   }
   addToGrid(x, y) {
     this.setState({
-      grid: addToGrid(this.state.grid, x, y)
+      grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
     });
   }
   render() {
+    var _this2 = this;
 
     return _react2.default.createElement(
       'div',
@@ -458,6 +468,18 @@ class Application extends _react2.default.Component {
         'button',
         { className: 'arrow-input', onClick: this.muteToggleHandler },
         this.state.muted ? 'Turn Sound On' : 'Turn Sound Off'
+      ),
+      _react2.default.createElement(
+        'label',
+        { className: 'arrow-input-label' },
+        'Reset:'
+      ),
+      _react2.default.createElement(
+        'button',
+        { className: 'arrow-input', onClick: function () {
+            return _this2.newGridHandler(_this2.state.numberOfArows, _this2.state.gridSize);
+          } },
+        'Reset'
       ),
       _react2.default.createElement(
         'label',
@@ -477,6 +499,36 @@ class Application extends _react2.default.Component {
         'Size of Grid:'
       ),
       _react2.default.createElement('input', { className: 'arrow-input', type: 'number', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSizeHandler }),
+      _react2.default.createElement(
+        'label',
+        { className: 'arrow-input-label' },
+        'Arrow Direction:'
+      ),
+      [_react2.default.createElement(
+        'button',
+        { className: 'arrow-input', onClick: function () {
+            return _this2.newInputDirectionHandler(1);
+          } },
+        'Start as Up'
+      ), _react2.default.createElement(
+        'button',
+        { className: 'arrow-input', onClick: function () {
+            return _this2.newInputDirectionHandler(2);
+          } },
+        'Start as Right'
+      ), _react2.default.createElement(
+        'button',
+        { className: 'arrow-input', onClick: function () {
+            return _this2.newInputDirectionHandler(3);
+          } },
+        'Start as Down'
+      ), _react2.default.createElement(
+        'button',
+        { className: 'arrow-input', onClick: function () {
+            return _this2.newInputDirectionHandler(0);
+          } },
+        'Start as Left'
+      )][this.state.inputDirection],
       _react2.default.createElement(
         'label',
         { className: 'arrow-input-label' },
@@ -528,11 +580,6 @@ class Application extends _react2.default.Component {
         'a',
         { href: 'http://earslap.com/page/otomata.html', target: '_blank', className: 'aButton' },
         'Inspiration: Otomata by Earslap'
-      ),
-      _react2.default.createElement(
-        'a',
-        { href: 'https://vincentgarreau.com/particles.js/', target: '_blank', className: 'aButton' },
-        'Background Credit: Vincent Garreau'
       ),
       _react2.default.createElement(
         'a',

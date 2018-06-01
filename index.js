@@ -36,7 +36,7 @@ export const getArrow = size => () => ({
   y: getRandomNumber(size),
   vector: getVector()
 });
-export const addToGrid = (grid, x, y) => {
+export const addToGrid = (grid, x, y, dir) => {
   const nextGrid = {
     ...grid,
     arrows: [
@@ -44,7 +44,7 @@ export const addToGrid = (grid, x, y) => {
       {
         x,
         y,
-        vector: 0
+        vector: dir
       }
     ]
   };
@@ -278,12 +278,12 @@ const renderGrid = (grid, spawnArrowFunction) => {
   return populatedLivingGrid.map(renderRow);
 };
 
-const maxArrows=30;
+const maxArrows=50;
 const minArrows=1;
-const maxSize=18;
-const minSize=2;
-const minNoteLength=50;
-const maxNoteLength=500;
+const maxSize=30;
+const minSize=1;
+const minNoteLength=1;
+const maxNoteLength=5000;
 const interactSound = (note, state) => state.muted ? undefined : makePizzaSound(note, 50).play();
 export class Application extends React.Component { 
 
@@ -292,6 +292,7 @@ constructor(props) {
 
   this.state = {
     gridSize: 8,
+    inputDirection: 0,
     noteLength: 150,
     numberOfArows: 8,
     grid: newGrid(8, 8),
@@ -307,6 +308,7 @@ constructor(props) {
   this.pauseHandler = this.pause.bind(this);
   this.muteToggleHandler = this.muteToggle.bind(this);
   this.addToGridHandler = this.addToGrid.bind(this);
+  this.newInputDirectionHandler = this.newInputDirection.bind(this);
 }
 
 componentDidMount() {
@@ -339,10 +341,13 @@ newSize(e) {
     input = minArrows;
   }
   this.setState({
-    gridSize: input
+    gridSize: input,
+    grid: {
+      ...this.state.grid,
+      size: input
+    }
   });
-    this.newGridHandler(this.state.numberOfArows, input);
-    interactSound(2,this.state);
+  interactSound(2,this.state);
 }
 newNoteLength(e) {
   clearInterval(this.timerID);
@@ -372,12 +377,17 @@ newNumberOfArrows(e) {
   this.setState({
     numberOfArows: input
   });
-  this.newGridHandler(input, this.state.gridSize)
+  // this.newGridHandler(input, this.state.gridSize)
   interactSound(4,this.state);
 }
 nextGrid(length) {
   this.setState({
     grid: nextGrid({...this.state.grid, muted: this.state.muted}, length)
+  })
+}
+newInputDirection(inputDirection) {
+  this.setState({
+    inputDirection
   })
 }
 newGrid(number, size) {
@@ -387,7 +397,7 @@ newGrid(number, size) {
 }
 addToGrid(x, y) {
   this.setState({
-    grid: addToGrid(this.state.grid, x, y)
+    grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
   })
 }
 render() {
@@ -396,19 +406,30 @@ render() {
   <div>
     <label className='arrow-input-label'>{'Sound:'}</label>
     <button className='arrow-input'  onClick={this.muteToggleHandler}>{this.state.muted ? 'Turn Sound On' : 'Turn Sound Off'}</button>
+    <label className='arrow-input-label'>{'Reset:'}</label>
+    <button className='arrow-input'  onClick={()=>this.newGridHandler(this.state.numberOfArows, this.state.gridSize)}>{'Reset'}</button>
     <label className='arrow-input-label'>{'Time per Step:'}</label>
     <input className='arrow-input' type='number' max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLengthHandler}/>
     <label className='arrow-input-label'>{'Number of Arrows:'}</label>
     <input className='arrow-input' type='number' max={maxArrows} min={minArrows} value={this.state.numberOfArows} onChange={this.newNumberOfArrowsHandler}/>
     <label className='arrow-input-label'>{'Size of Grid:'}</label>
     <input className='arrow-input' type='number' max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSizeHandler}/>
+    <label className='arrow-input-label'>{'Arrow Direction:'}</label>
+    {
+      [
+        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(1)}>{'Start as Up'}</button>),
+        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(2)}>{'Start as Right'}</button>),
+        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(3)}>{'Start as Down'}</button>),
+        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(0)}>{'Start as Left'}</button>),
+      ] 
+      [this.state.inputDirection] 
+    }
     <label className='arrow-input-label'>{'Start/Stop:'}</label>
     {
       this.state.playing ? 
         <button className='arrow-input' onClick={this.pauseHandler}>{'Stop'}</button> :
         <button className='arrow-input' onClick={this.playHandler}>{'Start'}</button>
     }
-    
     <label className='arrow-input-label'>{'Current State:'}</label>
       <table align="center">
         <tbody>
@@ -440,9 +461,9 @@ render() {
     <a href= 'http://earslap.com/page/otomata.html' target="_blank" className='aButton'>
     Inspiration: Otomata by Earslap
     </a>
-    <a href="https://vincentgarreau.com/particles.js/" target="_blank" className="aButton">
+    {/* <a href="https://vincentgarreau.com/particles.js/" target="_blank" className="aButton">
         Background Credit: Vincent Garreau
-    </a>
+    </a> */}
     <a href="http://www.tobias-erichsen.de" target="_blank" className="aButton">
         MIDI Wizard: Tobias Erichsen
     </a>
