@@ -279,7 +279,7 @@ const renderGrid = (grid, spawnArrowFunction) => {
 };
 
 const maxArrows=50;
-const minArrows=1;
+const minArrows=0;
 const maxSize=30;
 const minSize=1;
 const minNoteLength=1;
