@@ -524,25 +524,25 @@ class Application extends _react2.default.Component {
         { className: 'arrow-input', onClick: function () {
             return _this2.newInputDirectionHandler(1);
           } },
-        'Start as Up'
+        'Up'
       ), _react2.default.createElement(
         'button',
         { className: 'arrow-input', onClick: function () {
             return _this2.newInputDirectionHandler(2);
           } },
-        'Start as Right'
+        'Right'
       ), _react2.default.createElement(
         'button',
         { className: 'arrow-input', onClick: function () {
             return _this2.newInputDirectionHandler(3);
           } },
-        'Start as Down'
+        'Down'
       ), _react2.default.createElement(
         'button',
         { className: 'arrow-input', onClick: function () {
             return _this2.newInputDirectionHandler(0);
           } },
-        'Start as Left'
+        'Left'
       )][this.state.inputDirection],
       _react2.default.createElement(
         'label',

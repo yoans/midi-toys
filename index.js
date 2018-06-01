@@ -433,10 +433,10 @@ render() {
     <label className='arrow-input-label'>{'Arrow Direction:'}</label>
     {
       [
-        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(1)}>{'Start as Up'}</button>),
-        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(2)}>{'Start as Right'}</button>),
-        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(3)}>{'Start as Down'}</button>),
-        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(0)}>{'Start as Left'}</button>),
+        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(1)}>{'Up'}</button>),
+        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(2)}>{'Right'}</button>),
+        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(3)}>{'Down'}</button>),
+        (<button className='arrow-input' onClick={()=>this.newInputDirectionHandler(0)}>{'Left'}</button>),
       ] 
       [this.state.inputDirection] 
     }
