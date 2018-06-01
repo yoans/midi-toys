@@ -10,9 +10,8 @@ body {
 }
 .aButton {
     margin:auto;
-    background-color: #5f799f;
-    box-shadow: 1px 8px 8px #425d8d;
-    color: white;
+    background-color: black;
+    box-shadow: 1px 8px 8px white;
     padding: 1em 1.5em;
     position: relative;
     text-decoration: none;
@@ -24,7 +23,8 @@ body {
     margin-top: 4%;
 }
 a.aButton:hover {
-  background-color: #79aaff;
+  background-color: white;
+  color: black;
   cursor: pointer;
   -webkit-transition: 300ms;
   -moz-transition: 300ms;

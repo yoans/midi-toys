@@ -36,6 +36,13 @@ export const getArrow = size => () => ({
   y: getRandomNumber(size),
   vector: getVector()
 });
+export const removeFromGrid = (grid, x, y) => {
+  const nextGrid = {
+    ...grid,
+    arrows: grid.arrows.filter(arrow => arrow.x !== x || arrow.y !== y)
+  };
+  return nextGrid;
+};
 export const addToGrid = (grid, x, y, dir) => {
   const nextGrid = {
     ...grid,
@@ -49,7 +56,7 @@ export const addToGrid = (grid, x, y, dir) => {
     ]
   };
   return nextGrid;
-}
+};
 export const newGrid = (size, numberOfArrows) => {
   const arrows = R.range(0, numberOfArrows).map(getArrow(size))
 
@@ -272,7 +279,7 @@ const renderGrid = (grid, spawnArrowFunction) => {
   const populateRow = (row, index) => row.map(populateArrow(index));
 
   const populatedGrid = getRows(grid.size).map(populateRow);
-  const addSpawnArrowToItem = y => (item, x) => Object.assign([...item], {spawn: ()=>spawnArrowFunction(x, y)});
+  const addSpawnArrowToItem = y => (item, x) => Object.assign([...item], {spawn: (e)=>spawnArrowFunction(x, y, e)});
   const addSpawnArrowsToRow = (row, index) => row.map(addSpawnArrowToItem(index))
   const populatedLivingGrid = populatedGrid.map(addSpawnArrowsToRow)
   return populatedLivingGrid.map(renderRow);
@@ -395,10 +402,19 @@ newGrid(number, size) {
     grid: newGrid(size, number)
   })
 }
-addToGrid(x, y) {
-  this.setState({
-    grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
-  })
+addToGrid(x, y, e) {
+  
+  if (e.shiftKey) {
+    this.setState({
+      grid: removeFromGrid(this.state.grid, x, y)
+    }) 
+  }
+  else {
+    this.setState({
+      grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
+    }) 
+  }
+
 }
 render() {
   
@@ -430,7 +446,8 @@ render() {
         <button className='arrow-input' onClick={this.pauseHandler}>{'Stop'}</button> :
         <button className='arrow-input' onClick={this.playHandler}>{'Start'}</button>
     }
-    <label className='arrow-input-label'>{'Current State:'}</label>
+    <label className='arrow-input-label'>{'CLICK to place an arrow'}</label>
+    <label className='arrow-input-label'>{'SHIFT + CLICK to clear a square'}</label>
       <table align="center">
         <tbody>
           {renderGrid(this.state.grid, this.addToGridHandler)}
@@ -455,21 +472,17 @@ render() {
   </div>
 </div> */}
 
+    <label className='arrow-input-label'>{'Learn how to create a virtual midi bus:'}</label>
     <a href="http://www.tobias-erichsen.de/software/loopmidi.html" target="_blank" className="aButton">
-        Click here to learn how to create a Virtual MIDI Device
+        Windows
     </a>
-    <a href= 'http://earslap.com/page/otomata.html' target="_blank" className='aButton'>
-    Inspiration: Otomata by Earslap
+    <a href="https://help.ableton.com/hc/en-us/articles/209774225-Using-virtual-MIDI-buses" target="_blank" className="aButton">
+        Mac
     </a>
-    {/* <a href="https://vincentgarreau.com/particles.js/" target="_blank" className="aButton">
-        Background Credit: Vincent Garreau
-    </a> */}
-    <a href="http://www.tobias-erichsen.de" target="_blank" className="aButton">
-        MIDI Wizard: Tobias Erichsen
+    <a href= 'credits.html' target="_blank" className='aButton'>
+      Credits
     </a>
-    <a href="https://github.com/cwilso" target="_blank" className="aButton">
-        Web-MIDI Wizard: Chris Wilson
-    </a>
+
   </div>
 )};
 }

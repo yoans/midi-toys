@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Application = exports.nextGrid = exports.playSounds = exports.flipArrow = exports.rotateSet = exports.rotateArrow = exports.newArrayIfFalsey = exports.arrowBoundaryKey = exports.arrowKey = exports.moveArrow = exports.seedGrid = exports.newGrid = exports.addToGrid = exports.getArrow = exports.getRows = exports.getRandomNumber = exports.cycleVector = exports.getVector = exports.vectorOperations = exports.vectors = undefined;
+exports.Application = exports.nextGrid = exports.playSounds = exports.flipArrow = exports.rotateSet = exports.rotateArrow = exports.newArrayIfFalsey = exports.arrowBoundaryKey = exports.arrowKey = exports.moveArrow = exports.seedGrid = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.getArrow = exports.getRows = exports.getRandomNumber = exports.cycleVector = exports.getVector = exports.vectorOperations = exports.vectors = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -78,6 +78,14 @@ const getArrow = exports.getArrow = function (size) {
       vector: getVector()
     };
   };
+};
+const removeFromGrid = exports.removeFromGrid = function (grid, x, y) {
+  const nextGrid = _extends({}, grid, {
+    arrows: grid.arrows.filter(function (arrow) {
+      return arrow.x !== x || arrow.y !== y;
+    })
+  });
+  return nextGrid;
 };
 const addToGrid = exports.addToGrid = function (grid, x, y, dir) {
   const nextGrid = _extends({}, grid, {
@@ -317,8 +325,8 @@ const renderGrid = function (grid, spawnArrowFunction) {
   const populatedGrid = getRows(grid.size).map(populateRow);
   const addSpawnArrowToItem = function (y) {
     return function (item, x) {
-      return Object.assign([...item], { spawn: function () {
-          return spawnArrowFunction(x, y);
+      return Object.assign([...item], { spawn: function (e) {
+          return spawnArrowFunction(x, y, e);
         } });
     };
   };
@@ -448,10 +456,17 @@ class Application extends _react2.default.Component {
       grid: newGrid(size, number)
     });
   }
-  addToGrid(x, y) {
-    this.setState({
-      grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
-    });
+  addToGrid(x, y, e) {
+
+    if (e.shiftKey) {
+      this.setState({
+        grid: removeFromGrid(this.state.grid, x, y)
+      });
+    } else {
+      this.setState({
+        grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
+      });
+    }
   }
   render() {
     var _this2 = this;
@@ -546,7 +561,12 @@ class Application extends _react2.default.Component {
       _react2.default.createElement(
         'label',
         { className: 'arrow-input-label' },
-        'Current State:'
+        'CLICK to place an arrow'
+      ),
+      _react2.default.createElement(
+        'label',
+        { className: 'arrow-input-label' },
+        'SHIFT + CLICK to clear a square'
       ),
       _react2.default.createElement(
         'table',
@@ -572,24 +592,24 @@ class Application extends _react2.default.Component {
         )
       ),
       _react2.default.createElement(
+        'label',
+        { className: 'arrow-input-label' },
+        'Learn how to create a virtual midi bus:'
+      ),
+      _react2.default.createElement(
         'a',
         { href: 'http://www.tobias-erichsen.de/software/loopmidi.html', target: '_blank', className: 'aButton' },
-        'Click here to learn how to create a Virtual MIDI Device'
+        'Windows'
       ),
       _react2.default.createElement(
         'a',
-        { href: 'http://earslap.com/page/otomata.html', target: '_blank', className: 'aButton' },
-        'Inspiration: Otomata by Earslap'
+        { href: 'https://help.ableton.com/hc/en-us/articles/209774225-Using-virtual-MIDI-buses', target: '_blank', className: 'aButton' },
+        'Mac'
       ),
       _react2.default.createElement(
         'a',
-        { href: 'http://www.tobias-erichsen.de', target: '_blank', className: 'aButton' },
-        'MIDI Wizard: Tobias Erichsen'
-      ),
-      _react2.default.createElement(
-        'a',
-        { href: 'https://github.com/cwilso', target: '_blank', className: 'aButton' },
-        'Web-MIDI Wizard: Chris Wilson'
+        { href: 'credits.html', target: '_blank', className: 'aButton' },
+        'Credits'
       )
     );
   }
