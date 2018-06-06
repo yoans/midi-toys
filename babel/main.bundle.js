@@ -627,15 +627,20 @@ let midiOut = null;
 let launchpadFound = false;
 
 function changeMIDIOut(ev) {
-  var selectedID = selectMIDIOut[selectMIDIOut.selectedIndex].value;
 
-  for (var output of midiAccess.outputs.values()) {
-    if (selectedID == output.id) {
-      midiOut = output;
-      return;
+  try {
+    var selectedID = selectMIDIOut[selectMIDIOut.selectedIndex].value;
+
+    for (var output of midiAccess.outputs.values()) {
+      if (selectedID == output.id) {
+        midiOut = output;
+        return;
+      }
     }
+    midiOut = null;
+  } catch (err) {
+    console.log('MIDI is not supported by your browser access');
   }
-  midiOut = null;
 }
 function onMIDIInit(midi) {
   midiAccess = midi;
@@ -650,8 +655,11 @@ function onMIDIInit(midi) {
   selectMIDIOut.onchange = changeMIDIOut;
 }
 
-navigator.requestMIDIAccess({}).then(onMIDIInit, onMIDIFail);
-
+try {
+  navigator.requestMIDIAccess({}).then(onMIDIInit, onMIDIFail);
+} catch (err) {
+  console.log('MIDI is not supported by your browser access ');
+}
 particlesJS({
   "particles": {
     "number": {
