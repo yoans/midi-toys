@@ -1,3 +1,19 @@
+.midi-toys-app {
+    position: absolute; 
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, .25);
+    left: 50%;
+    top: 50%;
+    margin-left: -100px;
+    margin-top: -375px;
+    width: 200px;
+    height: 750px;
+    
+}
+
 body {
     font-family: 'Open Sans',Helvetica,Arial,sans-serif;
     background-color: rgba(0, 0, 0);
@@ -10,12 +26,12 @@ body {
 }
 .aButton {
     margin:auto;
-    background-color: black;
+    background-color: transparent;
     box-shadow: 1px 8px 8px white;
     padding: 1em 1.5em;
     position: relative;
     text-decoration: none;
-    width: 300px;
+    width: 136px;
     border: 2px solid white;
     border-radius: 5px;
     color: white;
@@ -65,8 +81,8 @@ input {
     border-style: solid
 }
 
-option {
-    color: black;
+option:hover {
+    background-color: red;
 }
 button {
     cursor: pointer;
@@ -97,11 +113,6 @@ h3 {
     color: white;
     padding-bottom: 20px;
     font-weight: thin;
-}
-.content {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    text-align: center;
 }
 ul {
     margin: auto;
@@ -267,18 +278,12 @@ td:hover {
 }
 
 option {
-
-background-color: transparent;
-border: none;
-color: white;
-border-radius: 2px;
-padding: 5px 0px 5px 0px;
-margin: 5px 5px;
-width: 136px;
-text-align: center;
-border-color: white;
-border-width: 2px;
-border-style: solid
+    color: black;
+    background-color: transparent;
+    border: none;
+    border-radius: 2px;
+    width: 136px;
+    text-align: center;
 }
 @keyframes go-up {
     0%   {left:0px; top:19px;}
@@ -296,3 +301,24 @@ border-style: solid
     0%   {left:19px; top:0px;}
     100% {left:0px; top:0px;}
 }
+/* ---- reset ---- */
+body{
+    margin:0;
+    font:normal 75% Arial, Helvetica, sans-serif;
+}
+canvas{
+    display: block; 
+    vertical-align: bottom; 
+} 
+/* ---- particles.js container ---- */ 
+#particles-js{ 
+    position:absolute; 
+    width: 100%; 
+    height: 100%; 
+    background-color: #b61924;
+    background-image: url("");
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    background-position: 50% 50%; 
+}
+
