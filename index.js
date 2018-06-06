@@ -472,7 +472,7 @@ render() {
   </div>
 </div> */}
 
-    <label className='arrow-input-label'>{'Learn how to create a virtual midi bus:'}</label>
+    {/* <label className='arrow-input-label'>{'Learn how to create a virtual midi bus:'}</label>
     <a href="http://www.tobias-erichsen.de/software/loopmidi.html" target="_blank" className="aButton">
         Windows
     </a>
@@ -481,7 +481,7 @@ render() {
     </a>
     <a href= 'credits.html' target="_blank" className='aButton'>
       Credits
-    </a>
+    </a> */}
 
   </div>
 )};

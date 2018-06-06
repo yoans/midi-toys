@@ -590,26 +590,6 @@ class Application extends _react2.default.Component {
           { value: '' },
           'Not connected'
         )
-      ),
-      _react2.default.createElement(
-        'label',
-        { className: 'arrow-input-label' },
-        'Learn how to create a virtual midi bus:'
-      ),
-      _react2.default.createElement(
-        'a',
-        { href: 'http://www.tobias-erichsen.de/software/loopmidi.html', target: '_blank', className: 'aButton' },
-        'Windows'
-      ),
-      _react2.default.createElement(
-        'a',
-        { href: 'https://help.ableton.com/hc/en-us/articles/209774225-Using-virtual-MIDI-buses', target: '_blank', className: 'aButton' },
-        'Mac'
-      ),
-      _react2.default.createElement(
-        'a',
-        { href: 'credits.html', target: '_blank', className: 'aButton' },
-        'Credits'
       )
     );
   }
