@@ -5,6 +5,7 @@ import * as R from 'ramda';
 import Pizzicato from 'pizzicato';
 import notesFrequencies from 'notes-frequencies';
 import { release } from 'os';
+import p5 from 'p5';
 
 const chance = new Chance();
 export const vectors = [
@@ -661,4 +662,5 @@ particlesJS({
 //          requestAnimationFrame(update);
 
 ReactDOM.render(<Application/>, document.getElementById('root'));
+
 
