@@ -13,6 +13,14 @@
     height: 570px;
     
 }
+#sketch-holder{
+    margin: auto;
+    cursor: none;
+}
+#arrows-animation{
+    margin: auto;
+}
+
 
 body {
     font-family: 'Open Sans',Helvetica,Arial,sans-serif;

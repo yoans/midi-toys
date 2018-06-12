@@ -286,9 +286,95 @@ const renderGrid = (grid, spawnArrowFunction) => {
   return populatedLivingGrid.map(renderRow);
 };
 
-const maxArrows=50;
+// const drawArrows = (sketch, x, y, vector, size) => {};
+const nat = () => chance.natural({
+  min: 0,
+  max: 255
+})
+let stateDrawing = {
+  grid: {
+    arrows: [],
+    size:1
+  }
+};
+const gridCanvasSize = 180;
+const gridCanvasBorderSize = 4;
+const triangleDrawingArray = [
+  (topLeft,cellSize,sketch)=>sketch.triangle(topLeft.x+(cellSize/2.0), topLeft.y,topLeft.x+cellSize, topLeft.y+cellSize,topLeft.x, topLeft.y+cellSize),
+  (topLeft,cellSize,sketch)=>sketch.triangle(topLeft.x, topLeft.y,topLeft.x+cellSize, topLeft.y+(cellSize/2.0),topLeft.x, topLeft.y+cellSize),
+  (topLeft,cellSize,sketch)=>sketch.triangle(topLeft.x, topLeft.y,topLeft.x+cellSize, topLeft.y,topLeft.x+(cellSize/2.0), topLeft.y+cellSize),
+  (topLeft,cellSize,sketch)=>sketch.triangle(topLeft.x+cellSize, topLeft.y,topLeft.x+cellSize, topLeft.y+cellSize,topLeft.x, topLeft.y+(cellSize/2.0))
+];
+const timeShift = ({x, y}, vector, shiftAmount) => {
+  const shifted = [
+    {x:x, y:y-shiftAmount},
+    {x:x+shiftAmount, y:y},
+    {x:x, y:y+shiftAmount},
+    {x:x-shiftAmount, y:y},
+  ];
+  return shifted[vector];
+};
+let date = new Date();
+let arrowAdder
+var s = function( sketch ) {
+  sketch.setup = function() {
+    sketch.createCanvas(gridCanvasSize+gridCanvasBorderSize*2,gridCanvasSize+gridCanvasBorderSize*2).parent('sketch-holder').id('arrows-animation');
+  };
+  sketch.draw = function() {
+    //draw background slash border
+    sketch.background(
+      0,0,255
+    );
+    //draw grid 
+    sketch.strokeWeight(0);
+    sketch.fill(
+      0,255,0
+    );
+    sketch.rect(gridCanvasBorderSize,gridCanvasBorderSize,gridCanvasSize,gridCanvasSize);
+    //draw arrows
+    sketch.fill(
+      255,0,0
+    );
+    const cellSize = (gridCanvasSize*1.0)/(1.0*stateDrawing.grid.size);
+    const convertIndexToPixel = index => (index*cellSize)+gridCanvasBorderSize;
+    const convertArrowToTopLeft = (xy) => ({x:convertIndexToPixel(xy.x), y:convertIndexToPixel(xy.y)});
+    const timeDiff = new Date().getTime()-date.getTime();
+    const percentage = (timeDiff>stateDrawing.noteLength?stateDrawing.noteLength:timeDiff)/(1.0*stateDrawing.noteLength);
+    
+    stateDrawing.grid.arrows.map((arrow)=>{
+      const topLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize*percentage);
+      // const topLeft = {x:convertIndexToPixel(arrow.x), y:convertIndexToPixel(arrow.y)};
+      const triangleDrawer = triangleDrawingArray[arrow.vector];
+      triangleDrawer(topLeft,cellSize,sketch);
+    });
+
+    //draw hover input
+    sketch.cursor(sketch.CROSS);
+    const convertPixelToIndex = pixel => Math.floor((pixel-gridCanvasBorderSize)/cellSize);
+    const mouseXindex = convertPixelToIndex(sketch.mouseX);
+    const mouseYindex = convertPixelToIndex(sketch.mouseY);
+    triangleDrawingArray[stateDrawing.inputDirection](convertArrowToTopLeft({x: mouseXindex, y:mouseYindex}), cellSize, sketch);
+
+    sketch.mouseClicked = function(e){
+      if (sketch.mouseX>0+gridCanvasBorderSize&&
+        sketch.mouseX<gridCanvasSize-gridCanvasBorderSize&&
+        sketch.mouseY>0+gridCanvasBorderSize&&
+        sketch.mouseY<gridCanvasSize-gridCanvasBorderSize
+      ) {
+        if(arrowAdder){
+          arrowAdder(mouseXindex, mouseYindex, e);
+          return false;
+        }
+      }else{
+        console.log('click in the canvas please');
+      }
+    }
+  };
+};
+
+const maxArrows=100;
 const minArrows=0;
-const maxSize=30;
+const maxSize=200;
 const minSize=1;
 const minNoteLength=1;
 const maxNoteLength=5000;
@@ -316,6 +402,7 @@ constructor(props) {
   this.pauseHandler = this.pause.bind(this);
   this.muteToggleHandler = this.muteToggle.bind(this);
   this.addToGridHandler = this.addToGrid.bind(this);
+  arrowAdder = this.addToGridHandler ;
   this.newInputDirectionHandler = this.newInputDirection.bind(this);
 }
 
@@ -389,6 +476,7 @@ newNumberOfArrows(e) {
   interactSound(4,this.state);
 }
 nextGrid(length) {
+  date = new Date();
   this.setState({
     grid: nextGrid({...this.state.grid, muted: this.state.muted}, length)
   })
@@ -411,6 +499,8 @@ addToGrid(x, y, e) {
     }) 
   }
   else {
+    console.log('adding');
+    console.log({x,y});
     this.setState({
       grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
     }) 
@@ -418,7 +508,7 @@ addToGrid(x, y, e) {
 
 }
 render() {
-  
+  stateDrawing = this.state;
   return(
   <div className="midi-toys-app">
     <label className='arrow-input-label'>{'Sound:'}</label>
@@ -449,13 +539,14 @@ render() {
     }
     <label className='arrow-input-label'>{'CLICK to place an arrow'}</label>
     <label className='arrow-input-label'>{'SHIFT + CLICK to clear a square'}</label>
-      <table align="center">
+      <div id="sketch-holder">
+      </div>
+      {/* <table align="center">
         <tbody>
           {renderGrid(this.state.grid, this.addToGridHandler)}
-        </tbody>
+        </tbody> 
         
-      </table>
-    
+      </table>*/}
     <label className='arrow-input-label'>{'MIDI Output:'}</label>
 		<select id='midiOut' className='arrow-input' onchange='changeMidiOut();'>
 			<option value="">Not connected</option>
@@ -663,4 +754,4 @@ particlesJS({
 
 ReactDOM.render(<Application/>, document.getElementById('root'));
 
-
+new p5(s);
