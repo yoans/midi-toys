@@ -8,6 +8,8 @@ import { release } from 'os';
 import p5 from 'p5';
 
 const chance = new Chance();
+const NO_BOUNDARY = 'no-boundary';
+const BOUNDARY = 'boundary';
 export const vectors = [
   'arrow-up',
   'arrow-right',
@@ -68,18 +70,18 @@ export const moveArrow = arrow => vectorOperations[arrow.vector](arrow);
 export const arrowKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+'}';
 export const arrowBoundaryKey = (arrow, size)=> {
   if(arrow.y === 0 && arrow.vector === 0) {
-    return 'boundary';
+    return BOUNDARY;
   }
   if(arrow.x === size - 1 && arrow.vector === 1) {
-    return 'boundary';
+    return BOUNDARY;
   }
   if(arrow.y === size - 1 && arrow.vector === 2) {
-    return 'boundary';
+    return BOUNDARY;
   }
   if(arrow.x === 0 && arrow.vector === 3) {
-    return 'boundary';
+    return BOUNDARY;
   }
-  return 'no-boundary';
+  return NO_BOUNDARY;
 };
 export const newArrayIfFalsey = thingToCheck => thingToCheck ? thingToCheck : [];
 export const rotateArrow = number => arrow => ({
@@ -88,7 +90,18 @@ export const rotateArrow = number => arrow => ({
 });
 export const rotateSet = set => set.map(rotateArrow(set.length));
 export const flipArrow = ({vector, ...rest}) => ({vector: (vector+2)%4, ...rest});
-
+export const getArrowBoundaryDictionary = (arrows, size, keyFunc)=>{
+  return arrows.reduce(
+    (arrowDictionary, arrow) => {
+      arrowDictionary[keyFunc(arrow, size)] = [
+          ...(newArrayIfFalsey(arrowDictionary[keyFunc(arrow, size)])),
+          arrow
+      ];
+      return arrowDictionary;
+    }
+    , {}
+  );
+}
 function sound(src, speed) {
     const aSound = document.createElement("audio");
     aSound.src = src;
@@ -194,55 +207,27 @@ export const nextGrid = (grid, length) => {
   const size = grid.size;
   const arrows = grid.arrows;
 
-  const arrowSetDictionary = arrows.reduce(
-      (arrowDictionary, arrow) => {
-        arrowDictionary[arrowKey(arrow)] = [
-          ...(newArrayIfFalsey(arrowDictionary[arrowKey(arrow)])),
-          arrow
-        ];
-        return arrowDictionary;
-      }
-  ,{});
+  const arrowSetDictionary = getArrowBoundaryDictionary(arrows, size, arrowKey)
 
-    const noisyArrowBoundaryDictionary = arrows.reduce(
-        (arrowDictionary, arrow) => {
-        arrowDictionary[arrowBoundaryKey(arrow, size)] = [
-            ...(newArrayIfFalsey(arrowDictionary[arrowBoundaryKey(arrow, size)])),
-            arrow
-        ];
-        return arrowDictionary;
-        }
-        ,{}
-    );
-    playSounds(newArrayIfFalsey(noisyArrowBoundaryDictionary['boundary']), size, length, grid.muted);
+  const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(arrows, size, arrowBoundaryKey);
+  playSounds(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
 
-    const arrowSets = Object.keys(arrowSetDictionary).map(key => arrowSetDictionary[key]);
-    const rotatedArrows = arrowSets.map(rotateSet);
-    const flatRotatedArrows = rotatedArrows.reduce((accum, current)=>[...accum, ...current],[]);
+  const arrowSets = Object.keys(arrowSetDictionary).map(key => arrowSetDictionary[key]);
+  const rotatedArrows = arrowSets.map(rotateSet);
+  const flatRotatedArrows = rotatedArrows.reduce((accum, current)=>[...accum, ...current],[]);
 
-    const arrowBoundaryDictionary = flatRotatedArrows.reduce(
-        (arrowDictionary, arrow) => {
-        arrowDictionary[arrowBoundaryKey(arrow, size)] = [
-            ...(newArrayIfFalsey(arrowDictionary[arrowBoundaryKey(arrow, size)])),
-            arrow
-        ];
-        return arrowDictionary;
-        }
-        ,{}
-    );
-    const movedArrowsInMiddle = newArrayIfFalsey(arrowBoundaryDictionary['no-boundary']).map(moveArrow);
-    const movedFlippedBoundaryArrows = newArrayIfFalsey(arrowBoundaryDictionary['boundary']).map(flipArrow).map(moveArrow);
+  const arrowBoundaryDictionary = getArrowBoundaryDictionary(flatRotatedArrows, size, arrowBoundaryKey);
+  const movedArrowsInMiddle = newArrayIfFalsey(arrowBoundaryDictionary[NO_BOUNDARY]).map(moveArrow);
+  const movedFlippedBoundaryArrows = newArrayIfFalsey(arrowBoundaryDictionary[BOUNDARY]).map(flipArrow).map(moveArrow);
 
-    
-
-    return {
-        ...grid,
-        size,
-        arrows: [
-            ...movedArrowsInMiddle,
-            ...movedFlippedBoundaryArrows
-        ]
-    };
+  return {
+      ...grid,
+      size,
+      arrows: [
+          ...movedArrowsInMiddle,
+          ...movedFlippedBoundaryArrows
+      ]
+  };
 };
 
 const nat = () => chance.natural({
@@ -298,14 +283,18 @@ var s = function( sketch ) {
     const convertArrowToTopLeft = (xy) => ({x:convertIndexToPixel(xy.x), y:convertIndexToPixel(xy.y)});
     const timeDiff = new Date().getTime()-date.getTime();
     const percentage = (stateDrawing.playing?timeDiff:0)/(1.0*stateDrawing.noteLength);
-    //non-wall arrows
-    stateDrawing.grid.arrows.map((arrow)=>{
-      const topLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize*percentage);
-      // const topLeft = {x:convertIndexToPixel(arrow.x), y:convertIndexToPixel(arrow.y)};
+    //non-wall and eventually non-rotated arrows
+    const arrowDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows,stateDrawing.grid.size, arrowBoundaryKey);
+    (arrowDictionary[NO_BOUNDARY]||[]).map((arrow)=>{
+      const shiftedTopLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize*percentage);
       const triangleDrawer = triangleDrawingArray[arrow.vector];
-      triangleDrawer(topLeft,cellSize,sketch);
+      triangleDrawer(shiftedTopLeft,cellSize,sketch);
     });
     //wall Arrows
+    (arrowDictionary[BOUNDARY]||[]).map((arrow) => {
+      const topleft = convertArrowToTopLeft(arrow)
+      sketch.quad(topleft.x,topleft.y,topleft.x+cellSize,topleft.y,topleft.x+cellSize,topleft.y+cellSize,topleft.x,topleft.y+cellSize);
+    });
 
     //draw hover input
     sketch.cursor(sketch.CROSS);

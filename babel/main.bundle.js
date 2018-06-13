@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Application = exports.nextGrid = exports.playSounds = exports.flipArrow = exports.rotateSet = exports.rotateArrow = exports.newArrayIfFalsey = exports.arrowBoundaryKey = exports.arrowKey = exports.moveArrow = exports.seedGrid = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.getArrow = exports.getRows = exports.getRandomNumber = exports.cycleVector = exports.getVector = exports.vectorOperations = exports.vectors = undefined;
+exports.Application = exports.nextGrid = exports.playSounds = exports.getArrowBoundaryDictionary = exports.flipArrow = exports.rotateSet = exports.rotateArrow = exports.newArrayIfFalsey = exports.arrowBoundaryKey = exports.arrowKey = exports.moveArrow = exports.seedGrid = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.getArrow = exports.getRows = exports.getRandomNumber = exports.cycleVector = exports.getVector = exports.vectorOperations = exports.vectors = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -44,6 +44,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 const chance = new _chance2.default();
+const NO_BOUNDARY = 'no-boundary';
+const BOUNDARY = 'boundary';
 const vectors = exports.vectors = ['arrow-up', 'arrow-right', 'arrow-down', 'arrow-left'];
 const vectorOperations = exports.vectorOperations = [function ({ x, y, vector }) {
   return { x, y: y - 1, vector };
@@ -117,18 +119,18 @@ const arrowKey = exports.arrowKey = function (arrow) {
 };
 const arrowBoundaryKey = exports.arrowBoundaryKey = function (arrow, size) {
   if (arrow.y === 0 && arrow.vector === 0) {
-    return 'boundary';
+    return BOUNDARY;
   }
   if (arrow.x === size - 1 && arrow.vector === 1) {
-    return 'boundary';
+    return BOUNDARY;
   }
   if (arrow.y === size - 1 && arrow.vector === 2) {
-    return 'boundary';
+    return BOUNDARY;
   }
   if (arrow.x === 0 && arrow.vector === 3) {
-    return 'boundary';
+    return BOUNDARY;
   }
-  return 'no-boundary';
+  return NO_BOUNDARY;
 };
 const newArrayIfFalsey = exports.newArrayIfFalsey = function (thingToCheck) {
   return thingToCheck ? thingToCheck : [];
@@ -149,8 +151,13 @@ const flipArrow = function (_ref) {
 
   return _extends({ vector: (vector + 2) % 4 }, rest);
 };
-
 exports.flipArrow = flipArrow;
+const getArrowBoundaryDictionary = exports.getArrowBoundaryDictionary = function (arrows, size, keyFunc) {
+  return arrows.reduce(function (arrowDictionary, arrow) {
+    arrowDictionary[keyFunc(arrow, size)] = [...newArrayIfFalsey(arrowDictionary[keyFunc(arrow, size)]), arrow];
+    return arrowDictionary;
+  }, {});
+};
 function sound(src, speed) {
   const aSound = document.createElement("audio");
   aSound.src = src;
@@ -245,16 +252,10 @@ const nextGrid = exports.nextGrid = function (grid, length) {
   const size = grid.size;
   const arrows = grid.arrows;
 
-  const arrowSetDictionary = arrows.reduce(function (arrowDictionary, arrow) {
-    arrowDictionary[arrowKey(arrow)] = [...newArrayIfFalsey(arrowDictionary[arrowKey(arrow)]), arrow];
-    return arrowDictionary;
-  }, {});
+  const arrowSetDictionary = getArrowBoundaryDictionary(arrows, size, arrowKey);
 
-  const noisyArrowBoundaryDictionary = arrows.reduce(function (arrowDictionary, arrow) {
-    arrowDictionary[arrowBoundaryKey(arrow, size)] = [...newArrayIfFalsey(arrowDictionary[arrowBoundaryKey(arrow, size)]), arrow];
-    return arrowDictionary;
-  }, {});
-  playSounds(newArrayIfFalsey(noisyArrowBoundaryDictionary['boundary']), size, length, grid.muted);
+  const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(arrows, size, arrowBoundaryKey);
+  playSounds(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
 
   const arrowSets = Object.keys(arrowSetDictionary).map(function (key) {
     return arrowSetDictionary[key];
@@ -264,12 +265,9 @@ const nextGrid = exports.nextGrid = function (grid, length) {
     return [...accum, ...current];
   }, []);
 
-  const arrowBoundaryDictionary = flatRotatedArrows.reduce(function (arrowDictionary, arrow) {
-    arrowDictionary[arrowBoundaryKey(arrow, size)] = [...newArrayIfFalsey(arrowDictionary[arrowBoundaryKey(arrow, size)]), arrow];
-    return arrowDictionary;
-  }, {});
-  const movedArrowsInMiddle = newArrayIfFalsey(arrowBoundaryDictionary['no-boundary']).map(moveArrow);
-  const movedFlippedBoundaryArrows = newArrayIfFalsey(arrowBoundaryDictionary['boundary']).map(flipArrow).map(moveArrow);
+  const arrowBoundaryDictionary = getArrowBoundaryDictionary(flatRotatedArrows, size, arrowBoundaryKey);
+  const movedArrowsInMiddle = newArrayIfFalsey(arrowBoundaryDictionary[NO_BOUNDARY]).map(moveArrow);
+  const movedFlippedBoundaryArrows = newArrayIfFalsey(arrowBoundaryDictionary[BOUNDARY]).map(flipArrow).map(moveArrow);
 
   return _extends({}, grid, {
     size,
@@ -328,14 +326,18 @@ var s = function (sketch) {
     };
     const timeDiff = new Date().getTime() - date.getTime();
     const percentage = (stateDrawing.playing ? timeDiff : 0) / (1.0 * stateDrawing.noteLength);
-    //non-wall arrows
-    stateDrawing.grid.arrows.map(function (arrow) {
-      const topLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize * percentage);
-      // const topLeft = {x:convertIndexToPixel(arrow.x), y:convertIndexToPixel(arrow.y)};
+    //non-wall and eventually non-rotated arrows
+    const arrowDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows, stateDrawing.grid.size, arrowBoundaryKey);
+    (arrowDictionary[NO_BOUNDARY] || []).map(function (arrow) {
+      const shiftedTopLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize * percentage);
       const triangleDrawer = triangleDrawingArray[arrow.vector];
-      triangleDrawer(topLeft, cellSize, sketch);
+      triangleDrawer(shiftedTopLeft, cellSize, sketch);
     });
     //wall Arrows
+    (arrowDictionary[BOUNDARY] || []).map(function (arrow) {
+      const topleft = convertArrowToTopLeft(arrow);
+      sketch.quad(topleft.x, topleft.y, topleft.x + cellSize, topleft.y, topleft.x + cellSize, topleft.y + cellSize, topleft.x, topleft.y + cellSize);
+    });
 
     //draw hover input
     sketch.cursor(sketch.CROSS);
