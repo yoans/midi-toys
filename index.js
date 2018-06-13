@@ -190,7 +190,6 @@ export const playSounds = (boundaryArrows, size, length, muted) => {
         midiMessage.play();
     })
 }
-const reduceArrowNumber = x=>x;//(arrowSet)=>R.take(arrowSet.length%4, arrowSet);//This has the side effect of destroying arrows that don't have the same vector
 export const nextGrid = (grid, length) => {
   const size = grid.size;
   const arrows = grid.arrows;
@@ -218,7 +217,7 @@ export const nextGrid = (grid, length) => {
     playSounds(newArrayIfFalsey(noisyArrowBoundaryDictionary['boundary']), size, length, grid.muted);
 
     const arrowSets = Object.keys(arrowSetDictionary).map(key => arrowSetDictionary[key]);
-    const rotatedArrows = arrowSets.map(reduceArrowNumber).map(rotateSet);
+    const rotatedArrows = arrowSets.map(rotateSet);
     const flatRotatedArrows = rotatedArrows.reduce((accum, current)=>[...accum, ...current],[]);
 
     const arrowBoundaryDictionary = flatRotatedArrows.reduce(
@@ -246,47 +245,6 @@ export const nextGrid = (grid, length) => {
     };
 };
 
-const renderItem = (item) => {
-  const classes = R.uniqBy(x=>x.vector, item).map(({vector})=>vectors[vector]);
-if(item.length){
-  return (
-    <td>
-      <div className={'space'} onClick={item.spawn}>
-        {
-          classes.map(divClass=>(<div className={divClass}/>))
-        }
-      </div>
-    </td>
-  )
-}
-return (
-  <td>
-    <div className={'space'} onClick={item.spawn}>
-    </div>
-  </td>
-  )
-};
-
-const renderRow = (row) => {
-  return (
-    <tr key={chance.guid()}>
-      {row.map(renderItem)}
-    </tr>
-  )
-};
-const renderGrid = (grid, spawnArrowFunction) => {
-  
-  const populateArrow = y => x => grid.arrows.filter(arrow => arrow.x===x && arrow.y===y);
-  const populateRow = (row, index) => row.map(populateArrow(index));
-
-  const populatedGrid = getRows(grid.size).map(populateRow);
-  const addSpawnArrowToItem = y => (item, x) => Object.assign([...item], {spawn: (e)=>spawnArrowFunction(x, y, e)});
-  const addSpawnArrowsToRow = (row, index) => row.map(addSpawnArrowToItem(index))
-  const populatedLivingGrid = populatedGrid.map(addSpawnArrowsToRow)
-  return populatedLivingGrid.map(renderRow);
-};
-
-// const drawArrows = (sketch, x, y, vector, size) => {};
 const nat = () => chance.natural({
   min: 0,
   max: 255
@@ -339,14 +297,15 @@ var s = function( sketch ) {
     const convertIndexToPixel = index => (index*cellSize)+gridCanvasBorderSize;
     const convertArrowToTopLeft = (xy) => ({x:convertIndexToPixel(xy.x), y:convertIndexToPixel(xy.y)});
     const timeDiff = new Date().getTime()-date.getTime();
-    const percentage = (timeDiff>stateDrawing.noteLength?stateDrawing.noteLength:timeDiff)/(1.0*stateDrawing.noteLength);
-    
+    const percentage = (stateDrawing.playing?timeDiff:0)/(1.0*stateDrawing.noteLength);
+    //non-wall arrows
     stateDrawing.grid.arrows.map((arrow)=>{
       const topLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize*percentage);
       // const topLeft = {x:convertIndexToPixel(arrow.x), y:convertIndexToPixel(arrow.y)};
       const triangleDrawer = triangleDrawingArray[arrow.vector];
       triangleDrawer(topLeft,cellSize,sketch);
     });
+    //wall Arrows
 
     //draw hover input
     sketch.cursor(sketch.CROSS);
@@ -499,8 +458,6 @@ addToGrid(x, y, e) {
     }) 
   }
   else {
-    console.log('adding');
-    console.log({x,y});
     this.setState({
       grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
     }) 
@@ -541,41 +498,11 @@ render() {
     <label className='arrow-input-label'>{'SHIFT + CLICK to clear a square'}</label>
       <div id="sketch-holder">
       </div>
-      {/* <table align="center">
-        <tbody>
-          {renderGrid(this.state.grid, this.addToGridHandler)}
-        </tbody> 
-        
-      </table>*/}
     <label className='arrow-input-label'>{'MIDI Output:'}</label>
 		<select id='midiOut' className='arrow-input' onchange='changeMidiOut();'>
 			<option value="">Not connected</option>
 		</select>
-
-    {/* <label className='arrow-input-label'>{'MIDI Output:'}</label>
-    <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Select Output
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div> */}
-
-    {/* <label className='arrow-input-label'>{'Learn how to create a virtual midi bus:'}</label>
-    <a href="http://www.tobias-erichsen.de/software/loopmidi.html" target="_blank" className="aButton">
-        Windows
-    </a>
-    <a href="https://help.ableton.com/hc/en-us/articles/209774225-Using-virtual-MIDI-buses" target="_blank" className="aButton">
-        Mac
-    </a>
-    <a href= 'credits.html' target="_blank" className='aButton'>
-      Credits
-    </a> */}
-
-  </div>
+</div>
 )};
 }
 
@@ -736,21 +663,6 @@ particlesJS({
   },
   "retina_detect": true
 });
-
-// var count_particles, stats, update;
-//  stats = new Stats;
-//   stats.setMode(0); 
-//   stats.domElement.style.position = 'absolute'; 
-//   stats.domElement.style.left = '0px';
-//    stats.domElement.style.top = '0px'; 
-//    document.body.appendChild(stats.domElement);
-//     count_particles = document.querySelector('.js-count-particles'); update = function () { stats.begin();
-//        stats.end(); 
-//        if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { 
-//          count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
-//          } requestAnimationFrame(update);
-//          }; 
-//          requestAnimationFrame(update);
 
 ReactDOM.render(<Application/>, document.getElementById('root'));
 

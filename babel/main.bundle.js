@@ -241,9 +241,6 @@ const playSounds = exports.playSounds = function (boundaryArrows, size, length, 
     midiMessage.play();
   });
 };
-const reduceArrowNumber = function (x) {
-  return x;
-}; //(arrowSet)=>R.take(arrowSet.length%4, arrowSet);//This has the side effect of destroying arrows that don't have the same vector
 const nextGrid = exports.nextGrid = function (grid, length) {
   const size = grid.size;
   const arrows = grid.arrows;
@@ -262,7 +259,7 @@ const nextGrid = exports.nextGrid = function (grid, length) {
   const arrowSets = Object.keys(arrowSetDictionary).map(function (key) {
     return arrowSetDictionary[key];
   });
-  const rotatedArrows = arrowSets.map(reduceArrowNumber).map(rotateSet);
+  const rotatedArrows = arrowSets.map(rotateSet);
   const flatRotatedArrows = rotatedArrows.reduce(function (accum, current) {
     return [...accum, ...current];
   }, []);
@@ -280,68 +277,6 @@ const nextGrid = exports.nextGrid = function (grid, length) {
   });
 };
 
-const renderItem = function (item) {
-  const classes = R.uniqBy(function (x) {
-    return x.vector;
-  }, item).map(function ({ vector }) {
-    return vectors[vector];
-  });
-  if (item.length) {
-    return _react2.default.createElement(
-      'td',
-      null,
-      _react2.default.createElement(
-        'div',
-        { className: 'space', onClick: item.spawn },
-        classes.map(function (divClass) {
-          return _react2.default.createElement('div', { className: divClass });
-        })
-      )
-    );
-  }
-  return _react2.default.createElement(
-    'td',
-    null,
-    _react2.default.createElement('div', { className: 'space', onClick: item.spawn })
-  );
-};
-
-const renderRow = function (row) {
-  return _react2.default.createElement(
-    'tr',
-    { key: chance.guid() },
-    row.map(renderItem)
-  );
-};
-const renderGrid = function (grid, spawnArrowFunction) {
-
-  const populateArrow = function (y) {
-    return function (x) {
-      return grid.arrows.filter(function (arrow) {
-        return arrow.x === x && arrow.y === y;
-      });
-    };
-  };
-  const populateRow = function (row, index) {
-    return row.map(populateArrow(index));
-  };
-
-  const populatedGrid = getRows(grid.size).map(populateRow);
-  const addSpawnArrowToItem = function (y) {
-    return function (item, x) {
-      return Object.assign([...item], { spawn: function (e) {
-          return spawnArrowFunction(x, y, e);
-        } });
-    };
-  };
-  const addSpawnArrowsToRow = function (row, index) {
-    return row.map(addSpawnArrowToItem(index));
-  };
-  const populatedLivingGrid = populatedGrid.map(addSpawnArrowsToRow);
-  return populatedLivingGrid.map(renderRow);
-};
-
-// const drawArrows = (sketch, x, y, vector, size) => {};
 const nat = function () {
   return chance.natural({
     min: 0,
@@ -392,14 +327,15 @@ var s = function (sketch) {
       return { x: convertIndexToPixel(xy.x), y: convertIndexToPixel(xy.y) };
     };
     const timeDiff = new Date().getTime() - date.getTime();
-    const percentage = (timeDiff > stateDrawing.noteLength ? stateDrawing.noteLength : timeDiff) / (1.0 * stateDrawing.noteLength);
-
+    const percentage = (stateDrawing.playing ? timeDiff : 0) / (1.0 * stateDrawing.noteLength);
+    //non-wall arrows
     stateDrawing.grid.arrows.map(function (arrow) {
       const topLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize * percentage);
       // const topLeft = {x:convertIndexToPixel(arrow.x), y:convertIndexToPixel(arrow.y)};
       const triangleDrawer = triangleDrawingArray[arrow.vector];
       triangleDrawer(topLeft, cellSize, sketch);
     });
+    //wall Arrows
 
     //draw hover input
     sketch.cursor(sketch.CROSS);
@@ -551,8 +487,6 @@ class Application extends _react2.default.Component {
         grid: removeFromGrid(this.state.grid, x, y)
       });
     } else {
-      console.log('adding');
-      console.log({ x, y });
       this.setState({
         grid: addToGrid(this.state.grid, x, y, this.state.inputDirection)
       });
@@ -833,21 +767,6 @@ particlesJS({
   },
   "retina_detect": true
 });
-
-// var count_particles, stats, update;
-//  stats = new Stats;
-//   stats.setMode(0); 
-//   stats.domElement.style.position = 'absolute'; 
-//   stats.domElement.style.left = '0px';
-//    stats.domElement.style.top = '0px'; 
-//    document.body.appendChild(stats.domElement);
-//     count_particles = document.querySelector('.js-count-particles'); update = function () { stats.begin();
-//        stats.end(); 
-//        if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { 
-//          count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
-//          } requestAnimationFrame(update);
-//          }; 
-//          requestAnimationFrame(update);
 
 _reactDom2.default.render(_react2.default.createElement(Application, null), document.getElementById('root'));
 
