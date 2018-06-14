@@ -248,6 +248,13 @@ const triangleDrawingArray = [
   (topLeft,cellSize,sketch)=>sketch.triangle(topLeft.x, topLeft.y,topLeft.x+cellSize, topLeft.y,topLeft.x+(cellSize/2.0), topLeft.y+cellSize),
   (topLeft,cellSize,sketch)=>sketch.triangle(topLeft.x+cellSize, topLeft.y,topLeft.x+cellSize, topLeft.y+cellSize,topLeft.x, topLeft.y+(cellSize/2.0))
 ];
+const translateAndRotate = (topLeft, sketch, vector, cellSize) => {
+  const xShift = vector === 1 || vector === 2 ? cellSize : 0;
+  const yShift = vector === 2 || vector === 3 ? cellSize : 0;
+  sketch.translate(topLeft.x+xShift,topLeft.y+yShift);
+  sketch.angleMode(sketch.DEGREES);
+  sketch.rotate(90*vector);
+};
 const timeShift = ({x, y}, vector, shiftAmount) => {
   const shifted = [
     {x:x, y:y-shiftAmount},
@@ -292,8 +299,19 @@ var s = function( sketch ) {
     });
     //wall Arrows
     (arrowDictionary[BOUNDARY]||[]).map((arrow) => {
-      const topleft = convertArrowToTopLeft(arrow)
-      sketch.quad(topleft.x,topleft.y,topleft.x+cellSize,topleft.y,topleft.x+cellSize,topleft.y+cellSize,topleft.x,topleft.y+cellSize);
+      sketch.push()
+      sketch.strokeWeight(0);
+      sketch.fill(
+        255,0,0
+      );
+      const topLeft = convertArrowToTopLeft(arrow);
+      translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
+      //0%
+      sketch.quad(0,cellSize,cellSize/2,cellSize*percentage,cellSize,cellSize,cellSize/2,cellSize+cellSize*percentage);
+      //100%
+      // sketch.quad(0,cellSize,cellSize/2,cellSize,cellSize,cellSize,cellSize/2,cellSize+cellSize);
+
+      sketch.pop()
     });
 
     //draw hover input
