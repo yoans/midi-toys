@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Application = exports.nextGrid = exports.playSounds = exports.getArrowBoundaryDictionary = exports.flipArrow = exports.rotateSet = exports.rotateArrow = exports.newArrayIfFalsey = exports.arrowBoundaryKey = exports.arrowKey = exports.moveArrow = exports.seedGrid = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.getArrow = exports.getRows = exports.getRandomNumber = exports.cycleVector = exports.getVector = exports.vectorOperations = exports.vectors = undefined;
+exports.Application = exports.nextGrid = exports.playSounds = exports.getArrowBoundaryDictionary = exports.flipArrow = exports.rotateSet = exports.rotateArrow = exports.newArrayIfFalsey = exports.arrowBoundaryKey = exports.locationKey = exports.arrowKey = exports.moveArrow = exports.seedGrid = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.getArrow = exports.getRows = exports.getRandomNumber = exports.cycleVector = exports.getVector = exports.vectorOperations = exports.vectors = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -115,6 +115,9 @@ const moveArrow = exports.moveArrow = function (arrow) {
   return vectorOperations[arrow.vector](arrow);
 };
 const arrowKey = exports.arrowKey = function (arrow) {
+  return '{x:' + arrow.x + ',y:' + arrow.y + ',vector:' + arrow.vector + '}';
+};
+const locationKey = exports.locationKey = function (arrow) {
   return '{x:' + arrow.x + ',y:' + arrow.y + '}';
 };
 const arrowBoundaryKey = exports.arrowBoundaryKey = function (arrow, size) {
@@ -252,7 +255,13 @@ const nextGrid = exports.nextGrid = function (grid, length) {
   const size = grid.size;
   const arrows = grid.arrows;
 
-  const arrowSetDictionary = getArrowBoundaryDictionary(arrows, size, arrowKey);
+  const arrowsWithVectorDictionary = getArrowBoundaryDictionary(arrows, size, arrowKey);
+  const reducedArrows = Object.keys(arrowsWithVectorDictionary).reduce(function (acc, arrowsWithSameVectorKey) {
+    const arrowsAtIndex = arrowsWithVectorDictionary[arrowsWithSameVectorKey];
+    const reducedArrowsAtIndex = R.take(arrowsAtIndex.length % 4 || 4, arrowsAtIndex);
+    return [...acc, ...reducedArrowsAtIndex];
+  }, []);
+  const arrowSetDictionary = getArrowBoundaryDictionary(reducedArrows, size, locationKey);
 
   const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(arrows, size, arrowBoundaryKey);
   playSounds(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
@@ -317,13 +326,13 @@ var s = function (sketch) {
   };
   sketch.draw = function () {
     //draw background slash border
-    sketch.background(0, 0, 255);
+    sketch.background(255, 0, 255);
     //draw grid 
     sketch.strokeWeight(0);
-    sketch.fill(0, 255, 0);
+    sketch.fill(255, 0, 255);
     sketch.rect(gridCanvasBorderSize, gridCanvasBorderSize, gridCanvasSize, gridCanvasSize);
     //draw arrows
-    sketch.fill(255, 0, 0);
+    sketch.fill(255, 255, 255);
     const cellSize = gridCanvasSize * 1.0 / (1.0 * stateDrawing.grid.size);
     const convertIndexToPixel = function (index) {
       return index * cellSize + gridCanvasBorderSize;
@@ -344,7 +353,7 @@ var s = function (sketch) {
     (arrowDictionary[BOUNDARY] || []).map(function (arrow) {
       sketch.push();
       sketch.strokeWeight(0);
-      sketch.fill(255, 0, 0);
+      sketch.fill(255, 255, 255);
       const topLeft = convertArrowToTopLeft(arrow);
       translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
       //0%

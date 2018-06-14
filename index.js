@@ -67,7 +67,8 @@ export const newGrid = (size, numberOfArrows) => {
 };
 export const seedGrid = () => newGrid(getRandomNumber(20)+12, getRandomNumber(50)+1);
 export const moveArrow = arrow => vectorOperations[arrow.vector](arrow);
-export const arrowKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+'}';
+export const arrowKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+',vector:'+arrow.vector+'}';
+export const locationKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+'}';
 export const arrowBoundaryKey = (arrow, size)=> {
   if(arrow.y === 0 && arrow.vector === 0) {
     return BOUNDARY;
@@ -207,7 +208,15 @@ export const nextGrid = (grid, length) => {
   const size = grid.size;
   const arrows = grid.arrows;
 
-  const arrowSetDictionary = getArrowBoundaryDictionary(arrows, size, arrowKey)
+  const arrowsWithVectorDictionary = getArrowBoundaryDictionary(arrows, size, arrowKey)
+  const reducedArrows = Object.keys(arrowsWithVectorDictionary).reduce(
+    (acc, arrowsWithSameVectorKey) => {
+      const arrowsAtIndex = arrowsWithVectorDictionary[arrowsWithSameVectorKey];
+      const reducedArrowsAtIndex = R.take(arrowsAtIndex.length%4||4,arrowsAtIndex);
+      return [...acc,...reducedArrowsAtIndex];
+    }
+  , [])
+  const arrowSetDictionary = getArrowBoundaryDictionary(reducedArrows, size, locationKey)
 
   const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(arrows, size, arrowBoundaryKey);
   playSounds(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
@@ -273,17 +282,17 @@ var s = function( sketch ) {
   sketch.draw = function() {
     //draw background slash border
     sketch.background(
-      0,0,255
+      255,255,255
     );
     //draw grid 
     sketch.strokeWeight(0);
     sketch.fill(
-      0,255,0
+      255,0,255
     );
     sketch.rect(gridCanvasBorderSize,gridCanvasBorderSize,gridCanvasSize,gridCanvasSize);
     //draw arrows
     sketch.fill(
-      255,0,0
+      255,255,255
     );
     const cellSize = (gridCanvasSize*1.0)/(1.0*stateDrawing.grid.size);
     const convertIndexToPixel = index => (index*cellSize)+gridCanvasBorderSize;
@@ -291,6 +300,9 @@ var s = function( sketch ) {
     const timeDiff = new Date().getTime()-date.getTime();
     const percentage = (stateDrawing.playing?timeDiff:0)/(1.0*stateDrawing.noteLength);
     //non-wall and eventually non-rotated arrows
+
+    const arrowLocationDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows,stateDrawing.grid.size, locationKey);
+    
     const arrowDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows,stateDrawing.grid.size, arrowBoundaryKey);
     (arrowDictionary[NO_BOUNDARY]||[]).map((arrow)=>{
       const shiftedTopLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize*percentage);
@@ -302,7 +314,7 @@ var s = function( sketch ) {
       sketch.push()
       sketch.strokeWeight(0);
       sketch.fill(
-        255,0,0
+        255,255,255
       );
       const topLeft = convertArrowToTopLeft(arrow);
       translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
