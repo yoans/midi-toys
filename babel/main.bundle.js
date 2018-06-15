@@ -120,17 +120,32 @@ const arrowKey = exports.arrowKey = function (arrow) {
 const locationKey = exports.locationKey = function (arrow) {
   return '{x:' + arrow.x + ',y:' + arrow.y + '}';
 };
-const arrowBoundaryKey = exports.arrowBoundaryKey = function (arrow, size) {
-  if (arrow.y === 0 && arrow.vector === 0) {
+// export const arrowBoundaryKey = (arrow, size)=> {
+//   if(arrow.y === 0 && arrow.vector === 0) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.x === size - 1 && arrow.vector === 1) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.y === size - 1 && arrow.vector === 2) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.x === 0 && arrow.vector === 3) {
+//     return BOUNDARY;
+//   }
+//   return NO_BOUNDARY;
+// };
+const arrowBoundaryKey = exports.arrowBoundaryKey = function (arrow, size, rotations = 0) {
+  if (arrow.y === 0 && arrow.vector + rotations % 4 === 0) {
     return BOUNDARY;
   }
-  if (arrow.x === size - 1 && arrow.vector === 1) {
+  if (arrow.x === size - 1 && arrow.vector + rotations % 4 === 1) {
     return BOUNDARY;
   }
-  if (arrow.y === size - 1 && arrow.vector === 2) {
+  if (arrow.y === size - 1 && arrow.vector + rotations % 4 === 2) {
     return BOUNDARY;
   }
-  if (arrow.x === 0 && arrow.vector === 3) {
+  if (arrow.x === 0 && arrow.vector + rotations % 4 === 3) {
     return BOUNDARY;
   }
   return NO_BOUNDARY;
@@ -155,9 +170,9 @@ const flipArrow = function (_ref) {
   return _extends({ vector: (vector + 2) % 4 }, rest);
 };
 exports.flipArrow = flipArrow;
-const getArrowBoundaryDictionary = exports.getArrowBoundaryDictionary = function (arrows, size, keyFunc) {
+const getArrowBoundaryDictionary = exports.getArrowBoundaryDictionary = function (arrows, size, keyFunc, rotations) {
   return arrows.reduce(function (arrowDictionary, arrow) {
-    arrowDictionary[keyFunc(arrow, size)] = [...newArrayIfFalsey(arrowDictionary[keyFunc(arrow, size)]), arrow];
+    arrowDictionary[keyFunc(arrow, size, rotations)] = [...newArrayIfFalsey(arrowDictionary[keyFunc(arrow, size)]), arrow];
     return arrowDictionary;
   }, {});
 };
@@ -384,7 +399,12 @@ var s = function (sketch) {
     });
     //rotating Arrows
     Object.keys(arrowsToRotateDictionary).map(function (arrowsToRotateIndex) {
-      arrowsToRotateDictionary[arrowsToRotateIndex].map(function (arrow) {
+      const rotations = (arrowsToRotateDictionary[arrowsToRotateIndex].length % 4 || 4) - 1;
+      // not bounced
+      const bouncingDictionary = getArrowBoundaryDictionary(arrowsToRotateDictionary[arrowsToRotateIndex], stateDrawing.grid.size, arrowBoundaryKey, rotations + 2);
+      const arrowsNotBouncing = bouncingDictionary[NO_BOUNDARY] || [];
+      const arrowsBouncing = bouncingDictionary[BOUNDARY] || [];
+      arrowsNotBouncing.map(function (arrow) {
         const topLeft = convertArrowToTopLeft(arrow);
 
         sketch.push();
@@ -392,7 +412,19 @@ var s = function (sketch) {
         sketch.fill(255, 255, 255);
         translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
 
-        triangleRotatingArray[(arrowsToRotateDictionary[arrowsToRotateIndex].length % 4 || 4) - 1](cellSize, sketch, percentage);
+        triangleRotatingArray[rotations](cellSize, sketch, percentage);
+
+        sketch.pop();
+      });
+      // bounced
+      arrowsBouncing.map(function (arrow) {
+        const topLeft = convertArrowToTopLeft(arrow);
+
+        sketch.push();
+        sketch.strokeWeight(0);
+        sketch.fill(255, 255, 255);
+        translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
+        triangleRotatingArray[(rotations + 2) % 4](cellSize, sketch, percentage);
 
         sketch.pop();
       });
@@ -526,7 +558,6 @@ class Application extends _react2.default.Component {
     interactSound(4, this.state);
   }
   nextGrid(length) {
-    date = new Date();
     this.setState({
       grid: nextGrid(_extends({}, this.state.grid, { muted: this.state.muted }), length)
     });
@@ -556,6 +587,7 @@ class Application extends _react2.default.Component {
   render() {
     var _this2 = this;
 
+    date = new Date();
     stateDrawing = this.state;
     return _react2.default.createElement(
       'div',

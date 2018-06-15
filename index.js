@@ -69,17 +69,32 @@ export const seedGrid = () => newGrid(getRandomNumber(20)+12, getRandomNumber(50
 export const moveArrow = arrow => vectorOperations[arrow.vector](arrow);
 export const arrowKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+',vector:'+arrow.vector+'}';
 export const locationKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+'}';
-export const arrowBoundaryKey = (arrow, size)=> {
-  if(arrow.y === 0 && arrow.vector === 0) {
+// export const arrowBoundaryKey = (arrow, size)=> {
+//   if(arrow.y === 0 && arrow.vector === 0) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.x === size - 1 && arrow.vector === 1) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.y === size - 1 && arrow.vector === 2) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.x === 0 && arrow.vector === 3) {
+//     return BOUNDARY;
+//   }
+//   return NO_BOUNDARY;
+// };
+export const arrowBoundaryKey = (arrow, size, rotations = 0)=> {
+  if(arrow.y === 0 && arrow.vector+rotations%4 === 0) {
     return BOUNDARY;
   }
-  if(arrow.x === size - 1 && arrow.vector === 1) {
+  if(arrow.x === size - 1 && arrow.vector+rotations%4 === 1) {
     return BOUNDARY;
   }
-  if(arrow.y === size - 1 && arrow.vector === 2) {
+  if(arrow.y === size - 1 && arrow.vector+rotations%4 === 2) {
     return BOUNDARY;
   }
-  if(arrow.x === 0 && arrow.vector === 3) {
+  if(arrow.x === 0 && arrow.vector+rotations%4 === 3) {
     return BOUNDARY;
   }
   return NO_BOUNDARY;
@@ -91,10 +106,10 @@ export const rotateArrow = number => arrow => ({
 });
 export const rotateSet = set => set.map(rotateArrow(set.length));
 export const flipArrow = ({vector, ...rest}) => ({vector: (vector+2)%4, ...rest});
-export const getArrowBoundaryDictionary = (arrows, size, keyFunc)=>{
+export const getArrowBoundaryDictionary = (arrows, size, keyFunc, rotations)=>{
   return arrows.reduce(
     (arrowDictionary, arrow) => {
-      arrowDictionary[keyFunc(arrow, size)] = [
+      arrowDictionary[keyFunc(arrow, size, rotations)] = [
           ...(newArrayIfFalsey(arrowDictionary[keyFunc(arrow, size)])),
           arrow
       ];
@@ -349,7 +364,12 @@ var s = function( sketch ) {
     });
     //rotating Arrows
     Object.keys(arrowsToRotateDictionary).map((arrowsToRotateIndex) => {
-      arrowsToRotateDictionary[arrowsToRotateIndex].map((arrow)=>{
+      const rotations = (arrowsToRotateDictionary[arrowsToRotateIndex].length%4||4)-1;
+      // not bounced
+      const bouncingDictionary = getArrowBoundaryDictionary(arrowsToRotateDictionary[arrowsToRotateIndex],stateDrawing.grid.size, arrowBoundaryKey, (rotations+2));
+      const arrowsNotBouncing = bouncingDictionary[NO_BOUNDARY]||[];
+      const arrowsBouncing = bouncingDictionary[BOUNDARY]||[];
+      arrowsNotBouncing.map((arrow)=>{
         const topLeft = convertArrowToTopLeft(arrow);
 
         sketch.push()
@@ -359,7 +379,21 @@ var s = function( sketch ) {
         );
         translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
 
-        triangleRotatingArray[(arrowsToRotateDictionary[arrowsToRotateIndex].length%4||4)-1](cellSize,sketch,percentage);
+        triangleRotatingArray[rotations](cellSize,sketch,percentage);
+
+        sketch.pop()
+      });
+      // bounced
+      arrowsBouncing.map((arrow)=>{
+        const topLeft = convertArrowToTopLeft(arrow);
+
+        sketch.push()
+        sketch.strokeWeight(0);
+        sketch.fill(
+          255,255,255
+        );
+        translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
+        triangleRotatingArray[(rotations+2)%4](cellSize,sketch,percentage);
 
         sketch.pop()
       });
@@ -493,7 +527,6 @@ newNumberOfArrows(e) {
   interactSound(4,this.state);
 }
 nextGrid(length) {
-  date = new Date();
   this.setState({
     grid: nextGrid({...this.state.grid, muted: this.state.muted}, length)
   })
@@ -523,6 +556,7 @@ addToGrid(x, y, e) {
 
 }
 render() {
+  date = new Date();
   stateDrawing = this.state;
   return(
   <div className="midi-toys-app">
