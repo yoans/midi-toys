@@ -257,6 +257,13 @@ const triangleDrawingArray = [
   (topLeft,cellSize,sketch)=>sketch.triangle(topLeft.x, topLeft.y,topLeft.x+cellSize, topLeft.y,topLeft.x+(cellSize/2.0), topLeft.y+cellSize),
   (topLeft,cellSize,sketch)=>sketch.triangle(topLeft.x+cellSize, topLeft.y,topLeft.x+cellSize, topLeft.y+cellSize,topLeft.x, topLeft.y+(cellSize/2.0))
 ];
+const triangleRotatingArray = [
+  
+  (cellSize,sketch,percentage)=>sketch.triangle(cellSize/2.0, -(cellSize*percentage), cellSize, cellSize-(cellSize*percentage),0, cellSize-(cellSize*percentage)),
+  (cellSize,sketch,percentage)=>sketch.triangle(0+cellSize*percentage,cellSize-(cellSize*percentage),(cellSize/2)+(cellSize*percentage*1.5),0.5*cellSize*percentage,cellSize,cellSize),
+  (cellSize,sketch,percentage)=>sketch.quad(0,cellSize,cellSize/2,cellSize*percentage,cellSize,cellSize,cellSize/2,cellSize+cellSize*percentage),
+  (cellSize,sketch,percentage)=>sketch.triangle(0,cellSize,(cellSize/2)-(1.5*cellSize*percentage),0.5*cellSize*percentage,cellSize-(cellSize*percentage),cellSize-(cellSize*percentage)),
+];
 const translateAndRotate = (topLeft, sketch, vector, cellSize) => {
   const xShift = vector === 1 || vector === 2 ? cellSize : 0;
   const yShift = vector === 2 || vector === 3 ? cellSize : 0;
@@ -287,7 +294,7 @@ var s = function( sketch ) {
     //draw grid 
     sketch.strokeWeight(0);
     sketch.fill(
-      255,0,255
+      0,0,0
     );
     sketch.rect(gridCanvasBorderSize,gridCanvasBorderSize,gridCanvasSize,gridCanvasSize);
     //draw arrows
@@ -299,11 +306,30 @@ var s = function( sketch ) {
     const convertArrowToTopLeft = (xy) => ({x:convertIndexToPixel(xy.x), y:convertIndexToPixel(xy.y)});
     const timeDiff = new Date().getTime()-date.getTime();
     const percentage = (stateDrawing.playing?timeDiff:0)/(1.0*stateDrawing.noteLength);
-    //non-wall and eventually non-rotated arrows
+    //non-rotated arrows
 
     const arrowLocationDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows,stateDrawing.grid.size, locationKey);
-    
-    const arrowDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows,stateDrawing.grid.size, arrowBoundaryKey);
+
+    const arrowsToRotateDictionary = Object.keys(arrowLocationDictionary).reduce((acc, location)=>{
+      return arrowLocationDictionary[location].length !== 1 ?
+      {
+        ...acc,
+        [location]: arrowLocationDictionary[location]
+       } :
+      acc
+    }, {});
+    const arrowsToNotRotateDictionary = Object.keys(arrowLocationDictionary).reduce((acc, location)=>{
+      return arrowLocationDictionary[location].length === 1 ?
+      [
+        ...acc,
+        ...arrowLocationDictionary[location]
+      ] :
+      acc
+    }, []);
+    //non-wall Arrows
+
+
+    const arrowDictionary = getArrowBoundaryDictionary(arrowsToNotRotateDictionary,stateDrawing.grid.size, arrowBoundaryKey);
     (arrowDictionary[NO_BOUNDARY]||[]).map((arrow)=>{
       const shiftedTopLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize*percentage);
       const triangleDrawer = triangleDrawingArray[arrow.vector];
@@ -318,12 +344,25 @@ var s = function( sketch ) {
       );
       const topLeft = convertArrowToTopLeft(arrow);
       translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
-      //0%
       sketch.quad(0,cellSize,cellSize/2,cellSize*percentage,cellSize,cellSize,cellSize/2,cellSize+cellSize*percentage);
-      //100%
-      // sketch.quad(0,cellSize,cellSize/2,cellSize,cellSize,cellSize,cellSize/2,cellSize+cellSize);
-
       sketch.pop()
+    });
+    //rotating Arrows
+    Object.keys(arrowsToRotateDictionary).map((arrowsToRotateIndex) => {
+      arrowsToRotateDictionary[arrowsToRotateIndex].map((arrow)=>{
+        const topLeft = convertArrowToTopLeft(arrow);
+
+        sketch.push()
+        sketch.strokeWeight(0);
+        sketch.fill(
+          255,255,255
+        );
+        translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
+
+        triangleRotatingArray[(arrowsToRotateDictionary[arrowsToRotateIndex].length%4||4)-1](cellSize,sketch,percentage);
+
+        sketch.pop()
+      });
     });
 
     //draw hover input
@@ -366,7 +405,7 @@ constructor(props) {
     gridSize: 8,
     inputDirection: 0,
     noteLength: 150,
-    numberOfArows: 8,
+    numberOfArows: 0,
     grid: newGrid(8, 8),
     playing: true,
     muted: true
@@ -489,12 +528,12 @@ render() {
   <div className="midi-toys-app">
     <label className='arrow-input-label'>{'Sound:'}</label>
     <button className='arrow-input'  onClick={this.muteToggleHandler}>{this.state.muted ? 'Turn Sound On' : 'Turn Sound Off'}</button>
-    <label className='arrow-input-label'>{'Reset:'}</label>
-    <button className='arrow-input'  onClick={()=>this.newGridHandler(this.state.numberOfArows, this.state.gridSize)}>{'Reset'}</button>
+    <label className='arrow-input-label'>{'Clear:'}</label>
+    <button className='arrow-input'  onClick={()=>this.newGridHandler(this.state.numberOfArows, this.state.gridSize)}>{'Clear'}</button>
     <label className='arrow-input-label'>{'Time per Step:'}</label>
     <input className='arrow-input' type='number' max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLengthHandler}/>
-    <label className='arrow-input-label'>{'Number of Arrows:'}</label>
-    <input className='arrow-input' type='number' max={maxArrows} min={minArrows} value={this.state.numberOfArows} onChange={this.newNumberOfArrowsHandler}/>
+    {/* <label className='arrow-input-label'>{'Number of Arrows:'}</label> */}
+    {/* <input className='arrow-input' type='number' max={maxArrows} min={minArrows} value={this.state.numberOfArows} onChange={this.newNumberOfArrowsHandler}/> */}
     <label className='arrow-input-label'>{'Size of Grid:'}</label>
     <input className='arrow-input' type='number' max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSizeHandler}/>
     <label className='arrow-input-label'>{'Arrow Direction:'}</label>
@@ -585,7 +624,7 @@ particlesJS({
       "value": "#ffffff"
     },
     "shape": {
-      "type": "circle",
+      "type": "square",
       "stroke": {
         "width": 0,
         "color": "#ffffff"
@@ -604,13 +643,13 @@ particlesJS({
       "random": false,
       "anim": {
         "enable": false,
-        "speed": 1,
+        "speed": .5,
         "opacity_min": 0.1,
         "sync": false
       }
     },
     "size": {
-      "value": 40,
+      "value": 10,
       "random": false,
       "anim": {
         "enable": false,
@@ -624,7 +663,7 @@ particlesJS({
       "distance": 1603.412060865523,
       "color": "#ffffff",
       "opacity": 0.25,
-      "width": 2.725800503471389
+      "width": 2.425800503471389
     },
     "move": {
       "enable": true,
