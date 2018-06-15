@@ -372,7 +372,7 @@ var s = function( sketch ) {
     const mouseYindex = convertPixelToIndex(sketch.mouseY);
     triangleDrawingArray[stateDrawing.inputDirection](convertArrowToTopLeft({x: mouseXindex, y:mouseYindex}), cellSize, sketch);
 
-    sketch.mouseClicked = function(e){
+    sketch.touchEnded = function(e){
       if (sketch.mouseX>0+gridCanvasBorderSize&&
         sketch.mouseX<gridCanvasSize-gridCanvasBorderSize&&
         sketch.mouseY>0+gridCanvasBorderSize&&
