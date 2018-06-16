@@ -418,7 +418,7 @@ const maxArrows=100;
 const minArrows=0;
 const maxSize=200;
 const minSize=1;
-const minNoteLength=1;
+const minNoteLength=10;
 const maxNoteLength=5000;
 const interactSound = (note, state) => state.muted ? undefined : makePizzaSound(note, 50).play();
 export class Application extends React.Component { 

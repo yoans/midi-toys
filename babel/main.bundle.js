@@ -120,21 +120,7 @@ const arrowKey = exports.arrowKey = function (arrow) {
 const locationKey = exports.locationKey = function (arrow) {
   return '{x:' + arrow.x + ',y:' + arrow.y + '}';
 };
-// export const arrowBoundaryKey = (arrow, size)=> {
-//   if(arrow.y === 0 && arrow.vector === 0) {
-//     return BOUNDARY;
-//   }
-//   if(arrow.x === size - 1 && arrow.vector === 1) {
-//     return BOUNDARY;
-//   }
-//   if(arrow.y === size - 1 && arrow.vector === 2) {
-//     return BOUNDARY;
-//   }
-//   if(arrow.x === 0 && arrow.vector === 3) {
-//     return BOUNDARY;
-//   }
-//   return NO_BOUNDARY;
-// };
+
 const arrowBoundaryKey = exports.arrowBoundaryKey = function (arrow, size, rotations = 0) {
   if (arrow.y === 0 && (arrow.vector + rotations) % 4 === 0) {
     return BOUNDARY;
@@ -423,7 +409,6 @@ var s = function (sketch) {
 
       // bounced
       arrowsBouncing.map(function (arrow) {
-        console.log('found bounced', { arrow });
         const topLeft = convertArrowToTopLeft(arrow);
 
         sketch.push();
@@ -462,7 +447,7 @@ const maxArrows = 100;
 const minArrows = 0;
 const maxSize = 200;
 const minSize = 1;
-const minNoteLength = 1;
+const minNoteLength = 10;
 const maxNoteLength = 5000;
 const interactSound = function (note, state) {
   return state.muted ? undefined : makePizzaSound(note, 50).play();
