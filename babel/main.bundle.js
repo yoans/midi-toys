@@ -120,17 +120,32 @@ const arrowKey = exports.arrowKey = function (arrow) {
 const locationKey = exports.locationKey = function (arrow) {
   return '{x:' + arrow.x + ',y:' + arrow.y + '}';
 };
-const arrowBoundaryKey = exports.arrowBoundaryKey = function (arrow, size) {
-  if (arrow.y === 0 && arrow.vector === 0) {
+// export const arrowBoundaryKey = (arrow, size)=> {
+//   if(arrow.y === 0 && arrow.vector === 0) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.x === size - 1 && arrow.vector === 1) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.y === size - 1 && arrow.vector === 2) {
+//     return BOUNDARY;
+//   }
+//   if(arrow.x === 0 && arrow.vector === 3) {
+//     return BOUNDARY;
+//   }
+//   return NO_BOUNDARY;
+// };
+const arrowBoundaryKey = exports.arrowBoundaryKey = function (arrow, size, rotations = 0) {
+  if (arrow.y === 0 && (arrow.vector + rotations) % 4 === 0) {
     return BOUNDARY;
   }
-  if (arrow.x === size - 1 && arrow.vector === 1) {
+  if (arrow.x === size - 1 && (arrow.vector + rotations) % 4 === 1) {
     return BOUNDARY;
   }
-  if (arrow.y === size - 1 && arrow.vector === 2) {
+  if (arrow.y === size - 1 && (arrow.vector + rotations) % 4 === 2) {
     return BOUNDARY;
   }
-  if (arrow.x === 0 && arrow.vector === 3) {
+  if (arrow.x === 0 && (arrow.vector + rotations) % 4 === 3) {
     return BOUNDARY;
   }
   return NO_BOUNDARY;
@@ -155,9 +170,10 @@ const flipArrow = function (_ref) {
   return _extends({ vector: (vector + 2) % 4 }, rest);
 };
 exports.flipArrow = flipArrow;
-const getArrowBoundaryDictionary = exports.getArrowBoundaryDictionary = function (arrows, size, keyFunc) {
+const getArrowBoundaryDictionary = exports.getArrowBoundaryDictionary = function (arrows, size, keyFunc, rotations) {
   return arrows.reduce(function (arrowDictionary, arrow) {
-    arrowDictionary[keyFunc(arrow, size)] = [...newArrayIfFalsey(arrowDictionary[keyFunc(arrow, size)]), arrow];
+    const key = keyFunc(arrow, size, rotations);
+    arrowDictionary[key] = [...newArrayIfFalsey(arrowDictionary[key]), arrow];
     return arrowDictionary;
   }, {});
 };
@@ -340,9 +356,9 @@ var s = function (sketch) {
     sketch.strokeWeight(0);
     sketch.fill(0, 0, 0);
     sketch.rect(gridCanvasBorderSize, gridCanvasBorderSize, gridCanvasSize, gridCanvasSize);
-    //draw arrows
-    sketch.fill(255, 255, 255);
+
     const cellSize = gridCanvasSize * 1.0 / (1.0 * stateDrawing.grid.size);
+    sketch.fill(255, 255, 255);
     const convertIndexToPixel = function (index) {
       return index * cellSize + gridCanvasBorderSize;
     };
@@ -351,21 +367,16 @@ var s = function (sketch) {
     };
     const timeDiff = new Date().getTime() - date.getTime();
     const percentage = (stateDrawing.playing ? timeDiff : 0) / (1.0 * stateDrawing.noteLength);
-    //non-rotated arrows
+
+    //draw arrows
 
     const arrowLocationDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows, stateDrawing.grid.size, locationKey);
 
-    const arrowsToRotateDictionary = Object.keys(arrowLocationDictionary).reduce(function (acc, location) {
-      return arrowLocationDictionary[location].length !== 1 ? _extends({}, acc, {
-        [location]: arrowLocationDictionary[location]
-      }) : acc;
-    }, {});
+    //non-rotated arrows
     const arrowsToNotRotateDictionary = Object.keys(arrowLocationDictionary).reduce(function (acc, location) {
       return arrowLocationDictionary[location].length === 1 ? [...acc, ...arrowLocationDictionary[location]] : acc;
     }, []);
     //non-wall Arrows
-
-
     const arrowDictionary = getArrowBoundaryDictionary(arrowsToNotRotateDictionary, stateDrawing.grid.size, arrowBoundaryKey);
     (arrowDictionary[NO_BOUNDARY] || []).map(function (arrow) {
       const shiftedTopLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize * percentage);
@@ -383,8 +394,19 @@ var s = function (sketch) {
       sketch.pop();
     });
     //rotating Arrows
+
+    const arrowsToRotateDictionary = Object.keys(arrowLocationDictionary).reduce(function (acc, location) {
+      return arrowLocationDictionary[location].length !== 1 ? _extends({}, acc, {
+        [location]: arrowLocationDictionary[location]
+      }) : acc;
+    }, {});
     Object.keys(arrowsToRotateDictionary).map(function (arrowsToRotateIndex) {
-      arrowsToRotateDictionary[arrowsToRotateIndex].map(function (arrow) {
+      const rotations = (arrowsToRotateDictionary[arrowsToRotateIndex].length % 4 || 4) - 1;
+      const bouncedRotation = (rotations + 2) % 4;
+      // draw not bounced
+      const bouncingDictionary = getArrowBoundaryDictionary(arrowsToRotateDictionary[arrowsToRotateIndex], stateDrawing.grid.size, arrowBoundaryKey, rotations);
+      const arrowsNotBouncing = bouncingDictionary[NO_BOUNDARY] || [];
+      arrowsNotBouncing.map(function (arrow) {
         const topLeft = convertArrowToTopLeft(arrow);
 
         sketch.push();
@@ -392,7 +414,23 @@ var s = function (sketch) {
         sketch.fill(255, 255, 255);
         translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
 
-        triangleRotatingArray[(arrowsToRotateDictionary[arrowsToRotateIndex].length % 4 || 4) - 1](cellSize, sketch, percentage);
+        triangleRotatingArray[rotations](cellSize, sketch, percentage);
+
+        sketch.pop();
+      });
+
+      const arrowsBouncing = bouncingDictionary[BOUNDARY] || [];
+
+      // bounced
+      arrowsBouncing.map(function (arrow) {
+        console.log('found bounced', { arrow });
+        const topLeft = convertArrowToTopLeft(arrow);
+
+        sketch.push();
+        sketch.strokeWeight(0);
+        sketch.fill(255, 255, 255);
+        translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
+        triangleRotatingArray[bouncedRotation](cellSize, sketch, percentage);
 
         sketch.pop();
       });
@@ -526,7 +564,6 @@ class Application extends _react2.default.Component {
     interactSound(4, this.state);
   }
   nextGrid(length) {
-    date = new Date();
     this.setState({
       grid: nextGrid(_extends({}, this.state.grid, { muted: this.state.muted }), length)
     });
@@ -556,6 +593,7 @@ class Application extends _react2.default.Component {
   render() {
     var _this2 = this;
 
+    date = new Date();
     stateDrawing = this.state;
     return _react2.default.createElement(
       'div',
