@@ -69,21 +69,7 @@ export const seedGrid = () => newGrid(getRandomNumber(20)+12, getRandomNumber(50
 export const moveArrow = arrow => vectorOperations[arrow.vector](arrow);
 export const arrowKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+',vector:'+arrow.vector+'}';
 export const locationKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+'}';
-// export const arrowBoundaryKey = (arrow, size)=> {
-//   if(arrow.y === 0 && arrow.vector === 0) {
-//     return BOUNDARY;
-//   }
-//   if(arrow.x === size - 1 && arrow.vector === 1) {
-//     return BOUNDARY;
-//   }
-//   if(arrow.y === size - 1 && arrow.vector === 2) {
-//     return BOUNDARY;
-//   }
-//   if(arrow.x === 0 && arrow.vector === 3) {
-//     return BOUNDARY;
-//   }
-//   return NO_BOUNDARY;
-// };
+
 export const arrowBoundaryKey = (arrow, size, rotations = 0)=> {
   if(arrow.y === 0 && (arrow.vector+rotations)%4 === 0) {
     return BOUNDARY;
