@@ -85,16 +85,16 @@ export const locationKey = arrow => '{x:'+arrow.x+',y:'+arrow.y+'}';
 //   return NO_BOUNDARY;
 // };
 export const arrowBoundaryKey = (arrow, size, rotations = 0)=> {
-  if(arrow.y === 0 && arrow.vector+rotations%4 === 0) {
+  if(arrow.y === 0 && (arrow.vector+rotations)%4 === 0) {
     return BOUNDARY;
   }
-  if(arrow.x === size - 1 && arrow.vector+rotations%4 === 1) {
+  if(arrow.x === size - 1 && (arrow.vector+rotations)%4 === 1) {
     return BOUNDARY;
   }
-  if(arrow.y === size - 1 && arrow.vector+rotations%4 === 2) {
+  if(arrow.y === size - 1 && (arrow.vector+rotations)%4 === 2) {
     return BOUNDARY;
   }
-  if(arrow.x === 0 && arrow.vector+rotations%4 === 3) {
+  if(arrow.x === 0 && (arrow.vector+rotations)%4 === 3) {
     return BOUNDARY;
   }
   return NO_BOUNDARY;
@@ -109,8 +109,9 @@ export const flipArrow = ({vector, ...rest}) => ({vector: (vector+2)%4, ...rest}
 export const getArrowBoundaryDictionary = (arrows, size, keyFunc, rotations)=>{
   return arrows.reduce(
     (arrowDictionary, arrow) => {
-      arrowDictionary[keyFunc(arrow, size, rotations)] = [
-          ...(newArrayIfFalsey(arrowDictionary[keyFunc(arrow, size)])),
+      const key = keyFunc(arrow, size, rotations);
+      arrowDictionary[key] = [
+          ...(newArrayIfFalsey(arrowDictionary[key])),
           arrow
       ];
       return arrowDictionary;
@@ -312,92 +313,96 @@ var s = function( sketch ) {
       0,0,0
     );
     sketch.rect(gridCanvasBorderSize,gridCanvasBorderSize,gridCanvasSize,gridCanvasSize);
-    //draw arrows
+    
+    const cellSize = (gridCanvasSize*1.0)/(1.0*stateDrawing.grid.size);
     sketch.fill(
       255,255,255
     );
-    const cellSize = (gridCanvasSize*1.0)/(1.0*stateDrawing.grid.size);
     const convertIndexToPixel = index => (index*cellSize)+gridCanvasBorderSize;
     const convertArrowToTopLeft = (xy) => ({x:convertIndexToPixel(xy.x), y:convertIndexToPixel(xy.y)});
     const timeDiff = new Date().getTime()-date.getTime();
     const percentage = (stateDrawing.playing?timeDiff:0)/(1.0*stateDrawing.noteLength);
-    //non-rotated arrows
+    
+    //draw arrows
 
-    const arrowLocationDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows,stateDrawing.grid.size, locationKey);
+        const arrowLocationDictionary = getArrowBoundaryDictionary(stateDrawing.grid.arrows,stateDrawing.grid.size, locationKey);
 
-    const arrowsToRotateDictionary = Object.keys(arrowLocationDictionary).reduce((acc, location)=>{
-      return arrowLocationDictionary[location].length !== 1 ?
-      {
-        ...acc,
-        [location]: arrowLocationDictionary[location]
-       } :
-      acc
-    }, {});
-    const arrowsToNotRotateDictionary = Object.keys(arrowLocationDictionary).reduce((acc, location)=>{
-      return arrowLocationDictionary[location].length === 1 ?
-      [
-        ...acc,
-        ...arrowLocationDictionary[location]
-      ] :
-      acc
-    }, []);
-    //non-wall Arrows
+        //non-rotated arrows
+          const arrowsToNotRotateDictionary = Object.keys(arrowLocationDictionary).reduce((acc, location)=>{
+            return arrowLocationDictionary[location].length === 1 ?
+            [
+              ...acc,
+              ...arrowLocationDictionary[location]
+            ] :
+            acc
+          }, []);
+          //non-wall Arrows
+            const arrowDictionary = getArrowBoundaryDictionary(arrowsToNotRotateDictionary,stateDrawing.grid.size, arrowBoundaryKey);
+            (arrowDictionary[NO_BOUNDARY]||[]).map((arrow)=>{
+              const shiftedTopLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize*percentage);
+              const triangleDrawer = triangleDrawingArray[arrow.vector];
+              triangleDrawer(shiftedTopLeft,cellSize,sketch);
+            });
+          //wall Arrows
+            (arrowDictionary[BOUNDARY]||[]).map((arrow) => {
+              sketch.push()
+              sketch.strokeWeight(0);
+              sketch.fill(
+                255,255,255
+              );
+              const topLeft = convertArrowToTopLeft(arrow);
+              translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
+              sketch.quad(0,cellSize,cellSize/2,cellSize*percentage,cellSize,cellSize,cellSize/2,cellSize+cellSize*percentage);
+              sketch.pop()
+            });
+        //rotating Arrows
+        
+        const arrowsToRotateDictionary = Object.keys(arrowLocationDictionary).reduce((acc, location)=>{
+          return arrowLocationDictionary[location].length !== 1 ?
+          {
+            ...acc,
+            [location]: arrowLocationDictionary[location]
+          } :
+          acc
+        }, {});
+        Object.keys(arrowsToRotateDictionary).map((arrowsToRotateIndex) => {
+          const rotations = ((arrowsToRotateDictionary[arrowsToRotateIndex].length%4)||4)-1;
+          const bouncedRotation = (rotations+2)%4;
+          // draw not bounced
+          const bouncingDictionary = getArrowBoundaryDictionary(arrowsToRotateDictionary[arrowsToRotateIndex],stateDrawing.grid.size, arrowBoundaryKey, rotations);
+          const arrowsNotBouncing = bouncingDictionary[NO_BOUNDARY]||[];
+          arrowsNotBouncing.map((arrow)=>{
+            const topLeft = convertArrowToTopLeft(arrow);
 
+            sketch.push()
+            sketch.strokeWeight(0);
+            sketch.fill(
+              255,255,255
+            );
+            translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
 
-    const arrowDictionary = getArrowBoundaryDictionary(arrowsToNotRotateDictionary,stateDrawing.grid.size, arrowBoundaryKey);
-    (arrowDictionary[NO_BOUNDARY]||[]).map((arrow)=>{
-      const shiftedTopLeft = timeShift(convertArrowToTopLeft(arrow), arrow.vector, cellSize*percentage);
-      const triangleDrawer = triangleDrawingArray[arrow.vector];
-      triangleDrawer(shiftedTopLeft,cellSize,sketch);
-    });
-    //wall Arrows
-    (arrowDictionary[BOUNDARY]||[]).map((arrow) => {
-      sketch.push()
-      sketch.strokeWeight(0);
-      sketch.fill(
-        255,255,255
-      );
-      const topLeft = convertArrowToTopLeft(arrow);
-      translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
-      sketch.quad(0,cellSize,cellSize/2,cellSize*percentage,cellSize,cellSize,cellSize/2,cellSize+cellSize*percentage);
-      sketch.pop()
-    });
-    //rotating Arrows
-    Object.keys(arrowsToRotateDictionary).map((arrowsToRotateIndex) => {
-      const rotations = (arrowsToRotateDictionary[arrowsToRotateIndex].length%4||4)-1;
-      // not bounced
-      const bouncingDictionary = getArrowBoundaryDictionary(arrowsToRotateDictionary[arrowsToRotateIndex],stateDrawing.grid.size, arrowBoundaryKey, (rotations+2));
-      const arrowsNotBouncing = bouncingDictionary[NO_BOUNDARY]||[];
-      const arrowsBouncing = bouncingDictionary[BOUNDARY]||[];
-      arrowsNotBouncing.map((arrow)=>{
-        const topLeft = convertArrowToTopLeft(arrow);
+            triangleRotatingArray[rotations](cellSize,sketch,percentage);
 
-        sketch.push()
-        sketch.strokeWeight(0);
-        sketch.fill(
-          255,255,255
-        );
-        translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
+            sketch.pop()
+          });
 
-        triangleRotatingArray[rotations](cellSize,sketch,percentage);
+          const arrowsBouncing = bouncingDictionary[BOUNDARY]||[];
 
-        sketch.pop()
-      });
-      // bounced
-      arrowsBouncing.map((arrow)=>{
-        const topLeft = convertArrowToTopLeft(arrow);
+          // bounced
+          arrowsBouncing.map((arrow)=>{
+            const topLeft = convertArrowToTopLeft(arrow);
 
-        sketch.push()
-        sketch.strokeWeight(0);
-        sketch.fill(
-          255,255,255
-        );
-        translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
-        triangleRotatingArray[(rotations+2)%4](cellSize,sketch,percentage);
+            sketch.push()
+            sketch.strokeWeight(0);
+            sketch.fill(
+              255,255,255
+            );
+            translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
+            triangleRotatingArray[bouncedRotation](cellSize,sketch,percentage);
 
-        sketch.pop()
-      });
-    });
+            sketch.pop()
+          });
+        });
 
     //draw hover input
     sketch.cursor(sketch.CROSS);
