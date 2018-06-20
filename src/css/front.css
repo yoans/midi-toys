@@ -1,0 +1,331 @@
+.midi-toys-app {
+    position: absolute; 
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgba(0, 0, 000, 0.5);
+    /* background-color: transparent; */
+    left: 50%;
+    top: 50%;
+    margin-left: -100px;
+    margin-top: -285px;
+    width: 200px;
+    height: 535px;
+    
+}
+#sketch-holder{
+    background-color: transparent;
+    margin: auto;
+    cursor: none;
+}
+#arrows-animation{
+    margin: auto;
+}
+
+
+body {
+    font-family: 'Open Sans',Helvetica,Arial,sans-serif;
+    background-color: rgba(0, 0, 0);
+    position: absolute; 
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0;
+}
+.aButton {
+    margin:auto;
+    background-color: transparent;
+    box-shadow: 1px 8px 8px white;
+    padding: 1em 1.5em;
+    position: relative;
+    text-decoration: none;
+    width: 136px;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+    display: block;
+    margin-top: 4%;
+}
+a.aButton:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  transition: 300ms;
+}
+
+a.aButton:active {
+  box-shadow: none;
+  top: 5px;
+}
+#fullscreen {
+    z-index: -999;
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+#avatar {
+    height: 180px;
+    border-radius: 100%;
+    border: 5px solid white;
+    margin: auto;
+}
+select,
+input {
+    background-color: transparent;
+    color: white;
+    border-radius: 2px;
+    padding: 5px 0px 5px 0px;
+    margin: 5px 5px;
+    width: 136px;
+    text-align: center;
+    border-color: white;
+    border-width: 2px;
+    border-style: solid
+}
+
+button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    margin: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 2px;
+    width: 140px;
+    border-color: white;
+    border-width: 2px;
+    border-style: solid;
+}
+h1 {
+    color: white;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    font-size: 4em;
+    font-family: 'Open Sans';
+    margin: -10px 0;
+}
+h3 {
+    color: white;
+    padding-bottom: 20px;
+    font-weight: thin;
+}
+ul {
+    margin: auto;
+    padding: 2%;
+    list-style: none;
+    padding: 0;
+}
+li {
+    border-radius: 100%;
+    border: 2px solid white;
+    color: white;
+    margin: 8px;
+    display: inline-block;
+    list-style: none;
+    width: 65px;
+    height: 65px;
+}
+li:hover {
+    color: white;
+    text-decoration: none;
+    -webkit-transition: 500ms;
+    -moz-transition: 500ms;
+    transition: 500ms;
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.aStyle {
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+}
+.description {
+    display: none;
+}
+
+.image-credit {
+    display: block;
+    border-style:none;
+    text-align: center;
+}
+@media (max-width: 450px) {
+ul {
+    text-align: center;
+}
+li {
+    border-radius: 0%;
+    border: none;
+    color: white;
+    margin: 8px;
+    display: block;
+    list-style: none;
+    margin: 10px 0px;
+    text-align: center;
+    height: auto;
+    width: auto;
+}
+li:hover {
+    background-color: none;
+    transition: none;
+}
+.aStyle {
+    text-align: justify;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+    padding: 15px;
+    padding-left: 30px;
+    width: 70%;
+}
+a:hover {
+    -webkit-transition: 500ms;
+    -moz-transition: 500ms;
+    transition: 500ms;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-decoration: none;
+}
+.description {
+    display: inline-block;
+    color: white;
+    font-family: Arial;
+    margin-left: 40px;
+}
+.content {
+    padding-top: 60px;
+}
+}
+table {
+    border-color: white;
+    border-width: 2px;
+    border-style: solid;
+}
+
+p{
+    margin-top: 1em;
+    text-align: left;
+    color: #aaa;
+}
+td{
+    margin: 0;
+    width: 10px;
+    height: 10px;
+}
+td:hover {
+    background-color: white;
+}
+
+
+.space {
+    width: 16px;
+    height: 16px;
+    position: relative;
+}
+.arrow-up {
+    animation-name: go-up;
+    animation-duration: .3s;
+    animation-timing-function: ease;
+    position: absolute;
+    z-index: 0;
+    border-top: solid 8px transparent;
+    border-left: solid 9px transparent;
+    border-right: solid 9px transparent;
+    border-bottom: solid 9px white;
+}
+.arrow-down {
+    animation-name: go-down;
+    animation-duration: .3s;
+    animation-timing-function: ease;
+    position: absolute;
+    z-index: 2;
+    border-left: solid 9px transparent;
+    border-bottom: solid 9px transparent;
+    border-right: solid 9px transparent;
+    border-top: solid 9px white;
+}
+.arrow-right {
+    animation-name: go-right;
+    animation-duration: .3s;
+    animation-timing-function: ease;
+    position: absolute;
+    z-index: 2;
+    border-top: solid 9px transparent;
+    border-bottom: solid 9px transparent;
+    border-right: solid 9px transparent;
+    border-left: solid 9px white;
+}
+.arrow-left {
+    animation-name: go-left;
+    animation-duration: .3s;
+    animation-timing-function: ease;
+    position: absolute;
+    z-index: 3;
+    border-top: solid 9px transparent;
+    border-left: solid 9px transparent;
+    border-bottom: solid 9px transparent;
+    border-right: solid 9px white;
+}
+.arrow-input-label,
+.arrow-input {
+    display: block;
+    color: white;
+    margin: auto;
+}
+
+option {
+    color: black;
+    background-color: transparent;
+    border: none;
+    border-radius: 2px;
+    width: 136px;
+    text-align: center;
+}
+@keyframes go-up {
+    0%   {left:0px; top:19px;}
+    100% {left:0px; top:0px;}
+}
+@keyframes go-right {
+    0%   {left:-19px; top:0px;}
+    100% {left:0px; top:0px;}
+}
+@keyframes go-down {
+    0%   {left:0px; top:-19px;}
+    100% {left:0px; top:0px;}
+}
+@keyframes go-left {
+    0%   {left:19px; top:0px;}
+    100% {left:0px; top:0px;}
+}
+/* ---- reset ---- */
+body{
+    margin:0;
+    font:normal 75% Arial, Helvetica, sans-serif;
+}
+canvas{
+    display: block; 
+    vertical-align: bottom; 
+} 
+/* ---- particles.js container ---- */ 
+#particles-js{ 
+    position:absolute; 
+    width: 100%; 
+    height: 100%; 
+    background-color: black;
+    background-image: url("");
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    background-position: 50% 50%; 
+}
+
