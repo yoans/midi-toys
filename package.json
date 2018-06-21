@@ -4,12 +4,12 @@
   "description": "I am the master of my domain.",
   "main": "index.js",
   "scripts": {
-    "babel": "babel --presets es2017 index.js -o babel/main.bundle.js",
+    "babel": "babel --presets es2017 src/index.js -o babel/main.bundle.js",
     "start": "http-server",
     "webpack": "webpack --config webpack.config.js",
     "super-start": "npm run babel && npm run webpack && npm run start",
     "test": "npm run babel && mocha index.spec.js",
-    "fixlint": "eslint src/** --fix"
+    "lint": "eslint src/**"
   },
   "dependencies": {
     "bootstrap": "^4.1.1",
