@@ -1,4 +1,12 @@
 
+
+let stateDrawing = {
+    grid: {
+        arrows: [],
+        size: 1,
+    },
+};
+
 const gridCanvasSize = 180;
 const gridCanvasBorderSize = 4;
 const triangleDrawingArray = [

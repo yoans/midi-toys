@@ -1,4 +1,11 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {makePizzaSound} from './play-notes';
+// import Chance from 'chance';
+import * as R from 'ramda';
+import Pizzicato from 'pizzicato';
 
+// const chance = new Chance();
 const maxArrows = 100;
 const minArrows = 0;
 const maxSize = 200;
@@ -19,40 +26,30 @@ export class Application extends React.Component {
             playing: true,
             muted: true,
         };
-        this.newSizeHandler = this.newSize.bind(this);
-        this.newNoteLengthHandler = this.newNoteLength.bind(this);
-        this.newNumberOfArrowsHandler = this.newNumberOfArrows.bind(this);
-        this.nextGridHandler = this.nextGrid.bind(this);
-        this.newGridHandler = this.newGrid.bind(this);
-        this.playHandler = this.play.bind(this);
-        this.pauseHandler = this.pause.bind(this);
-        this.muteToggleHandler = this.muteToggle.bind(this);
-        this.addToGridHandler = this.addToGrid.bind(this);
-        arrowAdder = this.addToGridHandler;
-        this.newInputDirectionHandler = this.newInputDirection.bind(this);
+        arrowAdder = this.addToGrid;
     }
 
-    componentDidMount() {
-        this.playHandler();
+    componentDidMount = () => {
+        this.play();
     }
-    play() {
+    play = () => {
         this.timerID = setInterval(
-            () => this.nextGridHandler(this.state.noteLength),
+            () => this.nextGrid(this.state.noteLength),
             this.state.noteLength,
         );
         this.setState({ playing: true });
         interactSound(6, this.state);
     }
-    pause() {
+    pause = () => {
         clearInterval(this.timerID);
         this.setState({ playing: false });
         interactSound(5, this.state);
     }
-    muteToggle() {
+    muteToggle = () => {
         this.setState({ muted: !this.state.muted });
         interactSound(1, this.state);
     }
-    newSize(e) {
+    newSize = (e) => {
         let input = parseInt(e.target.value, 10);
         if (input > maxSize) {
             input = maxArrows;
@@ -68,7 +65,7 @@ export class Application extends React.Component {
         });
         interactSound(2, this.state);
     }
-    newNoteLength(e) {
+    newNoteLength = (e) => {
         clearInterval(this.timerID);
         let input = parseInt(e.target.value, 10);
         if (input > maxNoteLength) {
@@ -92,7 +89,7 @@ export class Application extends React.Component {
         this.setState({
             numberOfArows: input,
         });
-        // this.newGridHandler(input, this.state.gridSize)
+        // this.newGrid(input, this.state.gridSize)
         interactSound(4, this.state);
     }
     nextGrid(length) {
@@ -127,27 +124,27 @@ export class Application extends React.Component {
         return (
             <div className="midi-toys-app">
                 <label htmlFor="mute-unmute" className="arrow-input-label">Sound:</label>
-                <button id="mute-unmute" className="arrow-input" onClick={this.muteToggleHandler}>{this.state.muted ? 'Turn Sound On' : 'Turn Sound Off'}</button>
+                <button id="mute-unmute" className="arrow-input" onClick={this.muteToggle}>{this.state.muted ? 'Turn Sound On' : 'Turn Sound Off'}</button>
                 <label htmlFor="clear-button" className="arrow-input-label">Clear:</label>
-                <button id="clear-button" className="arrow-input" onClick={() => this.newGridHandler(this.state.numberOfArows, this.state.gridSize)}>Clear</button>
+                <button id="clear-button" className="arrow-input" onClick={() => this.newGrid(this.state.numberOfArows, this.state.gridSize)}>Clear</button>
                 <label htmlFor="max-note-length" className="arrow-input-label">Time per Step:</label>
-                <input id="max-note-length" className="arrow-input" type="number" max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLengthHandler} />
+                <input id="max-note-length" className="arrow-input" type="number" max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLength} />
                 <label htmlFor="arrow-input-number" className="arrow-input-label">Size of Grid:</label>
-                <input id="arrow-input-number" className="arrow-input" type="number" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSizeHandler} />
+                <input id="arrow-input-number" className="arrow-input" type="number" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSize} />
                 <label htmlFor="arrow-input-id" className="arrow-input-label">Arrow Direction:</label>
                 {
                     [
-                        (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirectionHandler(1)}>Up</button>),
-                        (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirectionHandler(2)}>Right</button>),
-                        (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirectionHandler(3)}>Down</button>),
-                        (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirectionHandler(0)}>Left</button>),
+                        (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirection(1)}>Up</button>),
+                        (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirection(2)}>Right</button>),
+                        (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirection(3)}>Down</button>),
+                        (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirection(0)}>Left</button>),
                     ][this.state.inputDirection]
                 }
                 <label htmlFor="play-stop" className="arrow-input-label">Start/Stop:</label>
                 {
                     this.state.playing ?
-                        <button id="play-stop" className="arrow-input" onClick={this.pauseHandler}>Stop</button> :
-                        <button id="play-stop" className="arrow-input" onClick={this.playHandler}>Start</button>
+                        <button id="play-stop" className="arrow-input" onClick={this.pause}>Stop</button> :
+                        <button id="play-stop" className="arrow-input" onClick={this.play}>Start</button>
                 }
                 <label htmlFor="sketch-holder" className="arrow-input-label">SHIFT + CLICK to clear a square</label>
                 <div id="sketch-holder"/>
