@@ -35,8 +35,6 @@ var _p = require('p5');
 
 var _p2 = _interopRequireDefault(_p);
 
-var _particles = require('particles.js');
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -46,9 +44,11 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 let selectMIDIOut = null;
 let midiAccess = null;
 let midiOut = null;
+
 const chance = new _chance2.default();
 const NO_BOUNDARY = 'no-boundary';
 const BOUNDARY = 'boundary';
+
 const vectors = exports.vectors = ['arrow-up', 'arrow-right', 'arrow-down', 'arrow-left'];
 const vectorOperations = exports.vectorOperations = [function ({ x, y, vector }) {
     return { x, y: y - 1, vector };
@@ -162,8 +162,12 @@ exports.flipArrow = flipArrow;
 const getArrowBoundaryDictionary = exports.getArrowBoundaryDictionary = function (arrows, size, keyFunc, rotations) {
     return arrows.reduce(function (arrowDictionary, arrow) {
         const key = keyFunc(arrow, size, rotations);
-        arrowDictionary[key] = [...newArrayIfFalsey(arrowDictionary[key]), arrow];
-        return arrowDictionary;
+        const arrayAtKey = [...newArrayIfFalsey(arrowDictionary[key]), arrow];
+        const newArrowDictionary = _extends({}, arrowDictionary, {
+            [key]: arrayAtKey
+        });
+
+        return newArrowDictionary;
     }, {});
 };
 const getIndex = function (x, y, size, vector) {
@@ -183,7 +187,7 @@ const makeMIDImessage = function (index, length) {
         play() {
             (midiOut || { send: function () {} }).send([0x90, midiKeyNumbers[noteIndex], 0x40]);
             setTimeout(function () {
-                const midcon = (midiOut || { send: function () {} }).send([0x80, midiKeyNumbers[noteIndex], 0x00]);
+                (midiOut || { send: function () {} }).send([0x80, midiKeyNumbers[noteIndex], 0x00]);
             }, length - 1);
         }
     };
@@ -235,12 +239,14 @@ const playSounds = exports.playSounds = function (boundaryArrows, size, length, 
 
         const midiMessage = makeMIDImessage(speed, length);
         midiMessage.play();
+        return undefined;
     });
 };
 const nextGrid = exports.nextGrid = function (grid, length) {
-    const size = grid.size;
-    const arrows = grid.arrows;
-
+    const {
+        size,
+        arrows
+    } = grid;
     const arrowsWithVectorDictionary = getArrowBoundaryDictionary(arrows, size, arrowKey);
     const reducedArrows = Object.keys(arrowsWithVectorDictionary).reduce(function (acc, arrowsWithSameVectorKey) {
         const arrowsAtIndex = arrowsWithVectorDictionary[arrowsWithSameVectorKey];
@@ -270,12 +276,10 @@ const nextGrid = exports.nextGrid = function (grid, length) {
     });
 };
 
-const nat = function () {
-    return chance.natural({
-        min: 0,
-        max: 255
-    });
-};
+// const nat = () => chance.natural({
+//     min: 0,
+//     max: 255,
+// });
 let stateDrawing = {
     grid: {
         arrows: [],
@@ -718,7 +722,7 @@ try {
     console.log('MIDI is not supported by your browser access ');
 }
 
-window.particlesJS.load('particles-js', 'src/assets/particles.json', function () {
+particlesJS('particles-js', 'src/assets/particles.json', function () {
     console.log('callback - particles.js config loaded');
 });
 
