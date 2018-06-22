@@ -3,8 +3,8 @@ import * as R from 'ramda';
 import Chance from 'chance';
 
 const chance = new Chance();
-const NO_BOUNDARY = 'no-boundary';
-const BOUNDARY = 'boundary';
+export const NO_BOUNDARY = 'no-boundary';
+export const BOUNDARY = 'boundary';
 // const vectors = [
 //     'arrow-up',
 //     'arrow-right',

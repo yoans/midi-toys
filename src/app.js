@@ -29,7 +29,7 @@ export class Application extends React.Component {
         arrowAdder = this.addToGrid;
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         this.play();
     }
     play = () => {

@@ -1,11 +1,15 @@
+import {
+    BOUNDARY,
+    NO_BOUNDARY
+} from './arrows-logic';
 
-
-let stateDrawing = {
-    grid: {
-        arrows: [],
-        size: 1,
-    },
-};
+import {stateDrawing} from 'app';
+// stateDrawing = {
+//     grid: {
+//         arrows: [],
+//         size: 1,
+//     },
+// };
 
 const gridCanvasSize = 180;
 const gridCanvasBorderSize = 4;
@@ -71,11 +75,11 @@ const timeShift = ({ x, y }, vector, shiftAmount) => {
 };
 let date = new Date();
 let arrowAdder;
-const s = function (sketch) {
-    sketch.setup = function () {
+const drawingContext = (sketch) => {
+    sketch.setup = () => {
         sketch.createCanvas(gridCanvasSize + gridCanvasBorderSize * 2, gridCanvasSize + gridCanvasBorderSize * 2).parent('sketch-holder').id('arrows-animation');
     };
-    sketch.draw = function () {
+    sketch.draw = () => {
         // draw background slash border
         sketch.background(255, 255, 255);
         // draw grid
@@ -219,7 +223,7 @@ const s = function (sketch) {
             sketch
         );
 
-        sketch.touchEnded = function (e) {
+        sketch.touchEnded = (e) => {
             if (sketch.mouseX > 0 + gridCanvasBorderSize &&
                 sketch.mouseX < gridCanvasSize - gridCanvasBorderSize &&
                 sketch.mouseY > 0 + gridCanvasBorderSize &&
@@ -238,4 +242,4 @@ const s = function (sketch) {
 };
 
 // eslint-disable-next-line
-new p5(s);
+new p5(drawingContext);
