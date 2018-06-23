@@ -236,7 +236,21 @@ class Application extends _react2.default.Component {
                 { htmlFor: 'sketch-holder', className: 'arrow-input-label' },
                 'SHIFT + CLICK to clear a square'
             ),
-            _react2.default.createElement('div', { id: 'sketch-holder' })
+            _react2.default.createElement('div', { id: 'sketch-holder' }),
+            _react2.default.createElement(
+                'label',
+                { htmlFor: 'midiOut', className: 'arrow-input-label' },
+                'MIDI Output:'
+            ),
+            _react2.default.createElement(
+                'select',
+                { id: 'midiOut', className: 'arrow-input' },
+                _react2.default.createElement(
+                    'option',
+                    { value: '' },
+                    'Not connected'
+                )
+            )
         );
     }
 }

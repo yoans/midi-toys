@@ -13,6 +13,8 @@ var _notesFrequencies = require('notes-frequencies');
 
 var _notesFrequencies2 = _interopRequireDefault(_notesFrequencies);
 
+var _midi = require('./midi');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const getIndex = function (x, y, size, vector) {
@@ -23,29 +25,6 @@ const getIndex = function (x, y, size, vector) {
     }
     return 0;
 };
-// const makeMIDImessage = (index, length) => {
-// const midiKeyNumbers = [
-//     45, 47, 48, 50, 52, 54, 55, 57, 59, 61, 62, 64, 66, 67, 69, 71, 73, 74
-// ];
-//     const noteIndex = index % midiKeyNumbers.length;
-
-//     return {
-//         play() {
-//             (midiOut || { send: () => { } }).send([
-//                 0x90,
-//                 midiKeyNumbers[noteIndex],
-//                 0x40,
-//             ]);
-//             setTimeout(() => {
-//                 (midiOut || { send: () => { } }).send([
-//                     0x80,
-//                     midiKeyNumbers[noteIndex],
-//                     0x00,
-//                 ]);
-//             }, length - 1);
-//         },
-//     };
-// };
 
 const makePizzaSound = exports.makePizzaSound = function (index, length) {
     // const frequencies = notesFrequencies('D3 F3 G#3 C4 D#4 G4 A#5');
@@ -91,9 +70,7 @@ const playSounds = exports.playSounds = function (boundaryArrows, size, length, 
             const snd = makePizzaSound(speed, length);
             snd.play();
         }
-
-        // const midiMessage = makeMIDImessage(speed, length);
-        // midiMessage.play();
+        (0, _midi.makeMIDImessage)(speed, length).play();
         return undefined;
     });
 };

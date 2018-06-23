@@ -154,10 +154,10 @@ export class Application extends React.Component {
                 }
                 <label htmlFor="sketch-holder" className="arrow-input-label">SHIFT + CLICK to clear a square</label>
                 <div id="sketch-holder"/>
-                {/* <label htmlFor="midiOut" className="arrow-input-label">MIDI Output:</label>
-                <select id="midiOut" className="arrow-input" onChange="changeMidiOut();">
+                <label htmlFor="midiOut" className="arrow-input-label">MIDI Output:</label>
+                <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>
-                </select> */}
+                </select>
             </div>
         );
     }

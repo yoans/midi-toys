@@ -1,6 +1,7 @@
 
 import Pizzicato from 'pizzicato';
 import notesFrequencies from 'notes-frequencies';
+import {makeMIDImessage} from './midi';
 
 const getIndex = (x, y, size, vector) => {
     if (vector === 1 || vector === 3) {
@@ -10,29 +11,6 @@ const getIndex = (x, y, size, vector) => {
     }
     return 0;
 };
-// const makeMIDImessage = (index, length) => {
-// const midiKeyNumbers = [
-//     45, 47, 48, 50, 52, 54, 55, 57, 59, 61, 62, 64, 66, 67, 69, 71, 73, 74
-// ];
-//     const noteIndex = index % midiKeyNumbers.length;
-
-//     return {
-//         play() {
-//             (midiOut || { send: () => { } }).send([
-//                 0x90,
-//                 midiKeyNumbers[noteIndex],
-//                 0x40,
-//             ]);
-//             setTimeout(() => {
-//                 (midiOut || { send: () => { } }).send([
-//                     0x80,
-//                     midiKeyNumbers[noteIndex],
-//                     0x00,
-//                 ]);
-//             }, length - 1);
-//         },
-//     };
-// };
 
 export const makePizzaSound = (index, length) => {
     // const frequencies = notesFrequencies('D3 F3 G#3 C4 D#4 G4 A#5');
@@ -78,9 +56,7 @@ export const playSounds = (boundaryArrows, size, length, muted) => {
             const snd = makePizzaSound(speed, length);
             snd.play();
         }
-
-        // const midiMessage = makeMIDImessage(speed, length);
-        // midiMessage.play();
+        makeMIDImessage(speed, length).play();
         return undefined;
     });
 };
