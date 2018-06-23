@@ -10,6 +10,30 @@ const getIndex = (x, y, size, vector) => {
     }
     return 0;
 };
+// const makeMIDImessage = (index, length) => {
+// const midiKeyNumbers = [
+//     45, 47, 48, 50, 52, 54, 55, 57, 59, 61, 62, 64, 66, 67, 69, 71, 73, 74
+// ];
+//     const noteIndex = index % midiKeyNumbers.length;
+
+//     return {
+//         play() {
+//             (midiOut || { send: () => { } }).send([
+//                 0x90,
+//                 midiKeyNumbers[noteIndex],
+//                 0x40,
+//             ]);
+//             setTimeout(() => {
+//                 (midiOut || { send: () => { } }).send([
+//                     0x80,
+//                     midiKeyNumbers[noteIndex],
+//                     0x00,
+//                 ]);
+//             }, length - 1);
+//         },
+//     };
+// };
+
 export const makePizzaSound = (index, length) => {
     // const frequencies = notesFrequencies('D3 F3 G#3 C4 D#4 G4 A#5');
     const frequencies = notesFrequencies('A3 B3 C3 D3 E3 F3 G3 A4 B4 C4 D4 E4 F4 G4 A5 B5 C5 D5 E5 F5 G5');

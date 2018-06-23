@@ -4,12 +4,14 @@
   "description": "I am the master of my domain.",
   "main": "index.js",
   "scripts": {
-    "babel": "babel --presets es2017 src/index.js -o babel/main.bundle.js",
-    "start": "http-server",
+    "babel-watch": "babel --presets es2017 ./src/js -d ./babel -w",
+    "babel": "babel --presets es2017 ./src/js -d ./babel",
+    "serve": "http-server",
+    "webpack-watch": "webpack --config webpack.config.js --watch --info-verbosity verbose",
     "webpack": "webpack --config webpack.config.js",
-    "super-start": "npm run babel && npm run webpack && npm run start",
+    "super-start": "npm run babel && npm run webpack && npm run serve",
     "test": "npm run babel && mocha index.spec.js",
-    "lint": "eslint src/**"
+    "lint": "eslint ./src/js/**"
   },
   "dependencies": {
     "bootstrap": "^4.1.1",
@@ -36,6 +38,8 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",

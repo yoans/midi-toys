@@ -1,9 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {makePizzaSound} from './play-notes';
-// import Chance from 'chance';
-import * as R from 'ramda';
-import Pizzicato from 'pizzicato';
+import {
+    newGrid,
+    nextGrid,
+    removeFromGrid,
+    addToGrid
+} from './arrows-logic';
+import {
+    updateCanvas,
+    setUpCanvas
+} from './animations';
 
 // const chance = new Chance();
 const maxArrows = 100;
@@ -24,9 +30,9 @@ export class Application extends React.Component {
             numberOfArows: 0,
             grid: newGrid(8, 8),
             playing: true,
-            muted: true,
+            muted: true
         };
-        arrowAdder = this.addToGrid;
+        setUpCanvas(this.state, this.addToGrid);
     }
 
     componentDidMount() {
@@ -79,7 +85,7 @@ export class Application extends React.Component {
         this.play();
         interactSound(3, this.state);
     }
-    newNumberOfArrows(e) {
+    newNumberOfArrows = (e) => {
         let input = parseInt(e.target.value, 10);
         if (input > maxArrows) {
             input = maxArrows;
@@ -92,22 +98,22 @@ export class Application extends React.Component {
         // this.newGrid(input, this.state.gridSize)
         interactSound(4, this.state);
     }
-    nextGrid(length) {
+    nextGrid = (length) => {
         this.setState({
             grid: nextGrid({ ...this.state.grid, muted: this.state.muted }, length),
         });
     }
-    newInputDirection(inputDirection) {
+    newInputDirection = (inputDirection) => {
         this.setState({
             inputDirection,
         });
     }
-    newGrid(number, size) {
+    newGrid = (number, size) => {
         this.setState({
             grid: newGrid(size, number),
         });
     }
-    addToGrid(x, y, e) {
+    addToGrid = (x, y, e) => {
         if (e.shiftKey) {
             this.setState({
                 grid: removeFromGrid(this.state.grid, x, y),
@@ -119,8 +125,8 @@ export class Application extends React.Component {
         }
     }
     render() {
-        date = new Date();
-        stateDrawing = this.state;
+        const newDate = new Date();
+        updateCanvas(this.state, newDate);
         return (
             <div className="midi-toys-app">
                 <label htmlFor="mute-unmute" className="arrow-input-label">Sound:</label>

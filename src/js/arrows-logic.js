@@ -1,6 +1,7 @@
 
 import * as R from 'ramda';
 import Chance from 'chance';
+import {playSounds} from './play-notes';
 
 const chance = new Chance();
 export const NO_BOUNDARY = 'no-boundary';
@@ -60,8 +61,8 @@ export const newGrid = (size, numberOfArrows) => {
 };
 // const seedGrid = () => newGrid(getRandomNumber(20) + 12, getRandomNumber(50) + 1);
 const moveArrow = arrow => vectorOperations[arrow.vector](arrow);
-const arrowKey = arrow => `{x:${arrow.x},y:${arrow.y},vector:${arrow.vector}}`;
-const locationKey = arrow => `{x:${arrow.x},y:${arrow.y}}`;
+export const arrowKey = arrow => `{x:${arrow.x},y:${arrow.y},vector:${arrow.vector}}`;
+export const locationKey = arrow => `{x:${arrow.x},y:${arrow.y}}`;
 
 export const arrowBoundaryKey = (arrow, size, rotations = 0) => {
     if (arrow.y === 0 && (arrow.vector + rotations) % 4 === 0) {
@@ -85,7 +86,7 @@ const rotateArrow = number => arrow => ({
 });
 const rotateSet = set => set.map(rotateArrow(set.length));
 const flipArrow = ({ vector, ...rest }) => ({ vector: (vector + 2) % 4, ...rest });
-const getArrowBoundaryDictionary = (arrows, size, keyFunc, rotations) => arrows.reduce(
+export const getArrowBoundaryDictionary = (arrows, size, keyFunc, rotations) => arrows.reduce(
     (arrowDictionary, arrow) => {
         const key = keyFunc(arrow, size, rotations);
         const arrayAtKey = [
