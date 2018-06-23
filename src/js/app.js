@@ -12,12 +12,10 @@ import {
 } from './animations';
 
 // const chance = new Chance();
-const maxArrows = 100;
-const minArrows = 0;
-const maxSize = 200;
-const minSize = 1;
-const minNoteLength = 10;
-const maxNoteLength = 5000;
+const maxSize = 50;
+const minSize = 2;
+const minNoteLength = 50;
+const maxNoteLength = 1000;
 const interactSound = (note, state) => (state.muted ? undefined : makePizzaSound(note, 50).play());
 export class Application extends React.Component {
     constructor(props) {
@@ -27,7 +25,6 @@ export class Application extends React.Component {
             gridSize: 8,
             inputDirection: 0,
             noteLength: 150,
-            numberOfArows: 0,
             grid: newGrid(8, 8),
             playing: true,
             muted: true
@@ -46,22 +43,26 @@ export class Application extends React.Component {
         this.setState({ playing: true });
         interactSound(6, this.state);
     }
+    resetTimer = () => {
+        clearInterval(this.timerID);
+        if (this.state.playing) {
+            this.play();
+        }
+    }
     pause = () => {
         clearInterval(this.timerID);
         this.setState({ playing: false });
         interactSound(5, this.state);
     }
     muteToggle = () => {
+        this.resetTimer();
         this.setState({ muted: !this.state.muted });
         interactSound(1, this.state);
     }
     newSize = (e) => {
-        let input = parseInt(e.target.value, 10);
-        if (input > maxSize) {
-            input = maxArrows;
-        } else if (input < minSize) {
-            input = minArrows;
-        }
+        this.resetTimer();
+        const input = parseInt(e.target.value, 10);
+
         this.setState({
             gridSize: input,
             grid: {
@@ -72,31 +73,13 @@ export class Application extends React.Component {
         interactSound(2, this.state);
     }
     newNoteLength = (e) => {
-        clearInterval(this.timerID);
-        let input = parseInt(e.target.value, 10);
-        if (input > maxNoteLength) {
-            input = maxNoteLength;
-        } else if (input < minNoteLength) {
-            input = minNoteLength;
-        }
+        this.resetTimer();
+        const input = parseInt(e.target.value, 10);
+
         this.setState({
             noteLength: input,
         });
-        this.play();
         interactSound(3, this.state);
-    }
-    newNumberOfArrows = (e) => {
-        let input = parseInt(e.target.value, 10);
-        if (input > maxArrows) {
-            input = maxArrows;
-        } else if (input < minArrows) {
-            input = minArrows;
-        }
-        this.setState({
-            numberOfArows: input,
-        });
-        // this.newGrid(input, this.state.gridSize)
-        interactSound(4, this.state);
     }
     nextGrid = (length) => {
         this.setState({
@@ -104,6 +87,7 @@ export class Application extends React.Component {
         });
     }
     newInputDirection = (inputDirection) => {
+        this.resetTimer();
         this.setState({
             inputDirection,
         });
@@ -132,11 +116,11 @@ export class Application extends React.Component {
                 <label htmlFor="mute-unmute" className="arrow-input-label">Sound:</label>
                 <button id="mute-unmute" className="arrow-input" onClick={this.muteToggle}>{this.state.muted ? 'Turn Sound On' : 'Turn Sound Off'}</button>
                 <label htmlFor="clear-button" className="arrow-input-label">Clear:</label>
-                <button id="clear-button" className="arrow-input" onClick={() => this.newGrid(this.state.numberOfArows, this.state.gridSize)}>Clear</button>
+                <button id="clear-button" className="arrow-input" onClick={() => this.newGrid(0, this.state.gridSize)}>Clear</button>
                 <label htmlFor="max-note-length" className="arrow-input-label">Time per Step:</label>
-                <input id="max-note-length" className="arrow-input" type="number" max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLength} />
+                <input id="max-note-length" className="arrow-input" type="range" max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLength} />
                 <label htmlFor="arrow-input-number" className="arrow-input-label">Size of Grid:</label>
-                <input id="arrow-input-number" className="arrow-input" type="number" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSize} />
+                <input id="arrow-input-number" className="arrow-input" type="range" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSize} />
                 <label htmlFor="arrow-input-id" className="arrow-input-label">Arrow Direction:</label>
                 {
                     [

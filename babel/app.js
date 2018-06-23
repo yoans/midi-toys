@@ -20,12 +20,10 @@ var _animations = require('./animations');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const chance = new Chance();
-const maxArrows = 100;
-const minArrows = 0;
-const maxSize = 200;
-const minSize = 1;
-const minNoteLength = 10;
-const maxNoteLength = 5000;
+const maxSize = 50;
+const minSize = 2;
+const minNoteLength = 50;
+const maxNoteLength = 1000;
 const interactSound = function (note, state) {
     return state.muted ? undefined : (0, _playNotes.makePizzaSound)(note, 50).play();
 };
@@ -43,6 +41,13 @@ class Application extends _react2.default.Component {
             interactSound(6, _this.state);
         };
 
+        this.resetTimer = function () {
+            clearInterval(_this.timerID);
+            if (_this.state.playing) {
+                _this.play();
+            }
+        };
+
         this.pause = function () {
             clearInterval(_this.timerID);
             _this.setState({ playing: false });
@@ -50,17 +55,15 @@ class Application extends _react2.default.Component {
         };
 
         this.muteToggle = function () {
+            _this.resetTimer();
             _this.setState({ muted: !_this.state.muted });
             interactSound(1, _this.state);
         };
 
         this.newSize = function (e) {
-            let input = parseInt(e.target.value, 10);
-            if (input > maxSize) {
-                input = maxArrows;
-            } else if (input < minSize) {
-                input = minArrows;
-            }
+            _this.resetTimer();
+            const input = parseInt(e.target.value, 10);
+
             _this.setState({
                 gridSize: input,
                 grid: _extends({}, _this.state.grid, {
@@ -71,32 +74,13 @@ class Application extends _react2.default.Component {
         };
 
         this.newNoteLength = function (e) {
-            clearInterval(_this.timerID);
-            let input = parseInt(e.target.value, 10);
-            if (input > maxNoteLength) {
-                input = maxNoteLength;
-            } else if (input < minNoteLength) {
-                input = minNoteLength;
-            }
+            _this.resetTimer();
+            const input = parseInt(e.target.value, 10);
+
             _this.setState({
                 noteLength: input
             });
-            _this.play();
             interactSound(3, _this.state);
-        };
-
-        this.newNumberOfArrows = function (e) {
-            let input = parseInt(e.target.value, 10);
-            if (input > maxArrows) {
-                input = maxArrows;
-            } else if (input < minArrows) {
-                input = minArrows;
-            }
-            _this.setState({
-                numberOfArows: input
-            });
-            // this.newGrid(input, this.state.gridSize)
-            interactSound(4, _this.state);
         };
 
         this.nextGrid = function (length) {
@@ -106,6 +90,7 @@ class Application extends _react2.default.Component {
         };
 
         this.newInputDirection = function (inputDirection) {
+            _this.resetTimer();
             _this.setState({
                 inputDirection
             });
@@ -133,7 +118,6 @@ class Application extends _react2.default.Component {
             gridSize: 8,
             inputDirection: 0,
             noteLength: 150,
-            numberOfArows: 0,
             grid: (0, _arrowsLogic.newGrid)(8, 8),
             playing: true,
             muted: true
@@ -171,7 +155,7 @@ class Application extends _react2.default.Component {
             _react2.default.createElement(
                 'button',
                 { id: 'clear-button', className: 'arrow-input', onClick: function () {
-                        return _this2.newGrid(_this2.state.numberOfArows, _this2.state.gridSize);
+                        return _this2.newGrid(0, _this2.state.gridSize);
                     } },
                 'Clear'
             ),
@@ -180,13 +164,13 @@ class Application extends _react2.default.Component {
                 { htmlFor: 'max-note-length', className: 'arrow-input-label' },
                 'Time per Step:'
             ),
-            _react2.default.createElement('input', { id: 'max-note-length', className: 'arrow-input', type: 'number', max: maxNoteLength, min: minNoteLength, value: this.state.noteLength, onChange: this.newNoteLength }),
+            _react2.default.createElement('input', { id: 'max-note-length', className: 'arrow-input', type: 'range', max: maxNoteLength, min: minNoteLength, value: this.state.noteLength, onChange: this.newNoteLength }),
             _react2.default.createElement(
                 'label',
                 { htmlFor: 'arrow-input-number', className: 'arrow-input-label' },
                 'Size of Grid:'
             ),
-            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input', type: 'number', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
+            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input', type: 'range', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
             _react2.default.createElement(
                 'label',
                 { htmlFor: 'arrow-input-id', className: 'arrow-input-label' },
