@@ -135,27 +135,27 @@ export class Application extends React.Component {
                 <input id="arrow-input-number" className="arrow-input" type="range" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSize} />
                 <div className="edit-options">
                     <div className="edit-options-member">
-                        <label className="arrow-input-label">Edit Mode:</label>
+                        <label className="arrow-input-label">Mode:</label>
                         {
                             this.state.deleting ?
-                                <button id="arrow-input-id" className="arrow-input" onClick={this.changeEditMode}>Delete</button> :
-                                <button id="arrow-input-id" className="arrow-input" onClick={this.changeEditMode}>Draw</button>
+                                <button id="arrow-input-id" className="arrow-input edit-options-button" onClick={this.changeEditMode}>Delete</button> :
+                                <button id="arrow-input-id" className="arrow-input edit-options-button" onClick={this.changeEditMode}>Draw</button>
                         }
                     </div>
                     <div className="edit-options-member">
-                        <label className="arrow-input-label">Arrow Direction:</label>
+                        <label className="arrow-input-label">Direction:</label>
                         {
                             [
-                                (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirection(1)}>Up</button>),
-                                (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirection(2)}>Right</button>),
-                                (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirection(3)}>Down</button>),
-                                (<button id="arrow-input-id" className="arrow-input" onClick={() => this.newInputDirection(0)}>Left</button>),
+                                (<button id="arrow-input-id" className="arrow-input edit-options-button" onClick={() => this.newInputDirection(1)}>Up</button>),
+                                (<button id="arrow-input-id" className="arrow-input edit-options-button" onClick={() => this.newInputDirection(2)}>Right</button>),
+                                (<button id="arrow-input-id" className="arrow-input edit-options-button" onClick={() => this.newInputDirection(3)}>Down</button>),
+                                (<button id="arrow-input-id" className="arrow-input edit-options-button" onClick={() => this.newInputDirection(0)}>Left</button>),
                             ][this.state.inputDirection]
                         }
                     </div>
                 </div>
                 <div id="sketch-holder"/>
-                <button id="clear-button" className="arrow-input" onClick={() => this.newGrid(0, this.state.gridSize)}>Clear</button>
+                <button id="clear-button" className="arrow-input" onClick={() => this.newGrid(0, this.state.gridSize)}>Clear Grid</button>
                 <label id="midiOut-label" className="arrow-input-label">MIDI Output:</label>
                 <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>

@@ -292,6 +292,11 @@ td:hover {
 .edit-options-member {
     display: inline-block;
 }
+button.edit-options-button {
+    width: 75px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
 
 option {
     color: black;

@@ -181,15 +181,15 @@ class Application extends _react2.default.Component {
                     _react2.default.createElement(
                         'label',
                         { className: 'arrow-input-label' },
-                        'Edit Mode:'
+                        'Mode:'
                     ),
                     this.state.deleting ? _react2.default.createElement(
                         'button',
-                        { id: 'arrow-input-id', className: 'arrow-input', onClick: this.changeEditMode },
+                        { id: 'arrow-input-id', className: 'arrow-input edit-options-button', onClick: this.changeEditMode },
                         'Delete'
                     ) : _react2.default.createElement(
                         'button',
-                        { id: 'arrow-input-id', className: 'arrow-input', onClick: this.changeEditMode },
+                        { id: 'arrow-input-id', className: 'arrow-input edit-options-button', onClick: this.changeEditMode },
                         'Draw'
                     )
                 ),
@@ -199,29 +199,29 @@ class Application extends _react2.default.Component {
                     _react2.default.createElement(
                         'label',
                         { className: 'arrow-input-label' },
-                        'Arrow Direction:'
+                        'Direction:'
                     ),
                     [_react2.default.createElement(
                         'button',
-                        { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
+                        { id: 'arrow-input-id', className: 'arrow-input edit-options-button', onClick: function () {
                                 return _this2.newInputDirection(1);
                             } },
                         'Up'
                     ), _react2.default.createElement(
                         'button',
-                        { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
+                        { id: 'arrow-input-id', className: 'arrow-input edit-options-button', onClick: function () {
                                 return _this2.newInputDirection(2);
                             } },
                         'Right'
                     ), _react2.default.createElement(
                         'button',
-                        { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
+                        { id: 'arrow-input-id', className: 'arrow-input edit-options-button', onClick: function () {
                                 return _this2.newInputDirection(3);
                             } },
                         'Down'
                     ), _react2.default.createElement(
                         'button',
-                        { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
+                        { id: 'arrow-input-id', className: 'arrow-input edit-options-button', onClick: function () {
                                 return _this2.newInputDirection(0);
                             } },
                         'Left'
@@ -234,7 +234,7 @@ class Application extends _react2.default.Component {
                 { id: 'clear-button', className: 'arrow-input', onClick: function () {
                         return _this2.newGrid(0, _this2.state.gridSize);
                     } },
-                'Clear'
+                'Clear Grid'
             ),
             _react2.default.createElement(
                 'label',
