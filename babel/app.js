@@ -20,7 +20,7 @@ var _animations = require('./animations');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const chance = new Chance();
-const maxSize = 50;
+const maxSize = 40;
 const minSize = 2;
 const minNoteLength = 50;
 const maxNoteLength = 1000;
@@ -33,12 +33,13 @@ class Application extends _react2.default.Component {
 
         _this = super(props);
 
+        this.timerID = undefined;
+
         this.play = function () {
             _this.timerID = setInterval(function () {
                 return _this.nextGrid(_this.state.noteLength);
             }, _this.state.noteLength);
             _this.setState({ playing: true });
-            interactSound(6, _this.state);
         };
 
         this.resetTimer = function () {
@@ -51,13 +52,17 @@ class Application extends _react2.default.Component {
         this.pause = function () {
             clearInterval(_this.timerID);
             _this.setState({ playing: false });
-            interactSound(5, _this.state);
         };
 
         this.muteToggle = function () {
             _this.resetTimer();
             _this.setState({ muted: !_this.state.muted });
             interactSound(1, _this.state);
+        };
+
+        this.changeEditMode = function () {
+            _this.resetTimer();
+            _this.setState({ deleting: !_this.state.deleting });
         };
 
         this.newSize = function (e) {
@@ -70,17 +75,17 @@ class Application extends _react2.default.Component {
                     size: input
                 })
             });
-            interactSound(2, _this.state);
         };
 
         this.newNoteLength = function (e) {
-            _this.resetTimer();
             const input = parseInt(e.target.value, 10);
-
             _this.setState({
                 noteLength: input
             });
-            interactSound(3, _this.state);
+            clearInterval(_this.timerID);
+            _this.timerID = setInterval(function () {
+                return _this.nextGrid(input);
+            }, input);
         };
 
         this.nextGrid = function (length) {
@@ -103,7 +108,7 @@ class Application extends _react2.default.Component {
         };
 
         this.addToGrid = function (x, y, e) {
-            if (e.shiftKey) {
+            if (e.shiftKey || _this.state.deleting) {
                 _this.setState({
                     grid: (0, _arrowsLogic.removeFromGrid)(_this.state.grid, x, y)
                 });
@@ -117,10 +122,11 @@ class Application extends _react2.default.Component {
         this.state = {
             gridSize: 8,
             inputDirection: 0,
-            noteLength: 150,
+            noteLength: 200,
             grid: (0, _arrowsLogic.newGrid)(8, 8),
             playing: true,
-            muted: true
+            muted: true,
+            deleting: false
         };
         (0, _animations.setUpCanvas)(this.state, this.addToGrid);
     }
@@ -138,73 +144,9 @@ class Application extends _react2.default.Component {
             'div',
             { className: 'midi-toys-app' },
             _react2.default.createElement(
-                'label',
-                { htmlFor: 'mute-unmute', className: 'arrow-input-label' },
-                'Sound:'
-            ),
-            _react2.default.createElement(
                 'button',
                 { id: 'mute-unmute', className: 'arrow-input', onClick: this.muteToggle },
-                this.state.muted ? 'Turn Sound On' : 'Turn Sound Off'
-            ),
-            _react2.default.createElement(
-                'label',
-                { htmlFor: 'clear-button', className: 'arrow-input-label' },
-                'Clear:'
-            ),
-            _react2.default.createElement(
-                'button',
-                { id: 'clear-button', className: 'arrow-input', onClick: function () {
-                        return _this2.newGrid(0, _this2.state.gridSize);
-                    } },
-                'Clear'
-            ),
-            _react2.default.createElement(
-                'label',
-                { htmlFor: 'max-note-length', className: 'arrow-input-label' },
-                'Time per Step:'
-            ),
-            _react2.default.createElement('input', { id: 'max-note-length', className: 'arrow-input', type: 'range', max: maxNoteLength, min: minNoteLength, value: this.state.noteLength, onChange: this.newNoteLength }),
-            _react2.default.createElement(
-                'label',
-                { htmlFor: 'arrow-input-number', className: 'arrow-input-label' },
-                'Size of Grid:'
-            ),
-            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input', type: 'range', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
-            _react2.default.createElement(
-                'label',
-                { htmlFor: 'arrow-input-id', className: 'arrow-input-label' },
-                'Arrow Direction:'
-            ),
-            [_react2.default.createElement(
-                'button',
-                { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
-                        return _this2.newInputDirection(1);
-                    } },
-                'Up'
-            ), _react2.default.createElement(
-                'button',
-                { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
-                        return _this2.newInputDirection(2);
-                    } },
-                'Right'
-            ), _react2.default.createElement(
-                'button',
-                { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
-                        return _this2.newInputDirection(3);
-                    } },
-                'Down'
-            ), _react2.default.createElement(
-                'button',
-                { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
-                        return _this2.newInputDirection(0);
-                    } },
-                'Left'
-            )][this.state.inputDirection],
-            _react2.default.createElement(
-                'label',
-                { htmlFor: 'play-stop', className: 'arrow-input-label' },
-                'Start/Stop:'
+                this.state.muted ? 'Enable Sound' : 'Disable Sound'
             ),
             this.state.playing ? _react2.default.createElement(
                 'button',
@@ -217,13 +159,83 @@ class Application extends _react2.default.Component {
             ),
             _react2.default.createElement(
                 'label',
-                { htmlFor: 'sketch-holder', className: 'arrow-input-label' },
-                'SHIFT + CLICK to clear a square'
+                { className: 'arrow-input-label' },
+                'Time per Step:'
+            ),
+            _react2.default.createElement('input', { id: 'max-note-length', className: 'arrow-input', type: 'range', max: maxNoteLength, min: minNoteLength, value: this.state.noteLength, onChange: this.newNoteLength }),
+            _react2.default.createElement(
+                'label',
+                { className: 'arrow-input-label' },
+                'Size of Grid:'
+            ),
+            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input', type: 'range', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
+            _react2.default.createElement(
+                'div',
+                { className: 'edit-options' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'edit-options-member' },
+                    _react2.default.createElement(
+                        'label',
+                        { className: 'arrow-input-label' },
+                        'Edit Mode:'
+                    ),
+                    this.state.deleting ? _react2.default.createElement(
+                        'button',
+                        { id: 'arrow-input-id', className: 'arrow-input', onClick: this.changeEditMode },
+                        'Delete'
+                    ) : _react2.default.createElement(
+                        'button',
+                        { id: 'arrow-input-id', className: 'arrow-input', onClick: this.changeEditMode },
+                        'Draw'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'edit-options-member' },
+                    _react2.default.createElement(
+                        'label',
+                        { className: 'arrow-input-label' },
+                        'Arrow Direction:'
+                    ),
+                    [_react2.default.createElement(
+                        'button',
+                        { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
+                                return _this2.newInputDirection(1);
+                            } },
+                        'Up'
+                    ), _react2.default.createElement(
+                        'button',
+                        { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
+                                return _this2.newInputDirection(2);
+                            } },
+                        'Right'
+                    ), _react2.default.createElement(
+                        'button',
+                        { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
+                                return _this2.newInputDirection(3);
+                            } },
+                        'Down'
+                    ), _react2.default.createElement(
+                        'button',
+                        { id: 'arrow-input-id', className: 'arrow-input', onClick: function () {
+                                return _this2.newInputDirection(0);
+                            } },
+                        'Left'
+                    )][this.state.inputDirection]
+                )
             ),
             _react2.default.createElement('div', { id: 'sketch-holder' }),
             _react2.default.createElement(
+                'button',
+                { id: 'clear-button', className: 'arrow-input', onClick: function () {
+                        return _this2.newGrid(0, _this2.state.gridSize);
+                    } },
+                'Clear'
+            ),
+            _react2.default.createElement(
                 'label',
-                { htmlFor: 'midiOut', className: 'arrow-input-label' },
+                { id: 'midiOut-label', className: 'arrow-input-label' },
                 'MIDI Output:'
             ),
             _react2.default.createElement(

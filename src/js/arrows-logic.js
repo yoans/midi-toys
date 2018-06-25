@@ -116,7 +116,7 @@ export const nextGrid = (grid, length) => {
             return [...acc, ...reducedArrowsAtIndex];
         }
         , [],
-    );
+    ).filter(arrow => arrow.x >= 0 && arrow.y >= 0 && arrow.x < size && arrow.y < size);
     const arrowSetDictionary = getArrowBoundaryDictionary(reducedArrows, size, locationKey);
 
     const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(arrows, size, arrowBoundaryKey);

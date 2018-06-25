@@ -3,6 +3,8 @@ let midiAccess = null;
 let midiOut = null;
 
 function onMIDIFail(err) {
+    document.getElementById('midiOut').outerHTML = '';
+    document.getElementById('midiOut-label').outerHTML = '';
     console.log(`MIDI initialization failed. ${err}`);
 }
 

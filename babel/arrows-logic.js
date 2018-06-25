@@ -156,7 +156,9 @@ const nextGrid = exports.nextGrid = function (grid, length) {
         const arrowsAtIndex = arrowsWithVectorDictionary[arrowsWithSameVectorKey];
         const reducedArrowsAtIndex = R.take(arrowsAtIndex.length % 4 || 4, arrowsAtIndex);
         return [...acc, ...reducedArrowsAtIndex];
-    }, []);
+    }, []).filter(function (arrow) {
+        return arrow.x >= 0 && arrow.y >= 0 && arrow.x < size && arrow.y < size;
+    });
     const arrowSetDictionary = getArrowBoundaryDictionary(reducedArrows, size, locationKey);
 
     const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(arrows, size, arrowBoundaryKey);

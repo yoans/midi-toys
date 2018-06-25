@@ -230,17 +230,18 @@ export const setUpCanvas = (state, arrowAdder) => {
             );
             const mouseXindex = convertPixelToIndex(sketch.mouseX);
             const mouseYindex = convertPixelToIndex(sketch.mouseY);
-            triangleDrawingArray[stateDrawing.inputDirection](
-                convertArrowToTopLeft(
-                    {
-                        x: mouseXindex,
-                        y: mouseYindex
-                    }
-                ),
-                cellSize,
-                sketch
-            );
-
+            if (!stateDrawing.deleting) {
+                triangleDrawingArray[stateDrawing.inputDirection](
+                    convertArrowToTopLeft(
+                        {
+                            x: mouseXindex,
+                            y: mouseYindex
+                        }
+                    ),
+                    cellSize,
+                    sketch
+                );
+            }
             // eslint-disable-next-line no-param-reassign
             sketch.touchEnded = (e) => {
                 if (sketch.mouseX > 0 + gridCanvasBorderSize &&
@@ -255,7 +256,6 @@ export const setUpCanvas = (state, arrowAdder) => {
                 } else {
                     console.log('click in the canvas please');
                 }
-                return false;
             };
         };
     };
