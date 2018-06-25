@@ -63,10 +63,14 @@ const makePizzaSound = exports.makePizzaSound = function (index, length) {
     };
 };
 const playSounds = exports.playSounds = function (boundaryArrows, size, length, muted) {
+    const alreadyPlayedMap = {};
     boundaryArrows.map(function (arrow) {
         const speed = getIndex(arrow.x, arrow.y, size, arrow.vector);
 
-        if (!muted) {
+        if (!muted && !alreadyPlayedMap[speed]) {
+            alreadyPlayedMap[speed] = [speed];
+            console.log(speed);
+            console.log(alreadyPlayedMap);
             const snd = makePizzaSound(speed, length);
             snd.play();
         }

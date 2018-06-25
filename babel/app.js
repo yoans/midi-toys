@@ -119,11 +119,14 @@ class Application extends _react2.default.Component {
             }
         };
 
+        const preset = JSON.parse('{"size":8,"arrows":[{"x":0,"y":3,"vector":3},{"x":0,"y":3,"vector":3},{"x":1,"y":2,"vector":0},{"x":1,"y":2,"vector":0},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":3,"y":6,"vector":0},{"x":3,"y":6,"vector":0},{"x":3,"y":6,"vector":1},{"x":3,"y":6,"vector":1},{"x":5,"y":4,"vector":1},{"x":5,"y":4,"vector":1},{"x":5,"y":4,"vector":1},{"x":5,"y":4,"vector":1},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":7,"y":6,"vector":2},{"x":7,"y":6,"vector":2},{"x":4,"y":1,"vector":3},{"x":4,"y":1,"vector":3},{"x":4,"y":1,"vector":2},{"x":4,"y":1,"vector":2},{"x":7,"y":4,"vector":1},{"x":7,"y":4,"vector":1},{"x":6,"y":5,"vector":2},{"x":6,"y":5,"vector":2},{"x":0,"y":1,"vector":0},{"x":0,"y":1,"vector":0},{"x":4,"y":0,"vector":0},{"x":4,"y":0,"vector":0},{"x":5,"y":1,"vector":1},{"x":5,"y":1,"vector":1},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":4,"y":2,"vector":0},{"x":4,"y":2,"vector":0},{"x":4,"y":2,"vector":0},{"x":4,"y":2,"vector":0},{"x":1,"y":3,"vector":1},{"x":1,"y":3,"vector":1},{"x":1,"y":3,"vector":2},{"x":1,"y":3,"vector":2},{"x":3,"y":5,"vector":2},{"x":3,"y":5,"vector":2},{"x":3,"y":5,"vector":2},{"x":3,"y":5,"vector":2},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":1,"y":7,"vector":3},{"x":1,"y":7,"vector":3},{"x":6,"y":4,"vector":0},{"x":6,"y":4,"vector":0},{"x":6,"y":4,"vector":3},{"x":6,"y":4,"vector":3},{"x":3,"y":7,"vector":2},{"x":3,"y":7,"vector":2},{"x":2,"y":6,"vector":3},{"x":2,"y":6,"vector":3},{"x":6,"y":0,"vector":1},{"x":6,"y":0,"vector":1},{"x":5,"y":6,"vector":3},{"x":5,"y":6,"vector":3},{"x":5,"y":6,"vector":3},{"x":5,"y":6,"vector":3},{"x":2,"y":1,"vector":1},{"x":2,"y":1,"vector":1},{"x":2,"y":1,"vector":1},{"x":2,"y":1,"vector":1},{"x":1,"y":5,"vector":0},{"x":1,"y":5,"vector":0},{"x":1,"y":5,"vector":0},{"x":1,"y":5,"vector":0},{"x":6,"y":2,"vector":2},{"x":6,"y":2,"vector":2},{"x":6,"y":2,"vector":2},{"x":6,"y":2,"vector":2}],"muted":false}');
+
         this.state = {
             gridSize: 8,
             inputDirection: 0,
             noteLength: 200,
-            grid: (0, _arrowsLogic.newGrid)(8, 8),
+            grid: preset,
+            // grid: newGrid(8, 8),
             playing: true,
             muted: true,
             deleting: false
