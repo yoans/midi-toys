@@ -1,4 +1,5 @@
 import React from 'react';
+import {PlayButton} from 'react-player-controls';
 import {makePizzaSound} from './play-notes';
 import {
     newGrid,
@@ -123,6 +124,10 @@ export class Application extends React.Component {
         updateCanvas(this.state, newDate);
         return (
             <div className="midi-toys-app">
+                <PlayButton
+                    isEnabled={true}
+                    onClick={() => alert('Play!')} 
+                />
                 <button id="mute-unmute" className="arrow-input" onClick={this.muteToggle}>{this.state.muted ? 'Enable Sound' : 'Disable Sound'}</button>
                 {
                     this.state.playing ?

@@ -11,6 +11,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactPlayerControls = require('react-player-controls');
+
 var _playNotes = require('./play-notes');
 
 var _arrowsLogic = require('./arrows-logic');
@@ -146,6 +148,12 @@ class Application extends _react2.default.Component {
         return _react2.default.createElement(
             'div',
             { className: 'midi-toys-app' },
+            _react2.default.createElement(_reactPlayerControls.PlayButton, {
+                isEnabled: true,
+                onClick: function () {
+                    return alert('Play!');
+                }
+            }),
             _react2.default.createElement(
                 'button',
                 { id: 'mute-unmute', className: 'arrow-input', onClick: this.muteToggle },
