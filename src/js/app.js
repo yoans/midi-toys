@@ -132,26 +132,7 @@ export class Application extends React.Component {
         updateCanvas(this.state, newDate);
         return (
             <div className="no-copy midi-toys-app">
-                <label className="arrow-input-label">Size of Grid:</label>
-                <input id="arrow-input-number" className="arrow-input" type="range" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSize} />
-                        {
-                            [
-                                (
-                <ArrowButton onClick={()=>this.newInputDirection(1)} direction="Up"></ArrowButton>),
-                                (
-                <ArrowButton onClick={()=>this.newInputDirection(2)} direction="Right"></ArrowButton>),
-                                (
-                <ArrowButton onClick={()=>this.newInputDirection(3)} direction="Down"></ArrowButton>),
-                                (
-                <ArrowButton onClick={()=>this.newInputDirection(0)} direction="Left"></ArrowButton>),
-                            ][this.state.inputDirection]
-                        }
-                <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode}></EditButton>
-                <EraseButton isErasing={this.state.deleting} onClick={this.changeEditMode}></EraseButton>
-                <TrashButton  onClick={() => this.newGrid(0, this.state.gridSize)}></TrashButton> 
 
-                <div id="sketch-holder"/>
-                
                 <div className="edit-options">
                     <div className="edit-options-member">
                         <MuteToggleButton
@@ -174,6 +155,27 @@ export class Application extends React.Component {
                 <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>
                 </select>
+
+                <div id="sketch-holder"/>
+                <label className="arrow-input-label">Size of Grid:</label>
+                <input id="arrow-input-number" className="arrow-input" type="range" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSize} />
+                        {
+                            [
+                                (
+                <ArrowButton onClick={()=>this.newInputDirection(1)} direction="Up"></ArrowButton>),
+                                (
+                <ArrowButton onClick={()=>this.newInputDirection(2)} direction="Right"></ArrowButton>),
+                                (
+                <ArrowButton onClick={()=>this.newInputDirection(3)} direction="Down"></ArrowButton>),
+                                (
+                <ArrowButton onClick={()=>this.newInputDirection(0)} direction="Left"></ArrowButton>),
+                            ][this.state.inputDirection]
+                        }
+                <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? "EraseIconRotate" : "EditIconRotate"}></EditButton>
+                {/* <EraseButton isErasing={this.state.deleting} onClick={this.changeEditMode}></EraseButton> */}
+                <TrashButton  onClick={() => this.newGrid(0, this.state.gridSize)}></TrashButton> 
+
+                
             </div>
         );
     }

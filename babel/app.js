@@ -157,27 +157,6 @@ class Application extends _react2.default.Component {
             'div',
             { className: 'no-copy midi-toys-app' },
             _react2.default.createElement(
-                'label',
-                { className: 'arrow-input-label' },
-                'Size of Grid:'
-            ),
-            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input', type: 'range', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
-            [_react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
-                    return _this2.newInputDirection(1);
-                }, direction: 'Up' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
-                    return _this2.newInputDirection(2);
-                }, direction: 'Right' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
-                    return _this2.newInputDirection(3);
-                }, direction: 'Down' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
-                    return _this2.newInputDirection(0);
-                }, direction: 'Left' })][this.state.inputDirection],
-            _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode }),
-            _react2.default.createElement(_eraseButton.EraseButton, { isErasing: this.state.deleting, onClick: this.changeEditMode }),
-            _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
-                    return _this2.newGrid(0, _this2.state.gridSize);
-                } }),
-            _react2.default.createElement('div', { id: 'sketch-holder' }),
-            _react2.default.createElement(
                 'div',
                 { className: 'edit-options' },
                 _react2.default.createElement(
@@ -214,7 +193,27 @@ class Application extends _react2.default.Component {
                     { value: '' },
                     'Not connected'
                 )
-            )
+            ),
+            _react2.default.createElement('div', { id: 'sketch-holder' }),
+            _react2.default.createElement(
+                'label',
+                { className: 'arrow-input-label' },
+                'Size of Grid:'
+            ),
+            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input', type: 'range', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
+            [_react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
+                    return _this2.newInputDirection(1);
+                }, direction: 'Up' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
+                    return _this2.newInputDirection(2);
+                }, direction: 'Right' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
+                    return _this2.newInputDirection(3);
+                }, direction: 'Down' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
+                    return _this2.newInputDirection(0);
+                }, direction: 'Left' })][this.state.inputDirection],
+            _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? "EraseIconRotate" : "EditIconRotate" }),
+            _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
+                    return _this2.newGrid(0, _this2.state.gridSize);
+                } })
         );
     }
 }

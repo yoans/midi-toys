@@ -36,6 +36,66 @@
   .EraseButton[disabled],
   .ArrowButton[disabled] {
     opacity: 0.5; }
+
+@-webkit-keyframes upRotation {
+  from {
+    -webkit-transform: rotate(180deg); }
+  to {
+    -webkit-transform: rotate(270deg); } }
+
+@-webkit-keyframes rightRotation {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(90deg); } }
+
+@-webkit-keyframes downRotation {
+  from {
+    -webkit-transform: rotate(90deg); }
+  to {
+    -webkit-transform: rotate(180deg); } }
+
+@-webkit-keyframes leftRotation {
+  from {
+    -webkit-transform: rotate(180deg); }
+  to {
+    -webkit-transform: rotate(270deg); } }
+
+@-webkit-keyframes FullLeftRotation {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(180deg); } }
+
+@-webkit-keyframes FullRightRotation {
+  from {
+    -webkit-transform: rotate(180deg); }
+  to {
+    -webkit-transform: rotate(360deg); } }
+  .PlayButton .EditIconRotate,
+  .PauseButton .EditIconRotate,
+  .PrevButton .EditIconRotate,
+  .NextButton .EditIconRotate,
+  .SoundOnButton .EditIconRotate,
+  .SoundOffButton .EditIconRotate,
+  .TrashButton .EditIconRotate,
+  .EditButton .EditIconRotate,
+  .EraseButton .EditIconRotate,
+  .ArrowButton .EditIconRotate {
+    -webkit-animation: FullRightRotation 1s ease-out;
+    transform: rotate(0deg); }
+  .PlayButton .EraseIconRotate,
+  .PauseButton .EraseIconRotate,
+  .PrevButton .EraseIconRotate,
+  .NextButton .EraseIconRotate,
+  .SoundOnButton .EraseIconRotate,
+  .SoundOffButton .EraseIconRotate,
+  .TrashButton .EraseIconRotate,
+  .EditButton .EraseIconRotate,
+  .EraseButton .EraseIconRotate,
+  .ArrowButton .EraseIconRotate {
+    -webkit-animation: FullLeftRotation 1s ease-out;
+    transform: rotate(180deg); }
   .PlayButton .Up,
   .PauseButton .Up,
   .PrevButton .Up,
@@ -46,6 +106,7 @@
   .EditButton .Up,
   .EraseButton .Up,
   .ArrowButton .Up {
+    -webkit-animation: upRotation 1s ease-out;
     transform: rotate(270deg); }
   .PlayButton .Down,
   .PauseButton .Down,
@@ -57,6 +118,7 @@
   .EditButton .Down,
   .EraseButton .Down,
   .ArrowButton .Down {
+    -webkit-animation: downRotation 1s ease-out;
     transform: rotate(90deg); }
   .PlayButton .Left,
   .PauseButton .Left,
@@ -68,6 +130,7 @@
   .EditButton .Left,
   .EraseButton .Left,
   .ArrowButton .Left {
+    -webkit-animation: leftRotation 1s ease-out;
     transform: rotate(180deg); }
   .PlayButton .Right,
   .PauseButton .Right,
@@ -79,6 +142,7 @@
   .EditButton .Right,
   .EraseButton .Right,
   .ArrowButton .Right {
+    -webkit-animation: rightRotation 1s ease-out;
     transform: rotate(0deg); }
   .PlayButton.isEnabled,
   .PauseButton.isEnabled,

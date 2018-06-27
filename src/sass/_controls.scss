@@ -42,16 +42,78 @@ $color-active: fade-out($color-hover, 0.5);
   &[disabled] {
     opacity: 0.5;
   }
+  @-webkit-keyframes upRotation {
+        from {
+                -webkit-transform: rotate(180deg);
+        }
+        to {
+                -webkit-transform: rotate(270deg);
+        }
+    }
+    @-webkit-keyframes rightRotation {
+        from {
+                -webkit-transform: rotate(0deg);
+        }
+        to {
+                -webkit-transform: rotate(90deg);
+        }
+    }
+    @-webkit-keyframes downRotation {
+        from {
+                -webkit-transform: rotate(90deg);
+        }
+        to {
+                -webkit-transform: rotate(180deg);
+        }
+    }
+    @-webkit-keyframes leftRotation {
+        from {
+                -webkit-transform: rotate(180deg);
+        }
+        to {
+                -webkit-transform: rotate(270deg);
+        }
+    }
+
+
+        @-webkit-keyframes FullLeftRotation {
+            from {
+                    -webkit-transform: rotate(0deg);
+            }
+            to {
+                    -webkit-transform: rotate(180deg);
+            }
+        }
+        @-webkit-keyframes FullRightRotation {
+            from {
+                    -webkit-transform: rotate(180deg);
+            }
+            to {
+                    -webkit-transform: rotate(360deg);
+            }
+        }
+  .EditIconRotate {
+    -webkit-animation: FullRightRotation 1s ease-out;
+    transform: rotate(0deg);
+  }
+  .EraseIconRotate {
+    -webkit-animation: FullLeftRotation 1s ease-out;
+    transform: rotate(180deg);
+  }
   .Up {
+    -webkit-animation: upRotation 1s ease-out;
     transform: rotate(270deg);
   } 
   .Down {
+    -webkit-animation: downRotation 1s ease-out;
     transform: rotate(90deg);
   } 
   .Left {
+    -webkit-animation: leftRotation 1s ease-out;
     transform: rotate(180deg);
   } 
   .Right {
+    -webkit-animation: rightRotation 1s ease-out;
     transform: rotate(0deg);
   } 
   &.isEnabled {

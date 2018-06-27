@@ -13,10 +13,11 @@ var _icons = require('./icons');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const EditButton = exports.EditButton = function ({ onClick, isEditing }) {
+const EditButton = exports.EditButton = function ({ onClick, isEditing, className }) {
     return _react2.default.createElement(
         'button',
-        { className: "EditButton isEnabled" + (isEditing ? " ActiveControl" : ""), onClick: onClick },
-        _react2.default.createElement(_icons.EditIcon, null)
+        { className: "EditButton isEnabled", onClick: onClick },
+        _react2.default.createElement(_icons.EditIcon, { className: className })
     );
 };
+// + (isEditing ? " ActiveControl":"")
