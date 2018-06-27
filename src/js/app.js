@@ -1,5 +1,9 @@
 import React from 'react';
-import {PlayButton} from 'react-player-controls';
+import {
+    PlayButton,
+    PauseButton,
+    MuteToggleButton
+} from 'react-player-controls';
 import {makePizzaSound} from './play-notes';
 import {
     newGrid,
@@ -11,6 +15,10 @@ import {
     updateCanvas,
     setUpCanvas
 } from './animations';
+import {TrashButton} from './buttons/trash-button';
+import {EditButton} from './buttons/edit-button';
+import {EraseButton} from './buttons/erase-button';
+import {ArrowButton} from './buttons/arrow-button';
 
 // const chance = new Chance();
 const maxSize = 40;
@@ -123,44 +131,45 @@ export class Application extends React.Component {
         const newDate = new Date();
         updateCanvas(this.state, newDate);
         return (
-            <div className="midi-toys-app">
-                <PlayButton
-                    isEnabled={true}
-                    onClick={() => alert('Play!')} 
-                />
-                <button id="mute-unmute" className="arrow-input" onClick={this.muteToggle}>{this.state.muted ? 'Enable Sound' : 'Disable Sound'}</button>
-                {
-                    this.state.playing ?
-                        <button id="play-stop" className="arrow-input" onClick={this.pause}>Stop</button> :
-                        <button id="play-stop" className="arrow-input" onClick={this.play}>Start</button>
-                }
-                <label className="arrow-input-label">Time per Step:</label>
-                <input id="max-note-length" className="arrow-input" type="range" max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLength} />
+            <div className="no-copy midi-toys-app">
                 <label className="arrow-input-label">Size of Grid:</label>
                 <input id="arrow-input-number" className="arrow-input" type="range" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSize} />
-                <div className="edit-options">
-                    <div className="edit-options-member">
-                        <label className="arrow-input-label">Mode:</label>
-                        {
-                            this.state.deleting ?
-                                <button id="arrow-input-id" className="arrow-input edit-options-button" onClick={this.changeEditMode}>Delete</button> :
-                                <button id="arrow-input-id" className="arrow-input edit-options-button" onClick={this.changeEditMode}>Draw</button>
-                        }
-                    </div>
-                    <div className="edit-options-member">
-                        <label className="arrow-input-label">Direction:</label>
                         {
                             [
-                                (<button id="arrow-input-id" className="arrow-input edit-options-button" onClick={() => this.newInputDirection(1)}>Up</button>),
-                                (<button id="arrow-input-id" className="arrow-input edit-options-button" onClick={() => this.newInputDirection(2)}>Right</button>),
-                                (<button id="arrow-input-id" className="arrow-input edit-options-button" onClick={() => this.newInputDirection(3)}>Down</button>),
-                                (<button id="arrow-input-id" className="arrow-input edit-options-button" onClick={() => this.newInputDirection(0)}>Left</button>),
+                                (
+                <ArrowButton onClick={()=>this.newInputDirection(1)} direction="Up"></ArrowButton>),
+                                (
+                <ArrowButton onClick={()=>this.newInputDirection(2)} direction="Right"></ArrowButton>),
+                                (
+                <ArrowButton onClick={()=>this.newInputDirection(3)} direction="Down"></ArrowButton>),
+                                (
+                <ArrowButton onClick={()=>this.newInputDirection(0)} direction="Left"></ArrowButton>),
                             ][this.state.inputDirection]
+                        }
+                <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode}></EditButton>
+                <EraseButton isErasing={this.state.deleting} onClick={this.changeEditMode}></EraseButton>
+                <TrashButton  onClick={() => this.newGrid(0, this.state.gridSize)}></TrashButton> 
+
+                <div id="sketch-holder"/>
+                
+                <div className="edit-options">
+                    <div className="edit-options-member">
+                        <MuteToggleButton
+                            isEnabled={true}
+                            isMuted={this.state.muted}
+                            onMuteChange={this.muteToggle}
+                        />
+                    </div>
+                    <div className="edit-options-member">
+                        {
+                            this.state.playing ?
+                                <PauseButton  onClick={this.pause}></PauseButton> :
+                                <PlayButton isEnabled={true} onClick={this.play}></PlayButton>
                         }
                     </div>
                 </div>
-                <div id="sketch-holder"/>
-                <button id="clear-button" className="arrow-input" onClick={() => this.newGrid(0, this.state.gridSize)}>Clear Grid</button>
+                <label className="arrow-input-label">Time per Step:</label>
+                <input id="max-note-length" className="arrow-input" type="range" max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLength} />
                 <label id="midiOut-label" className="arrow-input-label">MIDI Output:</label>
                 <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>

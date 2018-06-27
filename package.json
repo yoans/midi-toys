@@ -11,7 +11,9 @@
     "webpack": "webpack --config webpack.config.js",
     "super-start": "npm run babel && npm run webpack && npm run serve",
     "test": "npm run babel && mocha index.spec.js",
-    "lint": "eslint ./src/js/**"
+    "lint": "eslint ./src/js/**",
+    "sass": "node-sass --include-path sass ./src/sass/index.scss ./css/main.css",
+    "sass-watch": "node-sass -w --include-path sass ./src/sass/index.scss ./css/main.css"
   },
   "dependencies": {
     "bootstrap": "^4.1.1",

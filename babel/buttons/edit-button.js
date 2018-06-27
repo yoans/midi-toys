@@ -1,0 +1,22 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.EditButton = undefined;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _icons = require('./icons');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const EditButton = exports.EditButton = function ({ onClick, isEditing }) {
+    return _react2.default.createElement(
+        'button',
+        { className: "EditButton isEnabled" + (isEditing ? " ActiveControl" : ""), onClick: onClick },
+        _react2.default.createElement(_icons.EditIcon, null)
+    );
+};

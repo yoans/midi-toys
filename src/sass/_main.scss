@@ -12,7 +12,11 @@
     margin-top: -285px;
     width: 200px;
     height: 535px;
-    
+}
+.icons8-credit {
+    position: absolute;
+    z-index: 1;
+    color: #010101
 }
 #sketch-holder{
     background-color: transparent;
@@ -23,6 +27,12 @@
     margin: auto;
 }
 
+.no-copy {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */     
+  }
 
 body {
     font-family: 'Open Sans',Helvetica,Arial,sans-serif;
@@ -91,7 +101,7 @@ input {
     border-style: solid
 }
 
-button {
+.white-border-button  {
     cursor: pointer;
     background-color: transparent;
     border: none;
@@ -292,7 +302,7 @@ td:hover {
 .edit-options-member {
     display: inline-block;
 }
-button.edit-options-button {
+.edit-options-button {
     width: 75px;
     margin-left: 10px;
     margin-right: 10px;
@@ -372,7 +382,7 @@ input[type=range] {
     margin-top: -14px;
   }
   input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #367ebd;
+    background: transparent;
   }
   input[type=range]::-moz-range-track {
     width: 100%;
@@ -380,7 +390,7 @@ input[type=range] {
     cursor: pointer;
     animate: 0.2s;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
+    background: transparent;
     border-radius: 1.3px;
     border: 0.2px solid #010101;
   }
@@ -404,13 +414,13 @@ input[type=range] {
     color: transparent;
   }
   input[type=range]::-ms-fill-lower {
-    background: #2a6495;
+    background: transparent;
     border: 0.2px solid #010101;
     border-radius: 2.6px;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   }
   input[type=range]::-ms-fill-upper {
-    background: #3071a9;
+    background: transparent;
     border: 0.2px solid #010101;
     border-radius: 2.6px;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -425,8 +435,8 @@ input[type=range] {
     cursor: pointer;
   }
   input[type=range]:focus::-ms-fill-lower {
-    background: #3071a9;
+    background: transparent;
   }
   input[type=range]:focus::-ms-fill-upper {
-    background: #367ebd;
+    background: transparent;
   }

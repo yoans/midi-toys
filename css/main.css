@@ -1,3 +1,293 @@
+.PlayButton,
+.PauseButton,
+.PrevButton,
+.NextButton,
+.SoundOnButton,
+.SoundOffButton,
+.TrashButton,
+.EditButton,
+.EraseButton,
+.ArrowButton {
+  margin: 2px;
+  padding: 8px;
+  background: transparent;
+  border: 2px solid #ffffff;
+  border-radius: 100%;
+  outline: none; }
+  .PlayButton.ActiveControl,
+  .PauseButton.ActiveControl,
+  .PrevButton.ActiveControl,
+  .NextButton.ActiveControl,
+  .SoundOnButton.ActiveControl,
+  .SoundOffButton.ActiveControl,
+  .TrashButton.ActiveControl,
+  .EditButton.ActiveControl,
+  .EraseButton.ActiveControl,
+  .ArrowButton.ActiveControl {
+    background: rgba(204, 204, 204, 0.5); }
+  .PlayButton[disabled],
+  .PauseButton[disabled],
+  .PrevButton[disabled],
+  .NextButton[disabled],
+  .SoundOnButton[disabled],
+  .SoundOffButton[disabled],
+  .TrashButton[disabled],
+  .EditButton[disabled],
+  .EraseButton[disabled],
+  .ArrowButton[disabled] {
+    opacity: 0.5; }
+  .PlayButton .Up,
+  .PauseButton .Up,
+  .PrevButton .Up,
+  .NextButton .Up,
+  .SoundOnButton .Up,
+  .SoundOffButton .Up,
+  .TrashButton .Up,
+  .EditButton .Up,
+  .EraseButton .Up,
+  .ArrowButton .Up {
+    transform: rotate(270deg); }
+  .PlayButton .Down,
+  .PauseButton .Down,
+  .PrevButton .Down,
+  .NextButton .Down,
+  .SoundOnButton .Down,
+  .SoundOffButton .Down,
+  .TrashButton .Down,
+  .EditButton .Down,
+  .EraseButton .Down,
+  .ArrowButton .Down {
+    transform: rotate(90deg); }
+  .PlayButton .Left,
+  .PauseButton .Left,
+  .PrevButton .Left,
+  .NextButton .Left,
+  .SoundOnButton .Left,
+  .SoundOffButton .Left,
+  .TrashButton .Left,
+  .EditButton .Left,
+  .EraseButton .Left,
+  .ArrowButton .Left {
+    transform: rotate(180deg); }
+  .PlayButton .Right,
+  .PauseButton .Right,
+  .PrevButton .Right,
+  .NextButton .Right,
+  .SoundOnButton .Right,
+  .SoundOffButton .Right,
+  .TrashButton .Right,
+  .EditButton .Right,
+  .EraseButton .Right,
+  .ArrowButton .Right {
+    transform: rotate(0deg); }
+  .PlayButton.isEnabled,
+  .PauseButton.isEnabled,
+  .PrevButton.isEnabled,
+  .NextButton.isEnabled,
+  .SoundOnButton.isEnabled,
+  .SoundOffButton.isEnabled,
+  .TrashButton.isEnabled,
+  .EditButton.isEnabled,
+  .EraseButton.isEnabled,
+  .ArrowButton.isEnabled {
+    cursor: pointer; }
+    .PlayButton.isEnabled:hover,
+    .PauseButton.isEnabled:hover,
+    .PrevButton.isEnabled:hover,
+    .NextButton.isEnabled:hover,
+    .SoundOnButton.isEnabled:hover,
+    .SoundOffButton.isEnabled:hover,
+    .TrashButton.isEnabled:hover,
+    .EditButton.isEnabled:hover,
+    .EraseButton.isEnabled:hover,
+    .ArrowButton.isEnabled:hover {
+      border-color: #cccccc; }
+      .PlayButton.isEnabled:hover .Icon-shape,
+      .PauseButton.isEnabled:hover .Icon-shape,
+      .PrevButton.isEnabled:hover .Icon-shape,
+      .NextButton.isEnabled:hover .Icon-shape,
+      .SoundOnButton.isEnabled:hover .Icon-shape,
+      .SoundOffButton.isEnabled:hover .Icon-shape,
+      .TrashButton.isEnabled:hover .Icon-shape,
+      .EditButton.isEnabled:hover .Icon-shape,
+      .EraseButton.isEnabled:hover .Icon-shape,
+      .ArrowButton.isEnabled:hover .Icon-shape {
+        fill: #cccccc; }
+      .PlayButton.isEnabled:hover .Img-Shape,
+      .PauseButton.isEnabled:hover .Img-Shape,
+      .PrevButton.isEnabled:hover .Img-Shape,
+      .NextButton.isEnabled:hover .Img-Shape,
+      .SoundOnButton.isEnabled:hover .Img-Shape,
+      .SoundOffButton.isEnabled:hover .Img-Shape,
+      .TrashButton.isEnabled:hover .Img-Shape,
+      .EditButton.isEnabled:hover .Img-Shape,
+      .EraseButton.isEnabled:hover .Img-Shape,
+      .ArrowButton.isEnabled:hover .Img-Shape {
+        filter: brightness(0.86); }
+    .PlayButton.isEnabled:active,
+    .PauseButton.isEnabled:active,
+    .PrevButton.isEnabled:active,
+    .NextButton.isEnabled:active,
+    .SoundOnButton.isEnabled:active,
+    .SoundOffButton.isEnabled:active,
+    .TrashButton.isEnabled:active,
+    .EditButton.isEnabled:active,
+    .EraseButton.isEnabled:active,
+    .ArrowButton.isEnabled:active {
+      border-color: rgba(204, 204, 204, 0.5); }
+      .PlayButton.isEnabled:active .Icon-shape,
+      .PauseButton.isEnabled:active .Icon-shape,
+      .PrevButton.isEnabled:active .Icon-shape,
+      .NextButton.isEnabled:active .Icon-shape,
+      .SoundOnButton.isEnabled:active .Icon-shape,
+      .SoundOffButton.isEnabled:active .Icon-shape,
+      .TrashButton.isEnabled:active .Icon-shape,
+      .EditButton.isEnabled:active .Icon-shape,
+      .EraseButton.isEnabled:active .Icon-shape,
+      .ArrowButton.isEnabled:active .Icon-shape {
+        fill: rgba(204, 204, 204, 0.5); }
+      .PlayButton.isEnabled:active .Img-Shape,
+      .PauseButton.isEnabled:active .Img-Shape,
+      .PrevButton.isEnabled:active .Img-Shape,
+      .NextButton.isEnabled:active .Img-Shape,
+      .SoundOnButton.isEnabled:active .Img-Shape,
+      .SoundOffButton.isEnabled:active .Img-Shape,
+      .TrashButton.isEnabled:active .Img-Shape,
+      .EditButton.isEnabled:active .Img-Shape,
+      .EraseButton.isEnabled:active .Img-Shape,
+      .ArrowButton.isEnabled:active .Img-Shape {
+        filter: opacity(0.5); }
+
+.Icon {
+  display: block;
+  width: 30px;
+  height: 30px; }
+
+.Icon-shape {
+  fill: #ffffff; }
+
+.ProgressBar,
+.VolumeSlider {
+  position: relative;
+  background: #eee;
+  border-radius: 4px; }
+  .ProgressBar-elapsed, .ProgressBar-value,
+  .VolumeSlider-elapsed,
+  .VolumeSlider-value {
+    background: #878C88;
+    border-radius: 4px; }
+  .ProgressBar-seek,
+  .VolumeSlider-seek {
+    position: absolute;
+    cursor: pointer; }
+  .ProgressBar-handle,
+  .VolumeSlider-handle {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 100%;
+    transform: scale(0);
+    transition: transform 0.2s; }
+  .ProgressBar.isSeekable:hover .ProgressBar-handle,
+  .ProgressBar.isSeekable:hover .VolumeSlider-handle, .ProgressBar.isEnabled:hover .ProgressBar-handle,
+  .ProgressBar.isEnabled:hover .VolumeSlider-handle,
+  .VolumeSlider.isSeekable:hover .ProgressBar-handle,
+  .VolumeSlider.isSeekable:hover .VolumeSlider-handle,
+  .VolumeSlider.isEnabled:hover .ProgressBar-handle,
+  .VolumeSlider.isEnabled:hover .VolumeSlider-handle {
+    transform: scale(1); }
+  .ProgressBar.isSeekable:hover .ProgressBar-intent,
+  .ProgressBar.isSeekable:hover .VolumeSlider-intent, .ProgressBar.isEnabled:hover .ProgressBar-intent,
+  .ProgressBar.isEnabled:hover .VolumeSlider-intent,
+  .VolumeSlider.isSeekable:hover .ProgressBar-intent,
+  .VolumeSlider.isSeekable:hover .VolumeSlider-intent,
+  .VolumeSlider.isEnabled:hover .ProgressBar-intent,
+  .VolumeSlider.isEnabled:hover .VolumeSlider-intent {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1); }
+  .ProgressBar.isSeekable .ProgressBar-elapsed,
+  .ProgressBar.isSeekable .VolumeSlider-value, .ProgressBar.isEnabled .ProgressBar-elapsed,
+  .ProgressBar.isEnabled .VolumeSlider-value,
+  .VolumeSlider.isSeekable .ProgressBar-elapsed,
+  .VolumeSlider.isSeekable .VolumeSlider-value,
+  .VolumeSlider.isEnabled .ProgressBar-elapsed,
+  .VolumeSlider.isEnabled .VolumeSlider-value {
+    background: #ffffff; }
+
+.ProgressBar {
+  height: 8px;
+  margin: 10px 0; }
+  .ProgressBar-elapsed {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .ProgressBar-buffered {
+    height: 100%;
+    border-radius: 4px;
+    background: #d3d3d3; }
+  .ProgressBar-seek {
+    top: -6px;
+    right: 0;
+    bottom: -6px;
+    left: 0; }
+  .ProgressBar-handle {
+    top: 0;
+    margin: -4px 0 0 -8px; }
+  .ProgressBar.isSeekable:hover .ProgressBar-handle {
+    transform: scale(1); }
+  .ProgressBar.isSeekable:hover .ProgressBar-intent {
+    top: 0;
+    left: 0;
+    height: 100%; }
+  .ProgressBar.isLoading {
+    opacity: 0.5;
+    background: #ccc;
+    animation: barLoading 2s infinite; }
+
+.VolumeSlider-value {
+  position: absolute; }
+
+.VolumeSlider.isHorizontal {
+  width: 100px;
+  height: 8px;
+  transition: width 0.3s, height 0.05s; }
+
+.VolumeSlider.isHorizontal .VolumeSlider-value {
+  height: 100%;
+  left: 0; }
+
+.VolumeSlider.isHorizontal .VolumeSlider-handle {
+  margin: -4px 0 0 -8px; }
+
+.VolumeSlider.isVertical {
+  width: 8px;
+  height: 100px;
+  transition: width 0.05s, height 0.3s; }
+
+.VolumeSlider.isVertical .VolumeSlider-value {
+  bottom: 0;
+  width: 100%; }
+
+.VolumeSlider.isVertical .VolumeSlider-handle {
+  left: 0;
+  margin: 0 0 -8px -4px; }
+
+.VolumeSlider-seek {
+  left: -6px;
+  top: 0;
+  right: -6px;
+  bottom: 0; }
+
+.VolumeSlider.isEnabled:hover .VolumeSlider-handle {
+  transform: scale(1); }
+
+.VolumeSlider.isEnabled:hover .VolumeSlider-intent {
+  bottom: 0;
+  left: 0;
+  width: 100%; }
+
 .midi-toys-app {
   position: absolute;
   text-align: center;
@@ -13,6 +303,11 @@
   width: 200px;
   height: 535px; }
 
+.icons8-credit {
+  position: absolute;
+  z-index: 1;
+  color: #010101; }
+
 #sketch-holder {
   background-color: transparent;
   margin: auto;
@@ -20,6 +315,16 @@
 
 #arrows-animation {
   margin: auto; }
+
+.no-copy {
+  -webkit-user-select: none;
+  /* Chrome all / Safari all */
+  -moz-user-select: none;
+  /* Firefox all */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Likely future */ }
 
 body {
   font-family: 'Open Sans',Helvetica,Arial,sans-serif;
@@ -86,7 +391,7 @@ input {
   border-width: 2px;
   border-style: solid; }
 
-button {
+.white-border-button {
   cursor: pointer;
   background-color: transparent;
   border: none;
@@ -275,7 +580,7 @@ td:hover {
 .edit-options-member {
   display: inline-block; }
 
-button.edit-options-button {
+.edit-options-button {
   width: 75px;
   margin-left: 10px;
   margin-right: 10px; }
@@ -369,7 +674,7 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -14px; }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #367ebd; }
+  background: transparent; }
 
 input[type=range]::-moz-range-track {
   width: 100%;
@@ -377,7 +682,7 @@ input[type=range]::-moz-range-track {
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
+  background: transparent;
   border-radius: 1.3px;
   border: 0.2px solid #010101; }
 
@@ -401,13 +706,13 @@ input[type=range]::-ms-track {
   color: transparent; }
 
 input[type=range]::-ms-fill-lower {
-  background: #2a6495;
+  background: transparent;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; }
 
 input[type=range]::-ms-fill-upper {
-  background: #3071a9;
+  background: transparent;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; }
@@ -422,7 +727,7 @@ input[type=range]::-ms-thumb {
   cursor: pointer; }
 
 input[type=range]:focus::-ms-fill-lower {
-  background: #3071a9; }
+  background: transparent; }
 
 input[type=range]:focus::-ms-fill-upper {
-  background: #367ebd; }
+  background: transparent; }
