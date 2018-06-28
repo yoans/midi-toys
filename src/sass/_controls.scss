@@ -52,26 +52,26 @@ $color-active: fade-out($color-hover, 0.5);
     }
     @-webkit-keyframes rightRotation {
         from {
+                -webkit-transform: rotate(270deg);
+        }
+        to {
+                -webkit-transform: rotate(360deg);
+        }
+    }
+    @-webkit-keyframes downRotation {
+        from {
                 -webkit-transform: rotate(0deg);
         }
         to {
                 -webkit-transform: rotate(90deg);
         }
     }
-    @-webkit-keyframes downRotation {
+    @-webkit-keyframes leftRotation {
         from {
                 -webkit-transform: rotate(90deg);
         }
         to {
                 -webkit-transform: rotate(180deg);
-        }
-    }
-    @-webkit-keyframes leftRotation {
-        from {
-                -webkit-transform: rotate(180deg);
-        }
-        to {
-                -webkit-transform: rotate(270deg);
         }
     }
 
@@ -101,19 +101,19 @@ $color-active: fade-out($color-hover, 0.5);
     transform: rotate(180deg);
   }
   .Up {
-    -webkit-animation: upRotation 1s ease-out;
+    -webkit-animation: upRotation .5s ease-out;
     transform: rotate(270deg);
   } 
   .Down {
-    -webkit-animation: downRotation 1s ease-out;
+    -webkit-animation: downRotation .5s ease-out;
     transform: rotate(90deg);
   } 
   .Left {
-    -webkit-animation: leftRotation 1s ease-out;
+    -webkit-animation: leftRotation .5s ease-out;
     transform: rotate(180deg);
   } 
   .Right {
-    -webkit-animation: rightRotation 1s ease-out;
+    -webkit-animation: rightRotation .5s ease-out;
     transform: rotate(0deg);
   } 
   &.isEnabled {

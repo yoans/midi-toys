@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.Application = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+// import {EraseButton} from './buttons/erase-button';
+
 
 var _react = require('react');
 
@@ -22,8 +24,6 @@ var _animations = require('./animations');
 var _trashButton = require('./buttons/trash-button');
 
 var _editButton = require('./buttons/edit-button');
-
-var _eraseButton = require('./buttons/erase-button');
 
 var _arrowButton = require('./buttons/arrow-button');
 
@@ -174,11 +174,6 @@ class Application extends _react2.default.Component {
                     this.state.playing ? _react2.default.createElement(_reactPlayerControls.PauseButton, { onClick: this.pause }) : _react2.default.createElement(_reactPlayerControls.PlayButton, { isEnabled: true, onClick: this.play })
                 )
             ),
-            _react2.default.createElement(
-                'label',
-                { className: 'arrow-input-label' },
-                'Time per Step:'
-            ),
             _react2.default.createElement('input', { id: 'max-note-length', className: 'arrow-input', type: 'range', max: maxNoteLength, min: minNoteLength, value: this.state.noteLength, onChange: this.newNoteLength }),
             _react2.default.createElement(
                 'label',
@@ -195,12 +190,8 @@ class Application extends _react2.default.Component {
                 )
             ),
             _react2.default.createElement('div', { id: 'sketch-holder' }),
-            _react2.default.createElement(
-                'label',
-                { className: 'arrow-input-label' },
-                'Size of Grid:'
-            ),
-            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input', type: 'range', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
+            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input',
+                type: 'range', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
             [_react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
                     return _this2.newInputDirection(1);
                 }, direction: 'Up' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
@@ -210,7 +201,7 @@ class Application extends _react2.default.Component {
                 }, direction: 'Down' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
                     return _this2.newInputDirection(0);
                 }, direction: 'Left' })][this.state.inputDirection],
-            _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? "EraseIconRotate" : "EditIconRotate" }),
+            _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' }),
             _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
                     return _this2.newGrid(0, _this2.state.gridSize);
                 } })

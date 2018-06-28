@@ -45,21 +45,21 @@
 
 @-webkit-keyframes rightRotation {
   from {
+    -webkit-transform: rotate(270deg); }
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+@-webkit-keyframes downRotation {
+  from {
     -webkit-transform: rotate(0deg); }
   to {
     -webkit-transform: rotate(90deg); } }
 
-@-webkit-keyframes downRotation {
+@-webkit-keyframes leftRotation {
   from {
     -webkit-transform: rotate(90deg); }
   to {
     -webkit-transform: rotate(180deg); } }
-
-@-webkit-keyframes leftRotation {
-  from {
-    -webkit-transform: rotate(180deg); }
-  to {
-    -webkit-transform: rotate(270deg); } }
 
 @-webkit-keyframes FullLeftRotation {
   from {
@@ -106,7 +106,7 @@
   .EditButton .Up,
   .EraseButton .Up,
   .ArrowButton .Up {
-    -webkit-animation: upRotation 1s ease-out;
+    -webkit-animation: upRotation .5s ease-out;
     transform: rotate(270deg); }
   .PlayButton .Down,
   .PauseButton .Down,
@@ -118,7 +118,7 @@
   .EditButton .Down,
   .EraseButton .Down,
   .ArrowButton .Down {
-    -webkit-animation: downRotation 1s ease-out;
+    -webkit-animation: downRotation .5s ease-out;
     transform: rotate(90deg); }
   .PlayButton .Left,
   .PauseButton .Left,
@@ -130,7 +130,7 @@
   .EditButton .Left,
   .EraseButton .Left,
   .ArrowButton .Left {
-    -webkit-animation: leftRotation 1s ease-out;
+    -webkit-animation: leftRotation .5s ease-out;
     transform: rotate(180deg); }
   .PlayButton .Right,
   .PauseButton .Right,
@@ -142,7 +142,7 @@
   .EditButton .Right,
   .EraseButton .Right,
   .ArrowButton .Right {
-    -webkit-animation: rightRotation 1s ease-out;
+    -webkit-animation: rightRotation .5s ease-out;
     transform: rotate(0deg); }
   .PlayButton.isEnabled,
   .PauseButton.isEnabled,
@@ -362,10 +362,10 @@
   /* background-color: transparent; */
   left: 50%;
   top: 50%;
-  margin-left: -100px;
-  margin-top: -285px;
-  width: 200px;
-  height: 535px; }
+  margin-left: -115px;
+  margin-top: -215px;
+  width: 230px;
+  height: 430px; }
 
 .icons8-credit {
   position: absolute;
@@ -472,44 +472,6 @@ input {
   border-width: 2px;
   border-style: solid; }
 
-h1 {
-  color: white;
-  font-weight: bold;
-  letter-spacing: 0.1em;
-  font-size: 4em;
-  font-family: 'Open Sans';
-  margin: -10px 0; }
-
-h3 {
-  color: white;
-  padding-bottom: 20px;
-  font-weight: thin; }
-
-ul {
-  margin: auto;
-  padding: 2%;
-  list-style: none;
-  padding: 0; }
-
-li {
-  border-radius: 100%;
-  border: 2px solid white;
-  color: white;
-  margin: 8px;
-  display: inline-block;
-  list-style: none;
-  width: 65px;
-  height: 65px; }
-
-li:hover {
-  color: white;
-  text-decoration: none;
-  -webkit-transition: 500ms;
-  -moz-transition: 500ms;
-  transition: 500ms;
-  text-decoration: none;
-  background-color: rgba(0, 0, 0, 0.5); }
-
 .aStyle {
   color: white;
   padding: 15px;
@@ -524,22 +486,6 @@ li:hover {
   text-align: center; }
 
 @media (max-width: 450px) {
-  ul {
-    text-align: center; }
-  li {
-    border-radius: 0%;
-    border: none;
-    color: white;
-    margin: 8px;
-    display: block;
-    list-style: none;
-    margin: 10px 0px;
-    text-align: center;
-    height: auto;
-    width: auto; }
-  li:hover {
-    background-color: none;
-    transition: none; }
   .aStyle {
     text-align: justify;
     border: 2px solid white;
@@ -562,73 +508,6 @@ li:hover {
     margin-left: 40px; }
   .content {
     padding-top: 60px; } }
-
-table {
-  border-color: white;
-  border-width: 2px;
-  border-style: solid; }
-
-p {
-  margin-top: 1em;
-  text-align: left;
-  color: #aaa; }
-
-td {
-  margin: 0;
-  width: 10px;
-  height: 10px; }
-
-td:hover {
-  background-color: white; }
-
-.space {
-  width: 16px;
-  height: 16px;
-  position: relative; }
-
-.arrow-up {
-  animation-name: go-up;
-  animation-duration: .3s;
-  animation-timing-function: ease;
-  position: absolute;
-  z-index: 0;
-  border-top: solid 8px transparent;
-  border-left: solid 9px transparent;
-  border-right: solid 9px transparent;
-  border-bottom: solid 9px white; }
-
-.arrow-down {
-  animation-name: go-down;
-  animation-duration: .3s;
-  animation-timing-function: ease;
-  position: absolute;
-  z-index: 2;
-  border-left: solid 9px transparent;
-  border-bottom: solid 9px transparent;
-  border-right: solid 9px transparent;
-  border-top: solid 9px white; }
-
-.arrow-right {
-  animation-name: go-right;
-  animation-duration: .3s;
-  animation-timing-function: ease;
-  position: absolute;
-  z-index: 2;
-  border-top: solid 9px transparent;
-  border-bottom: solid 9px transparent;
-  border-right: solid 9px transparent;
-  border-left: solid 9px white; }
-
-.arrow-left {
-  animation-name: go-left;
-  animation-duration: .3s;
-  animation-timing-function: ease;
-  position: absolute;
-  z-index: 3;
-  border-top: solid 9px transparent;
-  border-left: solid 9px transparent;
-  border-bottom: solid 9px transparent;
-  border-right: solid 9px white; }
 
 .arrow-input-label,
 .arrow-input {
@@ -657,38 +536,6 @@ option {
   width: 136px;
   text-align: center; }
 
-@keyframes go-up {
-  0% {
-    left: 0px;
-    top: 19px; }
-  100% {
-    left: 0px;
-    top: 0px; } }
-
-@keyframes go-right {
-  0% {
-    left: -19px;
-    top: 0px; }
-  100% {
-    left: 0px;
-    top: 0px; } }
-
-@keyframes go-down {
-  0% {
-    left: 0px;
-    top: -19px; }
-  100% {
-    left: 0px;
-    top: 0px; } }
-
-@keyframes go-left {
-  0% {
-    left: 19px;
-    top: 0px; }
-  100% {
-    left: 0px;
-    top: 0px; } }
-
 /* ---- reset ---- */
 body {
   margin: 0;
@@ -711,7 +558,7 @@ canvas {
 
 input[type=range] {
   -webkit-appearance: none;
-  margin: 6px 0 18px 0;
+  margin: 10px 0 10px 0;
   width: 100%; }
 
 input[type=range]:focus {
