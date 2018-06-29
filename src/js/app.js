@@ -150,7 +150,6 @@ export class Application extends React.Component {
                     </div>
                 </div>
                 <input id="max-note-length" className="arrow-input" type="range" max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLength} />
-                <label id="midiOut-label" className="arrow-input-label">MIDI Output:</label>
                 <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>
                 </select>

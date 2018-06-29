@@ -176,11 +176,6 @@ class Application extends _react2.default.Component {
             ),
             _react2.default.createElement('input', { id: 'max-note-length', className: 'arrow-input', type: 'range', max: maxNoteLength, min: minNoteLength, value: this.state.noteLength, onChange: this.newNoteLength }),
             _react2.default.createElement(
-                'label',
-                { id: 'midiOut-label', className: 'arrow-input-label' },
-                'MIDI Output:'
-            ),
-            _react2.default.createElement(
                 'select',
                 { id: 'midiOut', className: 'arrow-input' },
                 _react2.default.createElement(

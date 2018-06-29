@@ -355,11 +355,8 @@
 .midi-toys-app {
   position: absolute;
   text-align: center;
-  border: 2px solid white;
   border-radius: 5px;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* background-color: transparent; */
   left: 50%;
   top: 50%;
   margin-left: -115px;
@@ -486,6 +483,8 @@ input {
   text-align: center; }
 
 @media (max-width: 450px) {
+  #midiOut {
+    display: none; }
   .aStyle {
     text-align: justify;
     border: 2px solid white;

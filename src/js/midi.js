@@ -58,7 +58,7 @@ const onMIDIInit = (midi) => {
     // clear the MIDI output select
     selectMIDIOut.options.length = 0;
     // eslint-disable-next-line no-undef
-    selectMIDIOut.add(new Option('Select Device', undefined, false, false));
+    selectMIDIOut.add(new Option('Select MIDI Device', undefined, false, false));
     const outputsIterator = midiAccess.outputs.values();
     let nextOutput = outputsIterator.next();
     while (!nextOutput.done) {

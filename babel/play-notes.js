@@ -69,8 +69,6 @@ const playSounds = exports.playSounds = function (boundaryArrows, size, length, 
 
         if (!muted && !alreadyPlayedMap[speed]) {
             alreadyPlayedMap[speed] = [speed];
-            console.log(speed);
-            console.log(alreadyPlayedMap);
             const snd = makePizzaSound(speed, length);
             snd.play();
         }
