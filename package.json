@@ -9,7 +9,7 @@
     "serve": "http-server",
     "webpack-watch": "webpack --config webpack.config.js --watch --info-verbosity verbose",
     "webpack": "webpack --config webpack.config.js",
-    "super-start": "npm run babel && npm run webpack && npm run serve",
+    "super-start": "npm run sass && npm run babel && npm run webpack && npm run serve",
     "test": "npm run babel && mocha index.spec.js",
     "lint": "eslint ./src/js/**",
     "sass": "node-sass --include-path sass ./src/sass/index.scss ./css/main.css",

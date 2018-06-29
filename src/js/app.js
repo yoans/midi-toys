@@ -21,10 +21,10 @@ import {EditButton} from './buttons/edit-button';
 import {ArrowButton} from './buttons/arrow-button';
 
 // const chance = new Chance();
-const maxSize = 40;
+const maxSize = 20;
 const minSize = 2;
 const minNoteLength = 50;
-const maxNoteLength = 1000;
+const maxNoteLength = 500;
 const interactSound = (note, state) => (state.muted ? undefined : makePizzaSound(note, 50).play());
 export class Application extends React.Component {
     constructor(props) {
@@ -90,15 +90,11 @@ export class Application extends React.Component {
         });
     }
     newNoteLength = (e) => {
+        this.resetTimer();
         const input = parseInt(e.target.value, 10);
         this.setState({
             noteLength: input,
         });
-        clearInterval(this.timerID);
-        this.timerID = setInterval(
-            () => this.nextGrid(input),
-            input,
-        );
     }
     nextGrid = (length) => {
         this.setState({

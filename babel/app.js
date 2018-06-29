@@ -30,10 +30,10 @@ var _arrowButton = require('./buttons/arrow-button');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const chance = new Chance();
-const maxSize = 40;
+const maxSize = 20;
 const minSize = 2;
 const minNoteLength = 50;
-const maxNoteLength = 1000;
+const maxNoteLength = 500;
 const interactSound = function (note, state) {
     return state.muted ? undefined : (0, _playNotes.makePizzaSound)(note, 50).play();
 };
@@ -88,14 +88,11 @@ class Application extends _react2.default.Component {
         };
 
         this.newNoteLength = function (e) {
+            _this.resetTimer();
             const input = parseInt(e.target.value, 10);
             _this.setState({
                 noteLength: input
             });
-            clearInterval(_this.timerID);
-            _this.timerID = setInterval(function () {
-                return _this.nextGrid(input);
-            }, input);
         };
 
         this.nextGrid = function (length) {
