@@ -40,7 +40,11 @@ export class Application extends React.Component {
             // grid: newGrid(8, 8),
             playing: true,
             muted: true,
-            deleting: false
+            deleting: false,
+            horizontalSymmetry: true,
+            verticalSymmetry: true,
+            backwardDiagonalSymmetry: true,
+            forwardDiagonalSymmetry: true
         };
         setUpCanvas(this.state, this.addToGrid);
     }
@@ -118,8 +122,14 @@ export class Application extends React.Component {
                 grid: removeFromGrid(this.state.grid, x, y),
             });
         } else {
+            const symmetries = {
+                horizontalSymmetry: this.state.horizontalSymmetry,
+                verticalSymmetry: this.state.verticalSymmetry,
+                backwardDiagonalSymmetry: this.state.backwardDiagonalSymmetry,
+                forwardDiagonalSymmetry: this.state.forwardDiagonalSymmetry
+            };
             this.setState({
-                grid: addToGrid(this.state.grid, x, y, this.state.inputDirection),
+                grid: addToGrid(this.state.grid, x, y, this.state.inputDirection, symmetries),
             });
         }
     }
@@ -167,6 +177,26 @@ export class Application extends React.Component {
                 }
                 <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
                 <TrashButton onClick={() => this.newGrid(0, this.state.gridSize)}/>
+                <input type="checkbox" onChange={
+                    ()=>this.setState({
+                        horizontalSymmetry: !this.state.horizontalSymmetry
+                    })}
+                />
+                <input type="checkbox" onChange={
+                    ()=>this.setState({
+                        verticalSymmetry: !this.state.verticalSymmetry
+                    })}
+                />
+                <input type="checkbox" onChange={
+                    ()=>this.setState({
+                        backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
+                    })}
+                />
+                <input type="checkbox" onChange={
+                    ()=>this.setState({
+                        forwardDiagonalSymmetry: !this.state.forwardDiagonalSymmetry
+                    })}
+                />
             </div>
         );
     }

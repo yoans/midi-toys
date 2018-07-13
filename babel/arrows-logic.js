@@ -74,7 +74,72 @@ const removeFromGrid = exports.removeFromGrid = function (grid, x, y) {
     });
     return nextGrid;
 };
-const addToGrid = exports.addToGrid = function (grid, x, y, dir) {
+const getMirror = function (pos, gridSize) {
+    var half = Math.floor(gridSize / 2);
+    var offset = half - pos;
+    var location = half + offset;
+    if (gridSize % 2 === 0) {
+        location = location - 1;
+    }
+    return location;
+};
+const getForwardDiagMirror = function (xpos, ypos, gridSize) {
+    return { x: getMirror(ypos, gridSize), y: getMirror(xpos, gridSize) };
+};
+const getBackwardDiagMirror = function (xpos, ypos) {
+    return { x: ypos, y: xpos };
+};
+const calculateForwardDiagonalVector = function (vector) {
+    return [1, 0, 3, 2][vector];
+};
+const calculateBackwardDiagonalVector = function (vector) {
+    return [3, 2, 1, 0][vector];
+};
+const calculateHorizontalVector = function (vector) {
+    return [2, 1, 0, 3][vector];
+};
+const calculateVerticalDiagonalVector = function (vector) {
+    return [0, 3, 2, 1][vector];
+};
+const addToGrid = exports.addToGrid = function (grid, x, y, dir, symmetries) {
+    const symmetricArrowsToAdd = [{ x, y, vector: dir }];
+    const skipForthSymmetry = symmetries.horizontalSymmetry && symmetries.verticalSymmetry && symmetries.backwardDiagonalSymmetry;
+    if (symmetries.horizontalSymmetry) {
+        symmetricArrowsToAdd.map(function (arrowToMirror) {
+            return symmetricArrowsToAdd.push(_extends({}, arrowToMirror, {
+                y: getMirror(arrowToMirror.y, grid.size),
+                vector: calculateHorizontalVector(arrowToMirror.vector)
+            }));
+        });
+    }
+    if (symmetries.verticalSymmetry) {
+        symmetricArrowsToAdd.map(function (arrowToMirror) {
+            return symmetricArrowsToAdd.push(_extends({}, arrowToMirror, {
+                x: getMirror(arrowToMirror.x, grid.size),
+                vector: calculateVerticalDiagonalVector(arrowToMirror.vector)
+            }));
+        });
+    }
+    if (symmetries.backwardDiagonalSymmetry) {
+        symmetricArrowsToAdd.map(function (arrowToMirror) {
+            return symmetricArrowsToAdd.push(_extends({}, arrowToMirror, getBackwardDiagMirror(arrowToMirror.x, arrowToMirror.y), {
+                vector: calculateBackwardDiagonalVector(arrowToMirror.vector)
+            }));
+        });
+    }
+    if (symmetries.forwardDiagonalSymmetry && !skipForthSymmetry) {
+        symmetricArrowsToAdd.map(function (arrowToMirror) {
+            return symmetricArrowsToAdd.push(_extends({}, arrowToMirror, getForwardDiagMirror(arrowToMirror.x, arrowToMirror.y, grid.size), {
+                vector: calculateForwardDiagonalVector(arrowToMirror.vector)
+            }));
+        });
+    }
+    return symmetricArrowsToAdd.reduce(function (accumGrid, arrow) {
+        return addOneToGrid(accumGrid, arrow.x, arrow.y, arrow.vector);
+    }, grid);
+};
+
+const addOneToGrid = function (grid, x, y, dir) {
     const nextGrid = _extends({}, grid, {
         arrows: [...grid.arrows, {
             x,
@@ -84,6 +149,7 @@ const addToGrid = exports.addToGrid = function (grid, x, y, dir) {
     });
     return nextGrid;
 };
+
 const newGrid = exports.newGrid = function (size, numberOfArrows) {
     const arrows = R.range(0, numberOfArrows).map(getArrow(size));
 

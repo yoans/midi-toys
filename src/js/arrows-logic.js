@@ -40,7 +40,78 @@ export const removeFromGrid = (grid, x, y) => {
     };
     return nextGrid;
 };
-export const addToGrid = (grid, x, y, dir) => {
+const getMirror = (pos, gridSize) => {
+    var half = Math.floor(gridSize/2);
+    var offset = half-pos;
+    var location = half + offset;
+    if((gridSize%2)===0) {
+      location = location-1
+    }
+    return location;
+};
+const getForwardDiagMirror = (xpos, ypos, gridSize) => {
+    return {x: getMirror(ypos,gridSize), y: getMirror(xpos,gridSize)};
+}
+const getBackwardDiagMirror = (xpos, ypos) => {
+    return {x: ypos, y: xpos};
+}
+const calculateForwardDiagonalVector = (vector) => {
+    return [1,0,3,2][vector];
+};
+const calculateBackwardDiagonalVector = (vector) => {
+    return [3,2,1,0][vector];
+};
+const calculateHorizontalVector = (vector) => {
+    return [2,1,0,3][vector];
+};
+const calculateVerticalDiagonalVector = (vector) => {
+    return [0,3,2,1][vector];
+};
+export const addToGrid = (grid, x, y, dir, symmetries) => {
+    const symmetricArrowsToAdd = [{x, y, vector: dir}];
+    const skipForthSymmetry = symmetries.horizontalSymmetry && symmetries.verticalSymmetry && symmetries.backwardDiagonalSymmetry;
+    if (symmetries.horizontalSymmetry) {
+        symmetricArrowsToAdd.map((arrowToMirror) => symmetricArrowsToAdd.push(
+            {
+                ...arrowToMirror,
+                y: getMirror(arrowToMirror.y, grid.size),
+                vector: calculateHorizontalVector(arrowToMirror.vector)
+            }
+        ));
+    }
+    if (symmetries.verticalSymmetry) {
+        symmetricArrowsToAdd.map((arrowToMirror) => symmetricArrowsToAdd.push(
+            {
+                ...arrowToMirror,
+                x: getMirror(arrowToMirror.x, grid.size),
+                vector: calculateVerticalDiagonalVector(arrowToMirror.vector)
+            }
+        ));
+    }
+    if (symmetries.backwardDiagonalSymmetry) {
+        symmetricArrowsToAdd.map((arrowToMirror) => symmetricArrowsToAdd.push(
+            {
+                ...arrowToMirror,
+                ...getBackwardDiagMirror(arrowToMirror.x, arrowToMirror.y),
+                vector: calculateBackwardDiagonalVector(arrowToMirror.vector)
+            }
+        ));
+    }
+    if (symmetries.forwardDiagonalSymmetry && !skipForthSymmetry) {
+        symmetricArrowsToAdd.map((arrowToMirror) => symmetricArrowsToAdd.push(
+            {
+                ...arrowToMirror,
+                ...getForwardDiagMirror(arrowToMirror.x, arrowToMirror.y, grid.size),
+                vector: calculateForwardDiagonalVector(arrowToMirror.vector)
+            }
+        ));
+    }
+    return symmetricArrowsToAdd.reduce((accumGrid, arrow)=>{
+        return addOneToGrid(accumGrid, arrow.x, arrow.y, arrow.vector);
+    }, grid);
+};
+
+const addOneToGrid = (grid, x, y, dir) => {
     const nextGrid = {
         ...grid,
         arrows: [
@@ -54,6 +125,7 @@ export const addToGrid = (grid, x, y, dir) => {
     };
     return nextGrid;
 };
+
 export const newGrid = (size, numberOfArrows) => {
     const arrows = R.range(0, numberOfArrows).map(getArrow(size));
 

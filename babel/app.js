@@ -120,8 +120,14 @@ class Application extends _react2.default.Component {
                     grid: (0, _arrowsLogic.removeFromGrid)(_this.state.grid, x, y)
                 });
             } else {
+                const symmetries = {
+                    horizontalSymmetry: _this.state.horizontalSymmetry,
+                    verticalSymmetry: _this.state.verticalSymmetry,
+                    backwardDiagonalSymmetry: _this.state.backwardDiagonalSymmetry,
+                    forwardDiagonalSymmetry: _this.state.forwardDiagonalSymmetry
+                };
                 _this.setState({
-                    grid: (0, _arrowsLogic.addToGrid)(_this.state.grid, x, y, _this.state.inputDirection)
+                    grid: (0, _arrowsLogic.addToGrid)(_this.state.grid, x, y, _this.state.inputDirection, symmetries)
                 });
             }
         };
@@ -136,7 +142,11 @@ class Application extends _react2.default.Component {
             // grid: newGrid(8, 8),
             playing: true,
             muted: true,
-            deleting: false
+            deleting: false,
+            horizontalSymmetry: true,
+            verticalSymmetry: true,
+            backwardDiagonalSymmetry: true,
+            forwardDiagonalSymmetry: true
         };
         (0, _animations.setUpCanvas)(this.state, this.addToGrid);
     }
@@ -196,7 +206,31 @@ class Application extends _react2.default.Component {
             _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' }),
             _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
                     return _this2.newGrid(0, _this2.state.gridSize);
-                } })
+                } }),
+            _react2.default.createElement('input', { type: 'checkbox', onChange: function () {
+                    return _this2.setState({
+                        horizontalSymmetry: !_this2.state.horizontalSymmetry
+                    });
+                }
+            }),
+            _react2.default.createElement('input', { type: 'checkbox', onChange: function () {
+                    return _this2.setState({
+                        verticalSymmetry: !_this2.state.verticalSymmetry
+                    });
+                }
+            }),
+            _react2.default.createElement('input', { type: 'checkbox', onChange: function () {
+                    return _this2.setState({
+                        backwardDiagonalSymmetry: !_this2.state.backwardDiagonalSymmetry
+                    });
+                }
+            }),
+            _react2.default.createElement('input', { type: 'checkbox', onChange: function () {
+                    return _this2.setState({
+                        forwardDiagonalSymmetry: !_this2.state.forwardDiagonalSymmetry
+                    });
+                }
+            })
         );
     }
 }
