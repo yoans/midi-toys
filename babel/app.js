@@ -27,6 +27,8 @@ var _editButton = require('./buttons/edit-button');
 
 var _arrowButton = require('./buttons/arrow-button');
 
+var _symmetryButton = require('./buttons/symmetry-button');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const chance = new Chance();
@@ -192,8 +194,51 @@ class Application extends _react2.default.Component {
                 )
             ),
             _react2.default.createElement('div', { id: 'sketch-holder' }),
-            _react2.default.createElement('input', { id: 'arrow-input-number', className: 'arrow-input',
-                type: 'range', max: maxSize, min: minSize, value: this.state.gridSize, onChange: this.newSize }),
+            _react2.default.createElement('input', {
+                id: 'arrow-input-number',
+                className: 'arrow-input',
+                type: 'range',
+                max: maxSize,
+                min: minSize,
+                value: this.state.gridSize,
+                onChange: this.newSize
+            }),
+            _react2.default.createElement(_symmetryButton.SymmetryButton, {
+                onClick: function () {
+                    return _this2.setState({
+                        backwardDiagonalSymmetry: !_this2.state.backwardDiagonalSymmetry
+                    });
+                },
+                isActive: this.state.backwardDiagonalSymmetry,
+                className: "backward-diag"
+            }),
+            _react2.default.createElement(_symmetryButton.SymmetryButton, {
+                onClick: function () {
+                    return _this2.setState({
+                        forwardDiagonalSymmetry: !_this2.state.forwardDiagonalSymmetry
+                    });
+                },
+                isActive: this.state.forwardDiagonalSymmetry,
+                className: "forward-diag"
+            }),
+            _react2.default.createElement(_symmetryButton.SymmetryButton, {
+                onClick: function () {
+                    return _this2.setState({
+                        horizontalSymmetry: !_this2.state.horizontalSymmetry
+                    });
+                },
+                isActive: this.state.horizontalSymmetry,
+                className: "horizontal"
+            }),
+            _react2.default.createElement(_symmetryButton.SymmetryButton, {
+                onClick: function () {
+                    return _this2.setState({
+                        verticalSymmetry: !_this2.state.verticalSymmetry
+                    });
+                },
+                isActive: this.state.verticalSymmetry,
+                className: ""
+            }),
             [_react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
                     return _this2.newInputDirection(1);
                 }, direction: 'Up' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
@@ -206,31 +251,7 @@ class Application extends _react2.default.Component {
             _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' }),
             _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
                     return _this2.newGrid(0, _this2.state.gridSize);
-                } }),
-            _react2.default.createElement('input', { type: 'checkbox', onChange: function () {
-                    return _this2.setState({
-                        horizontalSymmetry: !_this2.state.horizontalSymmetry
-                    });
-                }
-            }),
-            _react2.default.createElement('input', { type: 'checkbox', onChange: function () {
-                    return _this2.setState({
-                        verticalSymmetry: !_this2.state.verticalSymmetry
-                    });
-                }
-            }),
-            _react2.default.createElement('input', { type: 'checkbox', onChange: function () {
-                    return _this2.setState({
-                        backwardDiagonalSymmetry: !_this2.state.backwardDiagonalSymmetry
-                    });
-                }
-            }),
-            _react2.default.createElement('input', { type: 'checkbox', onChange: function () {
-                    return _this2.setState({
-                        forwardDiagonalSymmetry: !_this2.state.forwardDiagonalSymmetry
-                    });
-                }
-            })
+                } })
         );
     }
 }

@@ -641,3 +641,12 @@ input[type=range]:focus::-ms-fill-lower {
 
 input[type=range]:focus::-ms-fill-upper {
   background: transparent; }
+
+.forward-diag {
+  transform: rotate(45deg); }
+
+.backward-diag {
+  transform: rotate(-45deg); }
+
+.horizontal {
+  transform: rotate(90deg); }

@@ -19,7 +19,7 @@ import {TrashButton} from './buttons/trash-button';
 import {EditButton} from './buttons/edit-button';
 // import {EraseButton} from './buttons/erase-button';
 import {ArrowButton} from './buttons/arrow-button';
-
+import {SymmetryButton} from './buttons/symmetry-button';
 // const chance = new Chance();
 const maxSize = 20;
 const minSize = 2;
@@ -161,8 +161,51 @@ export class Application extends React.Component {
                 </select>
 
                 <div id="sketch-holder"/>
-                    <input id="arrow-input-number" className="arrow-input" 
-                    type="range" max={maxSize} min={minSize} value={this.state.gridSize} onChange={this.newSize} />
+                <input
+                    id="arrow-input-number"
+                    className="arrow-input" 
+                    type="range"
+                    max={maxSize}
+                    min={minSize}
+                    value={this.state.gridSize}
+                    onChange={this.newSize}
+                />
+                <SymmetryButton 
+                    onClick={
+                        ()=>this.setState({
+                            backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
+                        }
+                    )}
+                    isActive={this.state.backwardDiagonalSymmetry}
+                    className={"backward-diag"}
+                />
+                <SymmetryButton
+                    onClick={
+                        ()=>this.setState({
+                            forwardDiagonalSymmetry: !this.state.forwardDiagonalSymmetry
+                        }
+                    )}
+                    isActive={this.state.forwardDiagonalSymmetry}
+                    className={"forward-diag"}
+                />
+                <SymmetryButton
+                    onClick={
+                        ()=>this.setState({
+                            horizontalSymmetry: !this.state.horizontalSymmetry
+                        }
+                    )}
+                    isActive={this.state.horizontalSymmetry}
+                    className={"horizontal"}
+                />
+                <SymmetryButton
+                    onClick={
+                        ()=>this.setState({
+                            verticalSymmetry: !this.state.verticalSymmetry
+                        }
+                    )}
+                    isActive={this.state.verticalSymmetry}
+                    className={""}
+                />
                 {
                     [
                         (
@@ -177,7 +220,7 @@ export class Application extends React.Component {
                 }
                 <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
                 <TrashButton onClick={() => this.newGrid(0, this.state.gridSize)}/>
-                <input type="checkbox" onChange={
+                {/* <input type="checkbox" onChange={
                     ()=>this.setState({
                         horizontalSymmetry: !this.state.horizontalSymmetry
                     })}
@@ -196,7 +239,7 @@ export class Application extends React.Component {
                     ()=>this.setState({
                         forwardDiagonalSymmetry: !this.state.forwardDiagonalSymmetry
                     })}
-                />
+                /> */}
             </div>
         );
     }
