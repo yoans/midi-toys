@@ -141,7 +141,7 @@ class Application extends _react2.default.Component {
         this.state = {
             gridSize: 8,
             inputDirection: 0,
-            noteLength: 200,
+            noteLength: 350,
             grid: preset,
             // grid: newGrid(8, 8),
             playing: false,
