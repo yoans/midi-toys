@@ -29,6 +29,8 @@ var _arrowButton = require('./buttons/arrow-button');
 
 var _symmetryButton = require('./buttons/symmetry-button');
 
+var _plusButton = require('./buttons/plus-button');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const chance = new Chance();
@@ -129,12 +131,12 @@ class Application extends _react2.default.Component {
                     forwardDiagonalSymmetry: _this.state.forwardDiagonalSymmetry
                 };
                 _this.setState({
-                    grid: (0, _arrowsLogic.addToGrid)(_this.state.grid, x, y, _this.state.inputDirection, symmetries)
+                    grid: (0, _arrowsLogic.addToGrid)(_this.state.grid, x, y, _this.state.inputDirection, symmetries, _this.state.inputNumber)
                 });
             }
         };
 
-        const preset = JSON.parse('{"size":8,"arrows":[{"x":0,"y":3,"vector":3},{"x":0,"y":3,"vector":3},{"x":1,"y":2,"vector":0},{"x":1,"y":2,"vector":0},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":3,"y":6,"vector":0},{"x":3,"y":6,"vector":0},{"x":3,"y":6,"vector":1},{"x":3,"y":6,"vector":1},{"x":5,"y":4,"vector":1},{"x":5,"y":4,"vector":1},{"x":5,"y":4,"vector":1},{"x":5,"y":4,"vector":1},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":7,"y":6,"vector":2},{"x":7,"y":6,"vector":2},{"x":4,"y":1,"vector":3},{"x":4,"y":1,"vector":3},{"x":4,"y":1,"vector":2},{"x":4,"y":1,"vector":2},{"x":7,"y":4,"vector":1},{"x":7,"y":4,"vector":1},{"x":6,"y":5,"vector":2},{"x":6,"y":5,"vector":2},{"x":0,"y":1,"vector":0},{"x":0,"y":1,"vector":0},{"x":4,"y":0,"vector":0},{"x":4,"y":0,"vector":0},{"x":5,"y":1,"vector":1},{"x":5,"y":1,"vector":1},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":4,"y":2,"vector":0},{"x":4,"y":2,"vector":0},{"x":4,"y":2,"vector":0},{"x":4,"y":2,"vector":0},{"x":1,"y":3,"vector":1},{"x":1,"y":3,"vector":1},{"x":1,"y":3,"vector":2},{"x":1,"y":3,"vector":2},{"x":3,"y":5,"vector":2},{"x":3,"y":5,"vector":2},{"x":3,"y":5,"vector":2},{"x":3,"y":5,"vector":2},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":1,"y":7,"vector":3},{"x":1,"y":7,"vector":3},{"x":6,"y":4,"vector":0},{"x":6,"y":4,"vector":0},{"x":6,"y":4,"vector":3},{"x":6,"y":4,"vector":3},{"x":3,"y":7,"vector":2},{"x":3,"y":7,"vector":2},{"x":2,"y":6,"vector":3},{"x":2,"y":6,"vector":3},{"x":6,"y":0,"vector":1},{"x":6,"y":0,"vector":1},{"x":5,"y":6,"vector":3},{"x":5,"y":6,"vector":3},{"x":5,"y":6,"vector":3},{"x":5,"y":6,"vector":3},{"x":2,"y":1,"vector":1},{"x":2,"y":1,"vector":1},{"x":2,"y":1,"vector":1},{"x":2,"y":1,"vector":1},{"x":1,"y":5,"vector":0},{"x":1,"y":5,"vector":0},{"x":1,"y":5,"vector":0},{"x":1,"y":5,"vector":0},{"x":6,"y":2,"vector":2},{"x":6,"y":2,"vector":2},{"x":6,"y":2,"vector":2},{"x":6,"y":2,"vector":2}],"muted":false}');
+        const preset = JSON.parse('{"size":8,"arrows":[{"x":0,"y":3,"vector":3},{"x":0,"y":3,"vector":3},{"x":1,"y":2,"vector":0},{"x":1,"y":2,"vector":0},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":2,"y":3,"vector":3},{"x":3,"y":6,"vector":0},{"x":3,"y":6,"vector":0},{"x":3,"y":6,"vector":1},{"x":3,"y":6,"vector":1}],"muted":false}');
 
         this.state = {
             gridSize: 8,
@@ -142,19 +144,20 @@ class Application extends _react2.default.Component {
             noteLength: 200,
             grid: preset,
             // grid: newGrid(8, 8),
-            playing: true,
+            playing: false,
             muted: true,
             deleting: false,
-            horizontalSymmetry: true,
-            verticalSymmetry: true,
-            backwardDiagonalSymmetry: true,
-            forwardDiagonalSymmetry: true
+            horizontalSymmetry: false,
+            verticalSymmetry: false,
+            backwardDiagonalSymmetry: false,
+            forwardDiagonalSymmetry: false,
+            inputNumber: 1
         };
         (0, _animations.setUpCanvas)(this.state, this.addToGrid);
     }
 
     componentDidMount() {
-        this.play();
+        // this.play();
     }
 
     render() {
@@ -239,15 +242,38 @@ class Application extends _react2.default.Component {
                 isActive: this.state.verticalSymmetry,
                 className: ""
             }),
-            [_react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
+            _react2.default.createElement(_plusButton.PlusButton, {
+                onClick: function () {
+                    return _this2.setState({
+                        inputNumber: (_this2.state.inputNumber + 1) % 5 || 1
+                    });
+                }
+            }),
+            [_react2.default.createElement(_arrowButton.ArrowButton, {
+                number: this.state.inputNumber,
+                onClick: function () {
                     return _this2.newInputDirection(1);
-                }, direction: 'Up' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
+                },
+                direction: 'Up'
+            }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                number: this.state.inputNumber,
+                onClick: function () {
                     return _this2.newInputDirection(2);
-                }, direction: 'Right' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
+                },
+                direction: 'Right'
+            }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                number: this.state.inputNumber,
+                onClick: function () {
                     return _this2.newInputDirection(3);
-                }, direction: 'Down' }), _react2.default.createElement(_arrowButton.ArrowButton, { onClick: function () {
+                },
+                direction: 'Down'
+            }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                number: this.state.inputNumber,
+                onClick: function () {
                     return _this2.newInputDirection(0);
-                }, direction: 'Left' })][this.state.inputDirection],
+                },
+                direction: 'Left'
+            })][this.state.inputDirection],
             _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' }),
             _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
                     return _this2.newGrid(0, _this2.state.gridSize);

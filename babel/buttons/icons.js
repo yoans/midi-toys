@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.SymmetryIcon = exports.ArrowIcon = exports.ResizeIcon = exports.EditIcon = exports.TrashIcon = undefined;
+exports.SymmetryIcon = exports.PlusIcon = exports.ArrowIcon = exports.ResizeIcon = exports.EditIcon = exports.TrashIcon = undefined;
 
 var _react = require('react');
 
@@ -25,6 +25,14 @@ const ArrowIcon = exports.ArrowIcon = function ({ direction }) {
         'svg',
         { 'class': 'Icon PlayIcon ' + direction, viewBox: '0 0 100 100' },
         _react2.default.createElement('polygon', { 'class': 'Icon-shape', points: '24 92 24 7 100 49.4955227' })
+    );
+};
+
+const PlusIcon = exports.PlusIcon = function () {
+    return _react2.default.createElement(
+        'svg',
+        { 'class': 'Icon PlayIcon', viewBox: '0 0 100 100' },
+        _react2.default.createElement('polygon', { 'class': 'Icon-shape', points: '45 10, 55 10, 55 45, 90 45, 90 55, 55 55, 55 90 45 90, 45 55, 10 55, 10 45, 45 45' })
     );
 };
 

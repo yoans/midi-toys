@@ -101,8 +101,10 @@ const calculateHorizontalVector = function (vector) {
 const calculateVerticalDiagonalVector = function (vector) {
     return [0, 3, 2, 1][vector];
 };
-const addToGrid = exports.addToGrid = function (grid, x, y, dir, symmetries) {
-    const symmetricArrowsToAdd = [{ x, y, vector: dir }];
+const addToGrid = exports.addToGrid = function (grid, x, y, dir, symmetries, inputNumber) {
+    const symmetricArrowsToAdd = R.range(0, inputNumber).map(function () {
+        return { x, y, vector: dir };
+    });
     const skipForthSymmetry = symmetries.horizontalSymmetry && symmetries.verticalSymmetry && symmetries.backwardDiagonalSymmetry;
     if (symmetries.horizontalSymmetry) {
         symmetricArrowsToAdd.map(function (arrowToMirror) {

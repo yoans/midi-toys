@@ -12,6 +12,10 @@ export const ArrowIcon = ({direction}) => (
     <svg class={'Icon PlayIcon ' + direction} viewBox='0 0 100 100'><polygon class='Icon-shape' points='24 92 24 7 100 49.4955227'></polygon></svg>
 )
 
+export const PlusIcon = () => (
+    <svg class={'Icon PlayIcon'} viewBox='0 0 100 100'><polygon class='Icon-shape' points='45 10, 55 10, 55 45, 90 45, 90 55, 55 55, 55 90 45 90, 45 55, 10 55, 10 45, 45 45'></polygon></svg>
+)
+
 export const SymmetryIcon = ({className}) => (
     <img className={'Icon Img-Shape ' + className} src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAARASURBVHhe7Zs7a1RRFEYTxSI+EbTylQdYpBFRK/0Bio9KOxERGwtb8ReYxj8gNjZWBi0iCAqCtoopTGFhEBsLH6CCjUV0ndx9NIN3bu7JzNzz3XEv2Fznnr2/cyaLzOAkGVFkaWnp5K8KWL9rraWwfsVaS2F9xlqdOrgQMVyIGC5EDBcihgsRw4WI4ULEcCFiuBAxXIgYLkQMFyKGCxHDhYjhQsRwIWK4EDFciBguRAwXIoYLEcOFiOFCxHAhYrgQMVyIGC5EDBcihgsRw4X0AZ7kPuo4dcBurRky5IWQMUGdoQ4TOWq388OBxjjQHa5Ly8+24CU1aS3JECUrhPGNzM8WSQU8XqCmrSUfnCUc7nFxrE64v0iNWWsSzMkKYfaexXTA/Y9Uz68Oa4YzdJWxgovWngS5kkIYnWR25StBByzlkcLedWSEA960kSSYkxTC3GmL6Ao9zUphz1oyAvRds7EkmFMVcsQiKqGvGSnsFWQ8Kbathr4fXMZtNAlmVV+yRpl9XaRUQ99gpbBHiozAeRtNhlnlN/Vp6rNFVULfYKSQnSrjso2uCeZlhQSYP0jlkUJmozICZEgLCZDRvBSyGpcRIEdeSICc5qSQkUVGgKxWCAmQNXgpzGaTESCvNUIC5AUpXyy+Evo+UfWlMJNVRoDMVgkJkNl/KfTWlhGg9yGXc/0ucme4doX1XoU84FK6dy9F7g2utaC3Wgo9STJywjl7EqJCVync3EQ9tT55OOtQCAlw1k4pPNhCPbf1VsB5h0ZIgPP+lcI/Sj/fV2bYhAQ48wcum8Php6j3xe12MGxCOO9P6qwdf/kNfZwb74plfYZJyD8yIqztZWGxaNNmWIR0lRFhcQ9VWwq9L6hbA6hHtkUprPckhPV526ffdd+2WBV6q2VEaKothb7vXI7ZaN8gt43/U99JLdgWldBXT0aE5qxSyGzbZ1mDkxFhKEkKddRGe4asNn3aO3gZEYazSCGnFULIaU5GhJDGpZAhL4SMIKPuLzz0R0aEsEalMC8thPl8MiKEBilvbZ9K6OtJCrOyQhjfwXxeGRHCa0uBr/RO2WgSzMkKYXbOYiqhb7AyImyS8p1y28aSYE5SCHP7LaIS+pqREWGzWlLoeWUjSTCnKuSERXSFnmZlRNh0VSmsP7P2JJhTFTJtEaWwnkdGhM0rpbB21VqTYE75PaT0h3nczysjwiGClDd2rj9wL/wCxHprS4JZZSG7qXmLWobH36hT1pIfDrOVc13nOkfNUhd4vM6Wk2FeVkiAiA1khL8VCc/5EtfttjSc8CSlhfx3uBAxXIgYLkQMFyKGCxHDhYjhQsRwIWK4EDFciBguRAwXIoYLEcOFiOFCxHAhYrgQMVyIGC5EDBcihgsRw4WI4ULEcCFiuBAxXIgYLkQMFyKGCxHDhYjB12wbdahb8QWdsNZSWN9ZNheL9V3WKsbIyG9dmEodzEPl9gAAAABJRU5ErkJggg=='/>
 )

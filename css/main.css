@@ -1,3 +1,4 @@
+.PlusButton,
 .PlayButton,
 .PauseButton,
 .PrevButton,
@@ -14,6 +15,53 @@
   border: 2px solid #ffffff;
   border-radius: 100%;
   outline: none; }
+  .PlusButton .number-overlayee,
+  .PlayButton .number-overlayee,
+  .PauseButton .number-overlayee,
+  .PrevButton .number-overlayee,
+  .NextButton .number-overlayee,
+  .SoundOnButton .number-overlayee,
+  .SoundOffButton .number-overlayee,
+  .TrashButton .number-overlayee,
+  .EditButton .number-overlayee,
+  .EraseButton .number-overlayee,
+  .ArrowButton .number-overlayee {
+    position: relative; }
+  .PlusButton .number-overlay,
+  .PlayButton .number-overlay,
+  .PauseButton .number-overlay,
+  .PrevButton .number-overlay,
+  .NextButton .number-overlay,
+  .SoundOnButton .number-overlay,
+  .SoundOffButton .number-overlay,
+  .TrashButton .number-overlay,
+  .EditButton .number-overlay,
+  .EraseButton .number-overlay,
+  .ArrowButton .number-overlay {
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%; }
+    .PlusButton .number-overlay h4,
+    .PlayButton .number-overlay h4,
+    .PauseButton .number-overlay h4,
+    .PrevButton .number-overlay h4,
+    .NextButton .number-overlay h4,
+    .SoundOnButton .number-overlay h4,
+    .SoundOffButton .number-overlay h4,
+    .TrashButton .number-overlay h4,
+    .EditButton .number-overlay h4,
+    .EraseButton .number-overlay h4,
+    .ArrowButton .number-overlay h4 {
+      margin: auto;
+      padding: 7px; }
+  .PlusButton.ActiveControl,
   .PlayButton.ActiveControl,
   .PauseButton.ActiveControl,
   .PrevButton.ActiveControl,
@@ -25,6 +73,7 @@
   .EraseButton.ActiveControl,
   .ArrowButton.ActiveControl {
     background: rgba(204, 204, 204, 0.5); }
+  .PlusButton[disabled],
   .PlayButton[disabled],
   .PauseButton[disabled],
   .PrevButton[disabled],
@@ -72,6 +121,7 @@
     -webkit-transform: rotate(180deg); }
   to {
     -webkit-transform: rotate(360deg); } }
+  .PlusButton .EditIconRotate,
   .PlayButton .EditIconRotate,
   .PauseButton .EditIconRotate,
   .PrevButton .EditIconRotate,
@@ -84,6 +134,7 @@
   .ArrowButton .EditIconRotate {
     -webkit-animation: FullRightRotation 1s ease-out;
     transform: rotate(0deg); }
+  .PlusButton .EraseIconRotate,
   .PlayButton .EraseIconRotate,
   .PauseButton .EraseIconRotate,
   .PrevButton .EraseIconRotate,
@@ -96,6 +147,7 @@
   .ArrowButton .EraseIconRotate {
     -webkit-animation: FullLeftRotation 1s ease-out;
     transform: rotate(180deg); }
+  .PlusButton .Up,
   .PlayButton .Up,
   .PauseButton .Up,
   .PrevButton .Up,
@@ -108,6 +160,7 @@
   .ArrowButton .Up {
     -webkit-animation: upRotation .5s ease-out;
     transform: rotate(270deg); }
+  .PlusButton .Down,
   .PlayButton .Down,
   .PauseButton .Down,
   .PrevButton .Down,
@@ -120,6 +173,7 @@
   .ArrowButton .Down {
     -webkit-animation: downRotation .5s ease-out;
     transform: rotate(90deg); }
+  .PlusButton .Left,
   .PlayButton .Left,
   .PauseButton .Left,
   .PrevButton .Left,
@@ -132,6 +186,7 @@
   .ArrowButton .Left {
     -webkit-animation: leftRotation .5s ease-out;
     transform: rotate(180deg); }
+  .PlusButton .Right,
   .PlayButton .Right,
   .PauseButton .Right,
   .PrevButton .Right,
@@ -144,6 +199,7 @@
   .ArrowButton .Right {
     -webkit-animation: rightRotation .5s ease-out;
     transform: rotate(0deg); }
+  .PlusButton.isEnabled,
   .PlayButton.isEnabled,
   .PauseButton.isEnabled,
   .PrevButton.isEnabled,
@@ -155,6 +211,7 @@
   .EraseButton.isEnabled,
   .ArrowButton.isEnabled {
     cursor: pointer; }
+    .PlusButton.isEnabled:hover,
     .PlayButton.isEnabled:hover,
     .PauseButton.isEnabled:hover,
     .PrevButton.isEnabled:hover,
@@ -166,6 +223,7 @@
     .EraseButton.isEnabled:hover,
     .ArrowButton.isEnabled:hover {
       border-color: #cccccc; }
+      .PlusButton.isEnabled:hover .Icon-shape,
       .PlayButton.isEnabled:hover .Icon-shape,
       .PauseButton.isEnabled:hover .Icon-shape,
       .PrevButton.isEnabled:hover .Icon-shape,
@@ -177,6 +235,7 @@
       .EraseButton.isEnabled:hover .Icon-shape,
       .ArrowButton.isEnabled:hover .Icon-shape {
         fill: #cccccc; }
+      .PlusButton.isEnabled:hover .Img-Shape,
       .PlayButton.isEnabled:hover .Img-Shape,
       .PauseButton.isEnabled:hover .Img-Shape,
       .PrevButton.isEnabled:hover .Img-Shape,
@@ -188,6 +247,7 @@
       .EraseButton.isEnabled:hover .Img-Shape,
       .ArrowButton.isEnabled:hover .Img-Shape {
         filter: brightness(0.86); }
+    .PlusButton.isEnabled:active,
     .PlayButton.isEnabled:active,
     .PauseButton.isEnabled:active,
     .PrevButton.isEnabled:active,
@@ -199,6 +259,7 @@
     .EraseButton.isEnabled:active,
     .ArrowButton.isEnabled:active {
       border-color: rgba(204, 204, 204, 0.5); }
+      .PlusButton.isEnabled:active .Icon-shape,
       .PlayButton.isEnabled:active .Icon-shape,
       .PauseButton.isEnabled:active .Icon-shape,
       .PrevButton.isEnabled:active .Icon-shape,
@@ -210,6 +271,7 @@
       .EraseButton.isEnabled:active .Icon-shape,
       .ArrowButton.isEnabled:active .Icon-shape {
         fill: rgba(204, 204, 204, 0.5); }
+      .PlusButton.isEnabled:active .Img-Shape,
       .PlayButton.isEnabled:active .Img-Shape,
       .PauseButton.isEnabled:active .Img-Shape,
       .PrevButton.isEnabled:active .Img-Shape,
