@@ -31,6 +31,8 @@ var _symmetryButton = require('./buttons/symmetry-button');
 
 var _plusButton = require('./buttons/plus-button');
 
+var _icons = require('./buttons/icons');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const chance = new Chance();
@@ -168,6 +170,10 @@ class Application extends _react2.default.Component {
         return _react2.default.createElement(
             'div',
             { className: 'no-copy midi-toys-app' },
+            _react2.default.createElement(_icons.LargeGridIcon, null),
+            _react2.default.createElement(_icons.SmallGridIcon, null),
+            _react2.default.createElement(_icons.RabbitIcon, null),
+            _react2.default.createElement(_icons.TurtleIcon, null),
             _react2.default.createElement(
                 'div',
                 { className: 'edit-options' },

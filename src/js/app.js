@@ -21,6 +21,12 @@ import {EditButton} from './buttons/edit-button';
 import {ArrowButton} from './buttons/arrow-button';
 import {SymmetryButton} from './buttons/symmetry-button';
 import {PlusButton} from './buttons/plus-button';
+import {
+    LargeGridIcon,
+    SmallGridIcon,
+    RabbitIcon,
+    TurtleIcon
+} from './buttons/icons';
 
 // const chance = new Chance();
 const maxSize = 20;
@@ -142,6 +148,10 @@ export class Application extends React.Component {
         return (
             <div className="no-copy midi-toys-app">
 
+    <LargeGridIcon/>
+    <SmallGridIcon/>
+    <RabbitIcon/>
+    <TurtleIcon/>
                 <div className="edit-options">
                     <div className="edit-options-member">
                         <MuteToggleButton
