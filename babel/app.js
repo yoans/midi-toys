@@ -35,6 +35,10 @@ var _icons = require('./buttons/icons');
 
 var _sliders = require('./sliders');
 
+var _presets = require('../assets/presets');
+
+var _presets2 = _interopRequireDefault(_presets);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const chance = new Chance();
@@ -182,6 +186,11 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     { className: 'edit-options-member' },
+                    _react2.default.createElement(_reactPlayerControls.PrevButton, { onClick: function () {}, isEnabled: true })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'edit-options-member' },
                     _react2.default.createElement(_reactPlayerControls.MuteToggleButton, {
                         isEnabled: true,
                         isMuted: this.state.muted,
@@ -192,6 +201,11 @@ class Application extends _react2.default.Component {
                     'div',
                     { className: 'edit-options-member' },
                     this.state.playing ? _react2.default.createElement(_reactPlayerControls.PauseButton, { onClick: this.pause }) : _react2.default.createElement(_reactPlayerControls.PlayButton, { isEnabled: true, onClick: this.play })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'edit-options-member' },
+                    _react2.default.createElement(_reactPlayerControls.NextButton, { onClick: function () {}, isEnabled: true })
                 )
             ),
             _react2.default.createElement(

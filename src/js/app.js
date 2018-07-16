@@ -2,7 +2,10 @@ import React from 'react';
 import {
     PlayButton,
     PauseButton,
-    MuteToggleButton
+    MuteToggleButton,
+    PrevButton,
+    NextButton
+ 
 } from 'react-player-controls';
 import {makePizzaSound} from './play-notes';
 import {
@@ -28,6 +31,7 @@ import {
     TurtleIcon
 } from './buttons/icons';
 import {setSliderOnChange} from './sliders';
+import presets from '../assets/presets';
 
 // const chance = new Chance();
 const maxSize = 20;
@@ -158,6 +162,9 @@ export class Application extends React.Component {
             <div className="no-copy midi-toys-app">
                 <div className="edit-options">
                     <div className="edit-options-member">
+                        <PrevButton onClick={()=>{}} isEnabled={true} />
+                    </div>
+                    <div className="edit-options-member">
                         <MuteToggleButton
                             isEnabled={true}
                             isMuted={this.state.muted}
@@ -170,6 +177,9 @@ export class Application extends React.Component {
                                 <PauseButton  onClick={this.pause}></PauseButton> :
                                 <PlayButton isEnabled={true} onClick={this.play}></PlayButton>
                         }
+                    </div>
+                    <div className="edit-options-member">
+                        <NextButton onClick={()=>{}} isEnabled={true} />
                     </div>
                 </div>
                 <div className="slider-container">
