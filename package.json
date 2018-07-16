@@ -28,6 +28,7 @@
     "particles.js": "^2.0.0",
     "pizzicato": "^0.6.3",
     "ramda": "0.25.0",
+    "rangeslider.js": "^2.3.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-player-controls": "^0.5.20"

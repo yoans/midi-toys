@@ -26,8 +26,8 @@ let previousTime;
 const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
     stateDrawing = state;
     previousTime = new Date();
-    const gridCanvasSize = 180;
-    const gridCanvasBorderSize = 4;
+    const gridCanvasSize = 300;
+    const gridCanvasBorderSize = 2;
     const triangleDrawingArray = [function (topLeft, cellSize, sketch) {
         return sketch.triangle(topLeft.x + cellSize / 2.0, topLeft.y, topLeft.x + cellSize, topLeft.y + cellSize, topLeft.x, topLeft.y + cellSize);
     }, function (topLeft, cellSize, sketch) {
@@ -165,12 +165,18 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
             };
             const mouseXindex = convertPixelToIndex(sketch.mouseX);
             const mouseYindex = convertPixelToIndex(sketch.mouseY);
-            if (!stateDrawing.deleting) {
-                triangleDrawingArray[stateDrawing.inputDirection](convertArrowToTopLeft({
-                    x: mouseXindex,
-                    y: mouseYindex
-                }), cellSize, sketch);
-            }
+            if (!stateDrawing.deleting) {}
+            // triangleDrawingArray[stateDrawing.inputDirection](
+            //     convertArrowToTopLeft(
+            //         {
+            //             x: mouseXindex,
+            //             y: mouseYindex
+            //         }
+            //     ),
+            //     cellSize,
+            //     sketch
+            // );
+
             // eslint-disable-next-line no-param-reassign
             sketch.touchEnded = function (e) {
                 if (sketch.mouseX > 0 + gridCanvasBorderSize && sketch.mouseX < gridCanvasSize - gridCanvasBorderSize && sketch.mouseY > 0 + gridCanvasBorderSize && sketch.mouseY < gridCanvasSize - gridCanvasBorderSize) {

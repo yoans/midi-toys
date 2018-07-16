@@ -18,8 +18,8 @@ let previousTime;
 export const setUpCanvas = (state, arrowAdder) => {
     stateDrawing = state;
     previousTime = new Date();
-    const gridCanvasSize = 180;
-    const gridCanvasBorderSize = 4;
+    const gridCanvasSize = 300;
+    const gridCanvasBorderSize = 2;
     const triangleDrawingArray = [
         (topLeft, cellSize, sketch) => sketch.triangle(
             topLeft.x + (cellSize / 2.0), topLeft.y,
@@ -231,16 +231,16 @@ export const setUpCanvas = (state, arrowAdder) => {
             const mouseXindex = convertPixelToIndex(sketch.mouseX);
             const mouseYindex = convertPixelToIndex(sketch.mouseY);
             if (!stateDrawing.deleting) {
-                triangleDrawingArray[stateDrawing.inputDirection](
-                    convertArrowToTopLeft(
-                        {
-                            x: mouseXindex,
-                            y: mouseYindex
-                        }
-                    ),
-                    cellSize,
-                    sketch
-                );
+                // triangleDrawingArray[stateDrawing.inputDirection](
+                //     convertArrowToTopLeft(
+                //         {
+                //             x: mouseXindex,
+                //             y: mouseYindex
+                //         }
+                //     ),
+                //     cellSize,
+                //     sketch
+                // );
             }
             // eslint-disable-next-line no-param-reassign
             sketch.touchEnded = (e) => {

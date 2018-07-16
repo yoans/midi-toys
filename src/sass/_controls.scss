@@ -31,6 +31,12 @@ $color-active: fade-out($color-hover, 0.5);
   .number-overlayee {
     position:relative;
   }
+  .left-side-button {
+    left: 0px; 
+  }
+  .right-side-button {
+    right: 0px;
+  }
   .number-overlay {
     font-weight: bold;
     color: black;
@@ -49,7 +55,7 @@ $color-active: fade-out($color-hover, 0.5);
     }
   }
 
-  margin: 2px;
+  margin: 3.76px;
   padding: 8px;
   background: transparent;
   border: 2px solid $super-white;

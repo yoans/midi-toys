@@ -27,18 +27,21 @@ import {
     RabbitIcon,
     TurtleIcon
 } from './buttons/icons';
+import {setSliderOnChange} from './sliders';
 
 // const chance = new Chance();
 const maxSize = 20;
 const minSize = 2;
-const minNoteLength = 50;
-const maxNoteLength = 500;
+const minNoteLength = -500;
+const maxNoteLength = -50;
 const interactSound = (note, state) => (state.muted ? undefined : makePizzaSound(note, 50).play());
 export class Application extends React.Component {
     constructor(props) {
         super(props);
 
-        const preset = JSON.parse('{"size":8,"arrows":[{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3}],"muted":true}');
+        // const preset = JSON.parse('{"size":8,"arrows":[{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3}],"muted":true}');
+        const preset = JSON.parse('{"size":8,"arrows":[{"x":1,"y":7,"vector":0},{"x":1,"y":0,"vector":2},{"x":6,"y":7,"vector":0},{"x":6,"y":0,"vector":2},{"x":0,"y":6,"vector":1},{"x":7,"y":6,"vector":3},{"x":0,"y":1,"vector":1},{"x":7,"y":1,"vector":3},{"x":2,"y":6,"vector":0},{"x":2,"y":1,"vector":2},{"x":5,"y":6,"vector":0},{"x":5,"y":1,"vector":2},{"x":1,"y":5,"vector":1},{"x":6,"y":5,"vector":3},{"x":1,"y":2,"vector":1},{"x":6,"y":2,"vector":3},{"x":3,"y":5,"vector":0},{"x":3,"y":2,"vector":2},{"x":4,"y":5,"vector":0},{"x":4,"y":2,"vector":2},{"x":2,"y":4,"vector":1},{"x":5,"y":4,"vector":3},{"x":2,"y":3,"vector":1},{"x":5,"y":3,"vector":3},{"x":0,"y":5,"vector":0},{"x":0,"y":2,"vector":2},{"x":7,"y":5,"vector":0},{"x":7,"y":2,"vector":2},{"x":2,"y":7,"vector":1},{"x":5,"y":7,"vector":3},{"x":2,"y":0,"vector":1},{"x":5,"y":0,"vector":3},{"x":1,"y":4,"vector":0},{"x":1,"y":3,"vector":2},{"x":6,"y":4,"vector":0},{"x":6,"y":3,"vector":2},{"x":3,"y":6,"vector":1},{"x":4,"y":6,"vector":3},{"x":3,"y":1,"vector":1},{"x":4,"y":1,"vector":3},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3}],"muted":true}');
+        
 
         this.state = {
             gridSize: 8,
@@ -60,6 +63,11 @@ export class Application extends React.Component {
 
     componentDidMount() {
         // this.play();
+        const idsAndCallbacks = [
+            {id: '#grid-size-slider', onChange: this.newSize},
+            {id: '#note-length-slider', onChange: this.newNoteLength}
+        ]
+        setSliderOnChange(idsAndCallbacks);
     }
 
     timerID = undefined
@@ -90,9 +98,9 @@ export class Application extends React.Component {
         this.resetTimer();
         this.setState({ deleting: !this.state.deleting });
     }
-    newSize = (e) => {
+    newSize = (value) => {
         this.resetTimer();
-        const input = parseInt(e.target.value, 10);
+        const input = parseInt(value, 10);
 
         this.setState({
             gridSize: input,
@@ -102,11 +110,14 @@ export class Application extends React.Component {
             },
         });
     }
-    newNoteLength = (e) => {
+    newNoteLength = (value) => {
         this.resetTimer();
-        const input = parseInt(e.target.value, 10);
+        console.log({value});
+        const input = parseInt(value, 10);
+        console.log({input});
+
         this.setState({
-            noteLength: input,
+            noteLength: -1*input,
         });
     }
     nextGrid = (length) => {
@@ -147,11 +158,6 @@ export class Application extends React.Component {
         updateCanvas(this.state, newDate);
         return (
             <div className="no-copy midi-toys-app">
-
-    <LargeGridIcon/>
-    <SmallGridIcon/>
-    <RabbitIcon/>
-    <TurtleIcon/>
                 <div className="edit-options">
                     <div className="edit-options-member">
                         <MuteToggleButton
@@ -168,21 +174,35 @@ export class Application extends React.Component {
                         }
                     </div>
                 </div>
-                <input id="max-note-length" className="arrow-input" type="range" max={maxNoteLength} min={minNoteLength} value={this.state.noteLength} onChange={this.newNoteLength} />
-                <select id="midiOut" className="arrow-input">
-                    <option value="">Not connected</option>
-                </select>
-
+                <div className="slider-container">
+                    <input
+                        id="note-length-slider"
+                        className="arrow-input"
+                        type="range"
+                        max={maxNoteLength}
+                        min={minNoteLength}
+                        value={-1*this.state.noteLength}
+                    />
+                </div>
+                <div className="slider-icon-container">
+                    <RabbitIcon/>
+                    <TurtleIcon/>
+                </div>
                 <div id="sketch-holder"/>
-                <input
-                    id="arrow-input-number"
-                    className="arrow-input" 
-                    type="range"
-                    max={maxSize}
-                    min={minSize}
-                    value={this.state.gridSize}
-                    onChange={this.newSize}
-                />
+                <div className="slider-container">
+                    <input
+                        id="grid-size-slider"
+                        className="arrow-input" 
+                        type="range"
+                        max={maxSize}
+                        min={minSize}
+                        value={this.state.gridSize}
+                    />
+                </div>
+                <div className="slider-icon-container">
+                    <LargeGridIcon/>
+                    <SmallGridIcon/>
+                </div>
                 <SymmetryButton 
                     onClick={
                         ()=>this.setState({
@@ -218,13 +238,6 @@ export class Application extends React.Component {
                     )}
                     isActive={this.state.verticalSymmetry}
                     className={""}
-                />
-                <PlusButton 
-                    onClick={
-                        ()=>this.setState({
-                            inputNumber: ((this.state.inputNumber + 1) % 5) || 1
-                        }
-                    )}
                 />
                 {
                     [
@@ -262,8 +275,18 @@ export class Application extends React.Component {
                             />),
                     ][this.state.inputDirection]
                 }
+                <PlusButton 
+                    onClick={
+                        ()=>this.setState({
+                            inputNumber: ((this.state.inputNumber + 1) % 5) || 1
+                        }
+                    )}
+                />
                 <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
                 <TrashButton onClick={() => this.newGrid(0, this.state.gridSize)}/>
+                <select id="midiOut" className="arrow-input">
+                    <option value="">Not connected</option>
+                </select>
             </div>
         );
     }

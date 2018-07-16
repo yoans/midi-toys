@@ -33,13 +33,15 @@ var _plusButton = require('./buttons/plus-button');
 
 var _icons = require('./buttons/icons');
 
+var _sliders = require('./sliders');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const chance = new Chance();
 const maxSize = 20;
 const minSize = 2;
-const minNoteLength = 50;
-const maxNoteLength = 500;
+const minNoteLength = -500;
+const maxNoteLength = -50;
 const interactSound = function (note, state) {
     return state.muted ? undefined : (0, _playNotes.makePizzaSound)(note, 50).play();
 };
@@ -49,6 +51,7 @@ class Application extends _react2.default.Component {
 
         _this = super(props);
 
+        // const preset = JSON.parse('{"size":8,"arrows":[{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3}],"muted":true}');
         this.timerID = undefined;
 
         this.play = function () {
@@ -81,9 +84,9 @@ class Application extends _react2.default.Component {
             _this.setState({ deleting: !_this.state.deleting });
         };
 
-        this.newSize = function (e) {
+        this.newSize = function (value) {
             _this.resetTimer();
-            const input = parseInt(e.target.value, 10);
+            const input = parseInt(value, 10);
 
             _this.setState({
                 gridSize: input,
@@ -93,11 +96,14 @@ class Application extends _react2.default.Component {
             });
         };
 
-        this.newNoteLength = function (e) {
+        this.newNoteLength = function (value) {
             _this.resetTimer();
-            const input = parseInt(e.target.value, 10);
+            console.log({ value });
+            const input = parseInt(value, 10);
+            console.log({ input });
+
             _this.setState({
-                noteLength: input
+                noteLength: -1 * input
             });
         };
 
@@ -138,7 +144,7 @@ class Application extends _react2.default.Component {
             }
         };
 
-        const preset = JSON.parse('{"size":8,"arrows":[{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3}],"muted":true}');
+        const preset = JSON.parse('{"size":8,"arrows":[{"x":1,"y":7,"vector":0},{"x":1,"y":0,"vector":2},{"x":6,"y":7,"vector":0},{"x":6,"y":0,"vector":2},{"x":0,"y":6,"vector":1},{"x":7,"y":6,"vector":3},{"x":0,"y":1,"vector":1},{"x":7,"y":1,"vector":3},{"x":2,"y":6,"vector":0},{"x":2,"y":1,"vector":2},{"x":5,"y":6,"vector":0},{"x":5,"y":1,"vector":2},{"x":1,"y":5,"vector":1},{"x":6,"y":5,"vector":3},{"x":1,"y":2,"vector":1},{"x":6,"y":2,"vector":3},{"x":3,"y":5,"vector":0},{"x":3,"y":2,"vector":2},{"x":4,"y":5,"vector":0},{"x":4,"y":2,"vector":2},{"x":2,"y":4,"vector":1},{"x":5,"y":4,"vector":3},{"x":2,"y":3,"vector":1},{"x":5,"y":3,"vector":3},{"x":0,"y":5,"vector":0},{"x":0,"y":2,"vector":2},{"x":7,"y":5,"vector":0},{"x":7,"y":2,"vector":2},{"x":2,"y":7,"vector":1},{"x":5,"y":7,"vector":3},{"x":2,"y":0,"vector":1},{"x":5,"y":0,"vector":3},{"x":1,"y":4,"vector":0},{"x":1,"y":3,"vector":2},{"x":6,"y":4,"vector":0},{"x":6,"y":3,"vector":2},{"x":3,"y":6,"vector":1},{"x":4,"y":6,"vector":3},{"x":3,"y":1,"vector":1},{"x":4,"y":1,"vector":3},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3}],"muted":true}');
 
         this.state = {
             gridSize: 8,
@@ -160,6 +166,8 @@ class Application extends _react2.default.Component {
 
     componentDidMount() {
         // this.play();
+        const idsAndCallbacks = [{ id: '#grid-size-slider', onChange: this.newSize }, { id: '#note-length-slider', onChange: this.newNoteLength }];
+        (0, _sliders.setSliderOnChange)(idsAndCallbacks);
     }
 
     render() {
@@ -170,10 +178,6 @@ class Application extends _react2.default.Component {
         return _react2.default.createElement(
             'div',
             { className: 'no-copy midi-toys-app' },
-            _react2.default.createElement(_icons.LargeGridIcon, null),
-            _react2.default.createElement(_icons.SmallGridIcon, null),
-            _react2.default.createElement(_icons.RabbitIcon, null),
-            _react2.default.createElement(_icons.TurtleIcon, null),
             _react2.default.createElement(
                 'div',
                 { className: 'edit-options' },
@@ -192,26 +196,43 @@ class Application extends _react2.default.Component {
                     this.state.playing ? _react2.default.createElement(_reactPlayerControls.PauseButton, { onClick: this.pause }) : _react2.default.createElement(_reactPlayerControls.PlayButton, { isEnabled: true, onClick: this.play })
                 )
             ),
-            _react2.default.createElement('input', { id: 'max-note-length', className: 'arrow-input', type: 'range', max: maxNoteLength, min: minNoteLength, value: this.state.noteLength, onChange: this.newNoteLength }),
             _react2.default.createElement(
-                'select',
-                { id: 'midiOut', className: 'arrow-input' },
-                _react2.default.createElement(
-                    'option',
-                    { value: '' },
-                    'Not connected'
-                )
+                'div',
+                { className: 'slider-container' },
+                _react2.default.createElement('input', {
+                    id: 'note-length-slider',
+                    className: 'arrow-input',
+                    type: 'range',
+                    max: maxNoteLength,
+                    min: minNoteLength,
+                    value: -1 * this.state.noteLength
+                })
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'slider-icon-container' },
+                _react2.default.createElement(_icons.RabbitIcon, null),
+                _react2.default.createElement(_icons.TurtleIcon, null)
             ),
             _react2.default.createElement('div', { id: 'sketch-holder' }),
-            _react2.default.createElement('input', {
-                id: 'arrow-input-number',
-                className: 'arrow-input',
-                type: 'range',
-                max: maxSize,
-                min: minSize,
-                value: this.state.gridSize,
-                onChange: this.newSize
-            }),
+            _react2.default.createElement(
+                'div',
+                { className: 'slider-container' },
+                _react2.default.createElement('input', {
+                    id: 'grid-size-slider',
+                    className: 'arrow-input',
+                    type: 'range',
+                    max: maxSize,
+                    min: minSize,
+                    value: this.state.gridSize
+                })
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'slider-icon-container' },
+                _react2.default.createElement(_icons.LargeGridIcon, null),
+                _react2.default.createElement(_icons.SmallGridIcon, null)
+            ),
             _react2.default.createElement(_symmetryButton.SymmetryButton, {
                 onClick: function () {
                     return _this2.setState({
@@ -248,13 +269,6 @@ class Application extends _react2.default.Component {
                 isActive: this.state.verticalSymmetry,
                 className: ""
             }),
-            _react2.default.createElement(_plusButton.PlusButton, {
-                onClick: function () {
-                    return _this2.setState({
-                        inputNumber: (_this2.state.inputNumber + 1) % 5 || 1
-                    });
-                }
-            }),
             [_react2.default.createElement(_arrowButton.ArrowButton, {
                 number: this.state.inputNumber,
                 onClick: function () {
@@ -280,10 +294,26 @@ class Application extends _react2.default.Component {
                 },
                 direction: 'Left'
             })][this.state.inputDirection],
+            _react2.default.createElement(_plusButton.PlusButton, {
+                onClick: function () {
+                    return _this2.setState({
+                        inputNumber: (_this2.state.inputNumber + 1) % 5 || 1
+                    });
+                }
+            }),
             _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' }),
             _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
                     return _this2.newGrid(0, _this2.state.gridSize);
-                } })
+                } }),
+            _react2.default.createElement(
+                'select',
+                { id: 'midiOut', className: 'arrow-input' },
+                _react2.default.createElement(
+                    'option',
+                    { value: '' },
+                    'Not connected'
+                )
+            )
         );
     }
 }
