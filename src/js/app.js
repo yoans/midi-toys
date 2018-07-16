@@ -112,9 +112,7 @@ export class Application extends React.Component {
     }
     newNoteLength = (value) => {
         this.resetTimer();
-        console.log({value});
         const input = parseInt(value, 10);
-        console.log({input});
 
         this.setState({
             noteLength: -1*input,

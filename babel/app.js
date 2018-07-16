@@ -98,9 +98,7 @@ class Application extends _react2.default.Component {
 
         this.newNoteLength = function (value) {
             _this.resetTimer();
-            console.log({ value });
             const input = parseInt(value, 10);
-            console.log({ input });
 
             _this.setState({
                 noteLength: -1 * input
