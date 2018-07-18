@@ -35,7 +35,7 @@ var _icons = require('./buttons/icons');
 
 var _sliders = require('./sliders');
 
-var _presets = require('../assets/presets');
+var _presets = require('./presets');
 
 var _presets2 = _interopRequireDefault(_presets);
 
@@ -49,13 +49,15 @@ const maxNoteLength = -50;
 const interactSound = function (note, state) {
     return state.muted ? undefined : (0, _playNotes.makePizzaSound)(note, 50).play();
 };
+const putArrowsInGrid = function (arrows) {
+    return { "size": 8, "arrows": arrows, "muted": true };
+};
 class Application extends _react2.default.Component {
     constructor(props) {
         var _this;
 
         _this = super(props);
 
-        // const preset = JSON.parse('{"size":8,"arrows":[{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3}],"muted":true}');
         this.timerID = undefined;
 
         this.play = function () {
@@ -93,7 +95,6 @@ class Application extends _react2.default.Component {
             const input = parseInt(value, 10);
 
             _this.setState({
-                gridSize: input,
                 grid: _extends({}, _this.state.grid, {
                     size: input
                 })
@@ -128,6 +129,12 @@ class Application extends _react2.default.Component {
             });
         };
 
+        this.addPreset = function () {
+            _this.setState({
+                presets: [..._this.state.presets, putArrowsInGrid(_this.state.grid.arrows)]
+            });
+        };
+
         this.addToGrid = function (x, y, e) {
             if (e.shiftKey || _this.state.deleting) {
                 _this.setState({
@@ -146,14 +153,12 @@ class Application extends _react2.default.Component {
             }
         };
 
-        const preset = JSON.parse('{"size":8,"arrows":[{"x":1,"y":7,"vector":0},{"x":1,"y":0,"vector":2},{"x":6,"y":7,"vector":0},{"x":6,"y":0,"vector":2},{"x":0,"y":6,"vector":1},{"x":7,"y":6,"vector":3},{"x":0,"y":1,"vector":1},{"x":7,"y":1,"vector":3},{"x":2,"y":6,"vector":0},{"x":2,"y":1,"vector":2},{"x":5,"y":6,"vector":0},{"x":5,"y":1,"vector":2},{"x":1,"y":5,"vector":1},{"x":6,"y":5,"vector":3},{"x":1,"y":2,"vector":1},{"x":6,"y":2,"vector":3},{"x":3,"y":5,"vector":0},{"x":3,"y":2,"vector":2},{"x":4,"y":5,"vector":0},{"x":4,"y":2,"vector":2},{"x":2,"y":4,"vector":1},{"x":5,"y":4,"vector":3},{"x":2,"y":3,"vector":1},{"x":5,"y":3,"vector":3},{"x":0,"y":5,"vector":0},{"x":0,"y":2,"vector":2},{"x":7,"y":5,"vector":0},{"x":7,"y":2,"vector":2},{"x":2,"y":7,"vector":1},{"x":5,"y":7,"vector":3},{"x":2,"y":0,"vector":1},{"x":5,"y":0,"vector":3},{"x":1,"y":4,"vector":0},{"x":1,"y":3,"vector":2},{"x":6,"y":4,"vector":0},{"x":6,"y":3,"vector":2},{"x":3,"y":6,"vector":1},{"x":4,"y":6,"vector":3},{"x":3,"y":1,"vector":1},{"x":4,"y":1,"vector":3},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3}],"muted":true}');
-
         this.state = {
-            gridSize: 8,
+            currentPreset: -1,
+            presets: _presets2.default,
             inputDirection: 0,
             noteLength: 350,
-            grid: preset,
-            // grid: newGrid(8, 8),
+            grid: (0, _arrowsLogic.newGrid)(8, 8),
             playing: false,
             muted: true,
             deleting: false,
@@ -186,7 +191,21 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     { className: 'edit-options-member' },
-                    _react2.default.createElement(_reactPlayerControls.PrevButton, { onClick: function () {}, isEnabled: true })
+                    _react2.default.createElement(_reactPlayerControls.PrevButton, {
+                        onClick: function () {
+                            let NextPreset = _this2.state.currentPreset - 1;
+
+                            if (NextPreset < 0) {
+                                NextPreset = _this2.state.presets.length - 1;
+                            }
+
+                            _this2.setState({
+                                grid: _this2.state.presets[NextPreset],
+                                currentPreset: NextPreset
+                            });
+                        },
+                        isEnabled: true
+                    })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -205,7 +224,21 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     { className: 'edit-options-member' },
-                    _react2.default.createElement(_reactPlayerControls.NextButton, { onClick: function () {}, isEnabled: true })
+                    _react2.default.createElement(_reactPlayerControls.NextButton, {
+                        onClick: function () {
+                            let NextPreset = _this2.state.currentPreset + 1;
+
+                            if (NextPreset >= _this2.state.presets.length) {
+                                NextPreset = 0;
+                            }
+
+                            _this2.setState({
+                                grid: _this2.state.presets[NextPreset],
+                                currentPreset: NextPreset
+                            });
+                        },
+                        isEnabled: true
+                    })
                 )
             ),
             _react2.default.createElement(
@@ -236,7 +269,7 @@ class Application extends _react2.default.Component {
                     type: 'range',
                     max: maxSize,
                     min: minSize,
-                    value: this.state.gridSize
+                    value: this.state.grid.size
                 })
             ),
             _react2.default.createElement(
@@ -315,7 +348,7 @@ class Application extends _react2.default.Component {
             }),
             _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' }),
             _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
-                    return _this2.newGrid(0, _this2.state.gridSize);
+                    return _this2.newGrid(0, _this2.state.grid.Size);
                 } }),
             _react2.default.createElement(
                 'select',

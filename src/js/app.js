@@ -31,7 +31,7 @@ import {
     TurtleIcon
 } from './buttons/icons';
 import {setSliderOnChange} from './sliders';
-import presets from '../assets/presets';
+import presets from './presets';
 
 // const chance = new Chance();
 const maxSize = 20;
@@ -39,20 +39,17 @@ const minSize = 2;
 const minNoteLength = -500;
 const maxNoteLength = -50;
 const interactSound = (note, state) => (state.muted ? undefined : makePizzaSound(note, 50).play());
+const putArrowsInGrid = (arrows) => ({"size":8,"arrows":arrows,"muted":true});
 export class Application extends React.Component {
     constructor(props) {
         super(props);
 
-        // const preset = JSON.parse('{"size":8,"arrows":[{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":2},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":5,"y":5,"vector":3},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":0},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":2,"y":2,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":1},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":5,"y":2,"vector":2},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":0},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3},{"x":2,"y":5,"vector":3}],"muted":true}');
-        const preset = JSON.parse('{"size":8,"arrows":[{"x":1,"y":7,"vector":0},{"x":1,"y":0,"vector":2},{"x":6,"y":7,"vector":0},{"x":6,"y":0,"vector":2},{"x":0,"y":6,"vector":1},{"x":7,"y":6,"vector":3},{"x":0,"y":1,"vector":1},{"x":7,"y":1,"vector":3},{"x":2,"y":6,"vector":0},{"x":2,"y":1,"vector":2},{"x":5,"y":6,"vector":0},{"x":5,"y":1,"vector":2},{"x":1,"y":5,"vector":1},{"x":6,"y":5,"vector":3},{"x":1,"y":2,"vector":1},{"x":6,"y":2,"vector":3},{"x":3,"y":5,"vector":0},{"x":3,"y":2,"vector":2},{"x":4,"y":5,"vector":0},{"x":4,"y":2,"vector":2},{"x":2,"y":4,"vector":1},{"x":5,"y":4,"vector":3},{"x":2,"y":3,"vector":1},{"x":5,"y":3,"vector":3},{"x":0,"y":5,"vector":0},{"x":0,"y":2,"vector":2},{"x":7,"y":5,"vector":0},{"x":7,"y":2,"vector":2},{"x":2,"y":7,"vector":1},{"x":5,"y":7,"vector":3},{"x":2,"y":0,"vector":1},{"x":5,"y":0,"vector":3},{"x":1,"y":4,"vector":0},{"x":1,"y":3,"vector":2},{"x":6,"y":4,"vector":0},{"x":6,"y":3,"vector":2},{"x":3,"y":6,"vector":1},{"x":4,"y":6,"vector":3},{"x":3,"y":1,"vector":1},{"x":4,"y":1,"vector":3},{"x":3,"y":3,"vector":0},{"x":3,"y":3,"vector":0},{"x":3,"y":4,"vector":2},{"x":3,"y":4,"vector":2},{"x":4,"y":3,"vector":0},{"x":4,"y":3,"vector":0},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":2},{"x":4,"y":4,"vector":1},{"x":4,"y":4,"vector":1},{"x":3,"y":4,"vector":3},{"x":3,"y":4,"vector":3},{"x":4,"y":3,"vector":1},{"x":4,"y":3,"vector":1},{"x":3,"y":3,"vector":3},{"x":3,"y":3,"vector":3}],"muted":true}');
-        
-
         this.state = {
-            gridSize: 8,
+            currentPreset:-1,
+            presets,
             inputDirection: 0,
             noteLength: 350,
-            grid: preset,
-            // grid: newGrid(8, 8),
+            grid: newGrid(8, 8),
             playing: false,
             muted: true,
             deleting: false,
@@ -107,7 +104,6 @@ export class Application extends React.Component {
         const input = parseInt(value, 10);
 
         this.setState({
-            gridSize: input,
             grid: {
                 ...this.state.grid,
                 size: input,
@@ -138,10 +134,20 @@ export class Application extends React.Component {
             grid: newGrid(size, number),
         });
     }
+    addPreset = () => {
+        this.setState({
+            presets: [
+                ...this.state.presets,
+                putArrowsInGrid(
+                    this.state.grid.arrows
+                )
+            ]
+        });
+    }
     addToGrid = (x, y, e) => {
         if (e.shiftKey || this.state.deleting) {
             this.setState({
-                grid: removeFromGrid(this.state.grid, x, y),
+                grid: removeFromGrid(this.state.grid, x, y)
             });
         } else {
             const symmetries = {
@@ -161,8 +167,26 @@ export class Application extends React.Component {
         return (
             <div className="no-copy midi-toys-app">
                 <div className="edit-options">
+{/*                 
+                <PlusButton 
+                    onClick={this.addPreset}
+                /> */}
                     <div className="edit-options-member">
-                        <PrevButton onClick={()=>{}} isEnabled={true} />
+                        <PrevButton
+                            onClick={()=>{
+                                let NextPreset = this.state.currentPreset - 1;
+                                
+                                if (NextPreset<0) {
+                                    NextPreset = this.state.presets.length -1;
+                                }
+
+                                this.setState({
+                                    grid: this.state.presets[NextPreset],
+                                    currentPreset: NextPreset
+                                });
+                            }}
+                            isEnabled={true}
+                        />
                     </div>
                     <div className="edit-options-member">
                         <MuteToggleButton
@@ -179,7 +203,21 @@ export class Application extends React.Component {
                         }
                     </div>
                     <div className="edit-options-member">
-                        <NextButton onClick={()=>{}} isEnabled={true} />
+                        <NextButton
+                            onClick={()=>{
+                                let NextPreset = this.state.currentPreset + 1;
+                                
+                                if (NextPreset>=this.state.presets.length) {
+                                    NextPreset = 0;
+                                }
+
+                                this.setState({
+                                    grid: this.state.presets[NextPreset],
+                                    currentPreset: NextPreset
+                                });
+                            }}
+                            isEnabled={true}
+                        />
                     </div>
                 </div>
                 <div className="slider-container">
@@ -204,7 +242,7 @@ export class Application extends React.Component {
                         type="range"
                         max={maxSize}
                         min={minSize}
-                        value={this.state.gridSize}
+                        value={this.state.grid.size}
                     />
                 </div>
                 <div className="slider-icon-container">
@@ -291,7 +329,7 @@ export class Application extends React.Component {
                     )}
                 />
                 <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
-                <TrashButton onClick={() => this.newGrid(0, this.state.gridSize)}/>
+                <TrashButton onClick={() => this.newGrid(0, this.state.grid.Size)}/>
                 <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>
                 </select>
