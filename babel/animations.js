@@ -71,9 +71,21 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
             sketch.strokeWeight(0);
             sketch.fill(0, 0, 0);
             sketch.rect(gridCanvasBorderSize, gridCanvasBorderSize, gridCanvasSize, gridCanvasSize);
-
+            //draw grid lines
             const cellSize = gridCanvasSize * 1.0 / (1.0 * stateDrawing.grid.size);
+            sketch.push();
+            sketch.stroke(25, 25, 25);
+            sketch.strokeWeight(2);
+            for (var i = 1; i < stateDrawing.grid.size; i++) {
+                // horizontal
+                sketch.line(1 + gridCanvasBorderSize, 1 + gridCanvasBorderSize + i * cellSize, gridCanvasSize, 1 + i * cellSize);
+                // vertical
+                sketch.line(1 + gridCanvasBorderSize + i * cellSize, 1 + gridCanvasBorderSize, 1 + i * cellSize, gridCanvasSize);
+            }
+            sketch.pop();
+
             sketch.fill(255, 255, 255);
+            sketch.strokeWeight(0);
             const convertIndexToPixel = function (index) {
                 return index * cellSize + gridCanvasBorderSize;
             };

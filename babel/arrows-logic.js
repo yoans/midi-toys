@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.nextGrid = exports.getArrowBoundaryDictionary = exports.arrowBoundaryKey = exports.locationKey = exports.arrowKey = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.BOUNDARY = exports.NO_BOUNDARY = undefined;
+exports.nextGrid = exports.getArrowBoundaryDictionary = exports.arrowBoundaryKey = exports.locationKey = exports.arrowKey = exports.emptyGrid = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.BOUNDARY = exports.NO_BOUNDARY = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -154,8 +154,11 @@ const addOneToGrid = function (grid, x, y, dir) {
 
 const newGrid = exports.newGrid = function (size, numberOfArrows) {
     const arrows = R.range(0, numberOfArrows).map(getArrow(size));
+    return { size: size, arrows, muted: true };
+};
 
-    return { size, arrows, muted: true };
+const emptyGrid = exports.emptyGrid = function (size) {
+    return { size: size, arrows: [], muted: true };
 };
 // const seedGrid = () => newGrid(getRandomNumber(20) + 12, getRandomNumber(50) + 1);
 const moveArrow = function (arrow) {

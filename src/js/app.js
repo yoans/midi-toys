@@ -9,6 +9,7 @@ import {
 } from 'react-player-controls';
 import {makePizzaSound} from './play-notes';
 import {
+    emptyGrid,
     newGrid,
     nextGrid,
     removeFromGrid,
@@ -132,6 +133,11 @@ export class Application extends React.Component {
     newGrid = (number, size) => {
         this.setState({
             grid: newGrid(size, number),
+        });
+    }
+    emptyGrid = () => {
+        this.setState({
+            grid: emptyGrid(this.state.grid.size),
         });
     }
     addPreset = () => {
@@ -329,7 +335,7 @@ export class Application extends React.Component {
                     )}
                 />
                 <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
-                <TrashButton onClick={() => this.newGrid(0, this.state.grid.Size)}/>
+                <TrashButton onClick={this.emptyGrid}/>
                 <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>
                 </select>

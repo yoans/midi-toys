@@ -128,8 +128,11 @@ const addOneToGrid = (grid, x, y, dir) => {
 
 export const newGrid = (size, numberOfArrows) => {
     const arrows = R.range(0, numberOfArrows).map(getArrow(size));
+    return { size: size, arrows, muted: true };
+};
 
-    return { size, arrows, muted: true };
+export const emptyGrid = (size) => {
+    return { size: size, arrows: [], muted: true };
 };
 // const seedGrid = () => newGrid(getRandomNumber(20) + 12, getRandomNumber(50) + 1);
 const moveArrow = arrow => vectorOperations[arrow.vector](arrow);

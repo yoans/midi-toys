@@ -129,6 +129,12 @@ class Application extends _react2.default.Component {
             });
         };
 
+        this.emptyGrid = function () {
+            _this.setState({
+                grid: (0, _arrowsLogic.emptyGrid)(_this.state.grid.size)
+            });
+        };
+
         this.addPreset = function () {
             _this.setState({
                 presets: [..._this.state.presets, putArrowsInGrid(_this.state.grid.arrows)]
@@ -347,9 +353,7 @@ class Application extends _react2.default.Component {
                 }
             }),
             _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' }),
-            _react2.default.createElement(_trashButton.TrashButton, { onClick: function () {
-                    return _this2.newGrid(0, _this2.state.grid.Size);
-                } }),
+            _react2.default.createElement(_trashButton.TrashButton, { onClick: this.emptyGrid }),
             _react2.default.createElement(
                 'select',
                 { id: 'midiOut', className: 'arrow-input' },
