@@ -22,23 +22,17 @@ export const makePizzaSound = (index, length) => {
             frequency: frequencies[noteIndex][0],
             attack: 0.1,
             release: 0.1,
-            type: 'triangle',
+            type: 'sawtooth',
         },
     });
-    const distortion = new Pizzicato.Effects.Distortion({
-        gain: 0.8,
-    });
+    // const reverb = new Pizzicato.Effects.Reverb({
+    //     time: length / 2.0,
+    //     decay: length / 2.0,
+    //     reverse: true,
+    //     mix: 0.7,
+    // });
 
-    aSound.addEffect(distortion);
-
-    const reverb = new Pizzicato.Effects.Reverb({
-        time: length / 2.0,
-        decay: length / 2.0,
-        reverse: true,
-        mix: 0.7,
-    });
-
-    aSound.addEffect(reverb);
+    // aSound.addEffect(reverb);
     return {
         play() {
             aSound.play();
