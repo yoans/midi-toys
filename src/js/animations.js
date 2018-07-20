@@ -97,7 +97,7 @@ export const setUpCanvas = (state, arrowAdder) => {
             //draw grid lines
             const cellSize = (gridCanvasSize * 1.0) / (1.0 * stateDrawing.grid.size);
             sketch.push();
-            sketch.stroke(25, 25, 25);
+            sketch.stroke(45, 45, 45);
             sketch.strokeWeight(2);
             for (var i=1; i<stateDrawing.grid.size; i++) {
                 // horizontal

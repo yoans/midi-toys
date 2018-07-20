@@ -231,10 +231,6 @@ const nextGrid = exports.nextGrid = function (grid, length) {
         return arrow.x >= 0 && arrow.y >= 0 && arrow.x < size && arrow.y < size;
     });
     const arrowSetDictionary = getArrowBoundaryDictionary(reducedArrows, size, locationKey);
-
-    const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(arrows, size, arrowBoundaryKey);
-    (0, _playNotes.playSounds)(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
-
     const arrowSets = Object.keys(arrowSetDictionary).map(function (key) {
         return arrowSetDictionary[key];
     });
@@ -242,13 +238,14 @@ const nextGrid = exports.nextGrid = function (grid, length) {
     const flatRotatedArrows = rotatedArrows.reduce(function (accum, current) {
         return [...accum, ...current];
     }, []);
-
     const arrowBoundaryDictionary = getArrowBoundaryDictionary(flatRotatedArrows, size, arrowBoundaryKey);
     const movedArrowsInMiddle = newArrayIfFalsey(arrowBoundaryDictionary[NO_BOUNDARY]).map(moveArrow);
     const movedFlippedBoundaryArrows = newArrayIfFalsey(arrowBoundaryDictionary[BOUNDARY]).map(flipArrow).map(moveArrow);
-
+    const nextGridArrows = [...movedArrowsInMiddle, ...movedFlippedBoundaryArrows];
+    const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(nextGridArrows, size, arrowBoundaryKey);
+    (0, _playNotes.playSounds)(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
     return _extends({}, grid, {
         size,
-        arrows: [...movedArrowsInMiddle, ...movedFlippedBoundaryArrows]
+        arrows: nextGridArrows
     });
 };
