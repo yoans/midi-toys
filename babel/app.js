@@ -41,7 +41,7 @@ var _presets2 = _interopRequireDefault(_presets);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// const chance = new Chance();
+const chance = new Chance();
 const maxSize = 20;
 const minSize = 2;
 const minNoteLength = -500;
@@ -89,22 +89,20 @@ class Application extends _react2.default.Component {
         };
 
         this.muteToggle = function () {
-            _this.resetTimer();
             _this.setState({ muted: !_this.state.muted });
             interactSound(_this.state);
         };
 
         this.changeEditMode = function () {
-            _this.resetTimer();
             _this.setState({ deleting: !_this.state.deleting });
         };
 
         this.newSize = function (value) {
-            _this.resetTimer();
             const input = parseInt(value, 10);
 
             _this.setState({
                 grid: _extends({}, _this.state.grid, {
+                    id: chance.guid(),
                     size: input
                 })
             });
@@ -121,12 +119,14 @@ class Application extends _react2.default.Component {
 
         this.nextGrid = function (length) {
             _this.setState({
-                grid: (0, _arrowsLogic.nextGrid)(_extends({}, _this.state.grid, { muted: _this.state.muted }), length)
+                grid: (0, _arrowsLogic.nextGrid)(_extends({}, _this.state.grid, {
+                    id: chance.guid(),
+                    muted: _this.state.muted
+                }), length)
             });
         };
 
         this.newInputDirection = function (inputDirection) {
-            _this.resetTimer();
             _this.setState({
                 inputDirection
             });

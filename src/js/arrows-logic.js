@@ -36,6 +36,7 @@ const getArrow = size => () => ({
 export const removeFromGrid = (grid, x, y) => {
     const nextGrid = {
         ...grid,
+        id: chance.guid(),
         arrows: grid.arrows.filter(arrow => arrow.x !== x || arrow.y !== y),
     };
     return nextGrid;
@@ -106,6 +107,7 @@ export const addToGrid = (grid, x, y, dir, symmetries, inputNumber) => {
             }
         ));
     }
+    grid.id = chance.guid();
     return symmetricArrowsToAdd.reduce((accumGrid, arrow)=>{
         return addOneToGrid(accumGrid, arrow.x, arrow.y, arrow.vector);
     }, grid);
@@ -114,6 +116,7 @@ export const addToGrid = (grid, x, y, dir, symmetries, inputNumber) => {
 const addOneToGrid = (grid, x, y, dir) => {
     const nextGrid = {
         ...grid,
+        id: chance.guid(),
         arrows: [
             ...grid.arrows,
             {
@@ -128,11 +131,11 @@ const addOneToGrid = (grid, x, y, dir) => {
 
 export const newGrid = (size, numberOfArrows) => {
     const arrows = R.range(0, numberOfArrows).map(getArrow(size));
-    return { size: size, arrows, muted: true };
+    return { size: size, id: chance.guid(), arrows, muted: true };
 };
 
 export const emptyGrid = (size) => {
-    return { size: size, arrows: [], muted: true };
+    return { size: size, id: chance.guid(), arrows: [], muted: true };
 };
 // const seedGrid = () => newGrid(getRandomNumber(20) + 12, getRandomNumber(50) + 1);
 const moveArrow = arrow => vectorOperations[arrow.vector](arrow);
@@ -216,6 +219,7 @@ export const nextGrid = (grid, length) => {
     playSounds(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
     return {
         ...grid,
+        id: chance.guid(),
         size,
         arrows: nextGridArrows,
     };

@@ -117,12 +117,12 @@ export const setUpCanvas = (state, arrowAdder) => {
                 }
             );
             const timeDiff = new Date().getTime() - previousTime.getTime();
-            const percentage = (
+            const possiblePercentage = ((
                 stateDrawing.playing ? timeDiff : 0
             ) / (
                 1.0 * stateDrawing.noteLength
-            );
-
+            ));
+            const percentage = possiblePercentage > 1 ? 1 : possiblePercentage;
             // draw arrows
 
             const arrowLocationDictionary = getArrowBoundaryDictionary(
@@ -277,6 +277,14 @@ export const setUpCanvas = (state, arrowAdder) => {
     new p5(drawingContext);
 };
 export const updateCanvas = (state, date) => {
-    previousTime = date;
-    stateDrawing = state;
+    if (state.playing!==stateDrawing.playing ||
+        state.noteLength!==stateDrawing.noteLength ||
+        state.grid.id!==stateDrawing.grid.id) {
+
+            if(state.noteLength!==stateDrawing.noteLength || date.getTime() - previousTime.getTime()>=stateDrawing.noteLength-10){
+                previousTime = date;
+            }
+
+            stateDrawing = state;
+    }
 };

@@ -68,6 +68,7 @@ const getArrow = function (size) {
 };
 const removeFromGrid = exports.removeFromGrid = function (grid, x, y) {
     const nextGrid = _extends({}, grid, {
+        id: chance.guid(),
         arrows: grid.arrows.filter(function (arrow) {
             return arrow.x !== x || arrow.y !== y;
         })
@@ -136,6 +137,7 @@ const addToGrid = exports.addToGrid = function (grid, x, y, dir, symmetries, inp
             }));
         });
     }
+    grid.id = chance.guid();
     return symmetricArrowsToAdd.reduce(function (accumGrid, arrow) {
         return addOneToGrid(accumGrid, arrow.x, arrow.y, arrow.vector);
     }, grid);
@@ -143,6 +145,7 @@ const addToGrid = exports.addToGrid = function (grid, x, y, dir, symmetries, inp
 
 const addOneToGrid = function (grid, x, y, dir) {
     const nextGrid = _extends({}, grid, {
+        id: chance.guid(),
         arrows: [...grid.arrows, {
             x,
             y,
@@ -154,11 +157,11 @@ const addOneToGrid = function (grid, x, y, dir) {
 
 const newGrid = exports.newGrid = function (size, numberOfArrows) {
     const arrows = R.range(0, numberOfArrows).map(getArrow(size));
-    return { size: size, arrows, muted: true };
+    return { size: size, id: chance.guid(), arrows, muted: true };
 };
 
 const emptyGrid = exports.emptyGrid = function (size) {
-    return { size: size, arrows: [], muted: true };
+    return { size: size, id: chance.guid(), arrows: [], muted: true };
 };
 // const seedGrid = () => newGrid(getRandomNumber(20) + 12, getRandomNumber(50) + 1);
 const moveArrow = function (arrow) {
@@ -245,6 +248,7 @@ const nextGrid = exports.nextGrid = function (grid, length) {
     const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(nextGridArrows, size, arrowBoundaryKey);
     (0, _playNotes.playSounds)(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
     return _extends({}, grid, {
+        id: chance.guid(),
         size,
         arrows: nextGridArrows
     });

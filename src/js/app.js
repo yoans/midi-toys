@@ -34,7 +34,7 @@ import {
 import {setSliderOnChange} from './sliders';
 import presets from './presets';
 
-// const chance = new Chance();
+const chance = new Chance();
 const maxSize = 20;
 const minSize = 2;
 const minNoteLength = -500;
@@ -102,21 +102,19 @@ export class Application extends React.Component {
         this.setState({ playing: false });
     }
     muteToggle = () => {
-        this.resetTimer();
         this.setState({ muted: !this.state.muted });
         interactSound(this.state);
     }
     changeEditMode = () => {
-        this.resetTimer();
         this.setState({ deleting: !this.state.deleting });
     }
     newSize = (value) => {
-        this.resetTimer();
         const input = parseInt(value, 10);
 
         this.setState({
             grid: {
                 ...this.state.grid,
+                id: chance.guid(),
                 size: input,
             },
         });
@@ -131,11 +129,14 @@ export class Application extends React.Component {
     }
     nextGrid = (length) => {
         this.setState({
-            grid: nextGrid({ ...this.state.grid, muted: this.state.muted }, length),
+            grid: nextGrid({
+                ...this.state.grid,
+                id: chance.guid(),
+                muted: this.state.muted 
+            }, length),
         });
     }
     newInputDirection = (inputDirection) => {
-        this.resetTimer();
         this.setState({
             inputDirection,
         });
