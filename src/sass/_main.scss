@@ -6,7 +6,7 @@
     // background-color: rgba(0, 0, 000, 0.5);
     // /* background-color: transparent; */
     left: 50%;
-    top: 45%;
+    top: 43%;
     margin-left: -115px;
     margin-top: -266px;
     width: 230px;
@@ -34,9 +34,11 @@
   }
 
 body {
+        overflow: hidden;
+        position:fixed;
     font-family: 'Open Sans',Helvetica,Arial,sans-serif;
     background-color: rgba(0, 0, 0, 0);
-    position: absolute; 
+    // position: absolute; 
     top: 0;
     bottom: 0;
     right: 0;

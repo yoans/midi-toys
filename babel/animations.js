@@ -197,9 +197,7 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
                         arrowAdder(mouseXindex, mouseYindex, e);
                         return false;
                     }
-                } else {
-                    console.log('click in the canvas please');
-                }
+                } else {}
             };
         };
     };

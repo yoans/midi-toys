@@ -443,7 +443,7 @@
   text-align: center;
   border-radius: 5px;
   left: 50%;
-  top: 45%;
+  top: 43%;
   margin-left: -115px;
   margin-top: -266px;
   width: 230px;
@@ -473,9 +473,10 @@
   /* Likely future */ }
 
 body {
+  overflow: hidden;
+  position: fixed;
   font-family: 'Open Sans',Helvetica,Arial,sans-serif;
   background-color: rgba(0, 0, 0, 0);
-  position: absolute;
   top: 0;
   bottom: 0;
   right: 0;

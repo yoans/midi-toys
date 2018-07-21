@@ -145,9 +145,20 @@ class Application extends _react2.default.Component {
         };
 
         this.addPreset = function () {
-            _this.setState({
-                presets: [..._this.state.presets, putArrowsInGrid(_this.state.grid.arrows)]
-            });
+
+            const encoded = window.btoa(JSON.stringify({
+                noteLength: _this.state.noteLength,
+                grid: _this.state.grid
+            }));
+            console.log(encoded);
+            // this.setState({
+            //     presets: [
+            //         ...this.state.presets,
+            //         putArrowsInGrid(
+            //             this.state.grid.arrows
+            //         )
+            //     ]
+            // });
         };
 
         this.addToGrid = function (x, y, e) {
@@ -172,8 +183,8 @@ class Application extends _react2.default.Component {
             currentPreset: -1,
             presets: _presets2.default,
             inputDirection: 0,
-            noteLength: 275,
-            grid: (0, _arrowsLogic.newGrid)(11, 15),
+            noteLength: props.noteLength || 275,
+            grid: props.grid || (0, _arrowsLogic.newGrid)(11, 15),
             playing: false,
             muted: true,
             deleting: false,

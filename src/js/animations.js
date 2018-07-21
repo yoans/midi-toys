@@ -267,7 +267,6 @@ export const setUpCanvas = (state, arrowAdder) => {
                         return false;
                     }
                 } else {
-                    console.log('click in the canvas please');
                 }
             };
         };

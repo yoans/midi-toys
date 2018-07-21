@@ -59,8 +59,8 @@ export class Application extends React.Component {
             currentPreset:-1,
             presets,
             inputDirection: 0,
-            noteLength: 275,
-            grid: newGrid(11, 15),
+            noteLength: props.noteLength || 275,
+            grid: props.grid || newGrid(11, 15),
             playing: false,
             muted: true,
             deleting: false,
@@ -152,14 +152,22 @@ export class Application extends React.Component {
         });
     }
     addPreset = () => {
-        this.setState({
-            presets: [
-                ...this.state.presets,
-                putArrowsInGrid(
-                    this.state.grid.arrows
-                )
-            ]
-        });
+        
+        const encoded = window.btoa(
+            JSON.stringify({
+                noteLength:this.state.noteLength,
+                grid: this.state.grid
+            })
+        );
+        console.log(encoded);
+        // this.setState({
+        //     presets: [
+        //         ...this.state.presets,
+        //         putArrowsInGrid(
+        //             this.state.grid.arrows
+        //         )
+        //     ]
+        // });
     }
     addToGrid = (x, y, e) => {
         if (e.shiftKey || this.state.deleting) {
@@ -184,11 +192,15 @@ export class Application extends React.Component {
         return (
             <div className="no-copy midi-toys-app">
                 <div className="edit-options">
+                
 {/*                 
                 <PlusButton 
                     onClick={this.addPreset}
                 /> */}
                     <div className="edit-options-member">
+                {/* <PlusButton 
+                    onClick={this.addPreset}
+                /> */}
                         <PrevButton
                             onClick={()=>{
                                 let NextPreset = this.state.currentPreset - 1;
@@ -204,7 +216,7 @@ export class Application extends React.Component {
                             }}
                             isEnabled={true}
                         />
-                    </div>
+                    </div> 
                     <div className="edit-options-member">
                         <MuteToggleButton
                             isEnabled={true}

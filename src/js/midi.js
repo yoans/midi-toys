@@ -5,7 +5,7 @@ let midiOut = null;
 function onMIDIFail(err) {
     document.getElementById('midiOut').outerHTML = '';
     document.getElementById('midiOut-label').outerHTML = '';
-    console.log(`MIDI initialization failed. ${err}`);
+    // console.log(`MIDI initialization failed. ${err}`);
 }
 
 export const makeMIDImessage = (index, length) => {
@@ -47,7 +47,7 @@ const changeMIDIOut = (ev) => {
             midiOut = undefined;
         }
     } catch (err) {
-        console.log(`MIDI is not supported by your browser access ${ev}`);
+        // console.log(`MIDI is not supported by your browser access ${ev}`);
     }
 };
 const onMIDIInit = (midi) => {
@@ -75,6 +75,6 @@ export const midiUtils = () => {
         // eslint-disable-next-line no-undef
         navigator.requestMIDIAccess({}).then(onMIDIInit, onMIDIFail);
     } catch (err) {
-        console.log('MIDI is not supported by your browser access ');
+        // console.log('MIDI is not supported by your browser access ');
     }
 };
