@@ -67,8 +67,6 @@ const makePizzaSound = exports.makePizzaSound = function (index, length) {
     //cacheSounds!
     // const frequencies = notesFrequencies('D3 F3 G#3 C4 D#4 G4 A#5');
     const noteIndex = index % frequencies.length;
-    console.log(noteIndex);
-    console.log(frequencies);
     const aSound = new _pizzicato2.default.Sound({
         source: 'wave',
         options: {
@@ -83,21 +81,21 @@ const makePizzaSound = exports.makePizzaSound = function (index, length) {
 };
 const playSounds = exports.playSounds = function (boundaryArrows, size, length, muted) {
     const alreadyPlayedMap = {};
-    var group = new _pizzicato2.default.Group();
+    var sounds = [];
 
-    var dubDelay = new _pizzicato2.default.Effects.DubDelay({
-        feedback: 0.1,
-        time: length * 1.5 / 1000,
-        mix: 1,
-        cutoff: 200
-    });
-    var distortion = new _pizzicato2.default.Effects.Distortion({
-        gain: 1
-    });
-    var lowPassFilter = new _pizzicato2.default.Effects.LowPassFilter({
-        frequency: 800,
-        peak: .1
-    });
+    // var dubDelay = new Pizzicato.Effects.DubDelay({
+    //     feedback: 0.1,
+    //     time: length*1.5/1000,
+    //     mix: 1,
+    //     cutoff: 200
+    // });
+    // var distortion = new Pizzicato.Effects.Distortion({
+    //     gain: 1
+    // });
+    // var lowPassFilter = new Pizzicato.Effects.LowPassFilter({
+    //     frequency: 800,
+    //     peak: .1
+    // });
 
     boundaryArrows.map(function (arrow) {
         const speed = getIndex(arrow.x, arrow.y, size, arrow.vector);
@@ -105,18 +103,22 @@ const playSounds = exports.playSounds = function (boundaryArrows, size, length, 
         if (!muted && !alreadyPlayedMap[speed]) {
             alreadyPlayedMap[speed] = [speed];
             const snd = makePizzaSound(speed, length);
-            group.addSound(snd);
+            sounds.push(snd);
         }
         (0, _midi.makeMIDImessage)(speed, length).play();
     });
     if (!muted) {
-        group.addEffect(dubDelay);
-        group.addEffect(distortion);
-        group.addEffect(lowPassFilter);
+        // group.addEffect(dubDelay);
+        // group.addEffect(distortion);
+        // group.addEffect(lowPassFilter);
 
+        var group = new _pizzicato2.default.Group(sounds);
         group.play();
         setTimeout(function () {
             group.stop();
+            sounds.map(function (sound) {
+                group.removeSound(sound);
+            });
         }, length - 1);
     }
 };
