@@ -210,7 +210,7 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
 const updateCanvas = exports.updateCanvas = function (state, date) {
     if (state.playing !== stateDrawing.playing || state.noteLength !== stateDrawing.noteLength || state.grid.id !== stateDrawing.grid.id) {
 
-        if (state.noteLength !== stateDrawing.noteLength || date.getTime() - previousTime.getTime() >= stateDrawing.noteLength - 10) {
+        if (state.noteLength !== stateDrawing.noteLength || date.getTime() - previousTime.getTime() >= stateDrawing.noteLength - 40) {
             previousTime = date;
         }
 

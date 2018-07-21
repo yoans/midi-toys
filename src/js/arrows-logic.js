@@ -69,6 +69,9 @@ const calculateVerticalDiagonalVector = (vector) => {
     return [0,3,2,1][vector];
 };
 export const addToGrid = (grid, x, y, dir, symmetries, inputNumber) => {
+    if(grid.arrows.length>200){
+        return grid
+    }
     const symmetricArrowsToAdd = R.range(0, inputNumber).map(()=>({x, y, vector: dir}));
     const skipForthSymmetry = symmetries.horizontalSymmetry && symmetries.verticalSymmetry && symmetries.backwardDiagonalSymmetry;
     if (symmetries.horizontalSymmetry) {
