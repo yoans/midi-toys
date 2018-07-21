@@ -177,18 +177,19 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
             };
             const mouseXindex = convertPixelToIndex(sketch.mouseX);
             const mouseYindex = convertPixelToIndex(sketch.mouseY);
-            if (!stateDrawing.deleting) {}
-            // triangleDrawingArray[stateDrawing.inputDirection](
-            //     convertArrowToTopLeft(
-            //         {
-            //             x: mouseXindex,
-            //             y: mouseYindex
-            //         }
-            //     ),
-            //     cellSize,
-            //     sketch
-            // );
-
+            if (!stateDrawing.deleting) {
+                sketch.cursor(sketch.HAND);
+                // triangleDrawingArray[stateDrawing.inputDirection](
+                //     convertArrowToTopLeft(
+                //         {
+                //             x: mouseXindex,
+                //             y: mouseYindex
+                //         }
+                //     ),
+                //     cellSize,
+                //     sketch
+                // );
+            }
             // eslint-disable-next-line no-param-reassign
             sketch.touchEnded = function (e) {
                 if (sketch.mouseX > 0 + gridCanvasBorderSize && sketch.mouseX < gridCanvasSize - gridCanvasBorderSize && sketch.mouseY > 0 + gridCanvasBorderSize && sketch.mouseY < gridCanvasSize - gridCanvasBorderSize) {

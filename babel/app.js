@@ -46,8 +46,17 @@ const maxSize = 20;
 const minSize = 2;
 const minNoteLength = -500;
 const maxNoteLength = -50;
-const interactSound = function (note, state) {
-    return state.muted ? undefined : (0, _playNotes.makePizzaSound)(note, 50).play();
+const sound = {
+    play: function () {
+        const theSound = (0, _playNotes.makePizzaSound)(1);
+        theSound.play();
+        setTimeout(function () {
+            theSound.stop();
+        }, 1);
+    }
+};
+const interactSound = function (state) {
+    return state.muted ? undefined : sound.play();
 };
 const putArrowsInGrid = function (arrows) {
     return { "size": 8, "arrows": arrows, "muted": true };
@@ -82,7 +91,7 @@ class Application extends _react2.default.Component {
         this.muteToggle = function () {
             _this.resetTimer();
             _this.setState({ muted: !_this.state.muted });
-            interactSound(1, _this.state);
+            interactSound(_this.state);
         };
 
         this.changeEditMode = function () {

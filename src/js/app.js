@@ -39,7 +39,17 @@ const maxSize = 20;
 const minSize = 2;
 const minNoteLength = -500;
 const maxNoteLength = -50;
-const interactSound = (note, state) => (state.muted ? undefined : makePizzaSound(note, 50).play());
+const sound = ({
+    play:()=>{
+        const theSound = makePizzaSound(1);
+        theSound.play();
+        setTimeout(
+            ()=>{theSound.stop()},
+            1
+        )
+    }
+});
+const interactSound = (state) => (state.muted ? undefined : sound.play());
 const putArrowsInGrid = (arrows) => ({"size":8,"arrows":arrows,"muted":true});
 export class Application extends React.Component {
     constructor(props) {
@@ -94,7 +104,7 @@ export class Application extends React.Component {
     muteToggle = () => {
         this.resetTimer();
         this.setState({ muted: !this.state.muted });
-        interactSound(1, this.state);
+        interactSound(this.state);
     }
     changeEditMode = () => {
         this.resetTimer();

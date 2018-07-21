@@ -243,6 +243,7 @@ export const setUpCanvas = (state, arrowAdder) => {
             const mouseXindex = convertPixelToIndex(sketch.mouseX);
             const mouseYindex = convertPixelToIndex(sketch.mouseY);
             if (!stateDrawing.deleting) {
+                sketch.cursor(sketch.HAND);
                 // triangleDrawingArray[stateDrawing.inputDirection](
                 //     convertArrowToTopLeft(
                 //         {
