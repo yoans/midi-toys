@@ -369,23 +369,24 @@ export class Application extends React.Component {
                     /> */}
                     
                     <div className="edit-options-member">
-                    {/* <PlusButton 
-                        onClick={this.addPreset}
-                    /> */}
-                        <PrevButton
-                            onClick={()=>{
-                                let NextPreset = this.state.currentPreset - 1;
-                                
-                                if (NextPreset<0) {
-                                    NextPreset = this.state.presets.length -1;
-                                }
 
-                                this.setState({
-                                    grid: this.state.presets[NextPreset],
-                                    currentPreset: NextPreset
-                                });
-                            }}
-                            isEnabled={true}
+                        <div
+                            className="fb-share-button"
+                            data-href="https://midi.nathaniel-young.com/?data=hi"
+                            data-layout="button"
+                            data-size="large"
+                            data-mobile-iframe="true"
+                        >
+                            <a
+                                target="_blank"
+                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmidi.nathaniel-young.com/?data=hi%2F&amp;src=sdkpreparse"
+                                class="fb-xfbml-parse-ignore"
+                            >
+                                Share
+                            </a>
+                        </div>
+                        <PlusButton 
+                            onClick={this.addPreset}
                         />
                     </div> 
                     <div

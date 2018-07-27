@@ -407,20 +407,27 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     { className: 'edit-options-member' },
-                    _react2.default.createElement(_reactPlayerControls.PrevButton, {
-                        onClick: function () {
-                            let NextPreset = _this2.state.currentPreset - 1;
-
-                            if (NextPreset < 0) {
-                                NextPreset = _this2.state.presets.length - 1;
-                            }
-
-                            _this2.setState({
-                                grid: _this2.state.presets[NextPreset],
-                                currentPreset: NextPreset
-                            });
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            className: 'fb-share-button',
+                            'data-href': 'https://midi.nathaniel-young.com/?data=hi',
+                            'data-layout': 'button',
+                            'data-size': 'large',
+                            'data-mobile-iframe': 'true'
                         },
-                        isEnabled: true
+                        _react2.default.createElement(
+                            'a',
+                            {
+                                target: '_blank',
+                                href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmidi.nathaniel-young.com/?data=hi%2F&src=sdkpreparse',
+                                'class': 'fb-xfbml-parse-ignore'
+                            },
+                            'Share'
+                        )
+                    ),
+                    _react2.default.createElement(_plusButton.PlusButton, {
+                        onClick: this.addPreset
                     })
                 ),
                 _react2.default.createElement(
