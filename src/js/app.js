@@ -191,16 +191,19 @@ export class Application extends React.Component {
         updateCanvas(this.state, newDate);
         return (
             <div className="no-copy midi-toys-app">
+                <div className="app-title-div">
+                    <h1>
+                        Arrowgrid
+                    </h1>
+                </div>
                 <div className="edit-options">
-                
-{/*                 
-                <PlusButton 
-                    onClick={this.addPreset}
-                /> */}
+                    {/*<PlusButton 
+                        onClick={this.addPreset}
+                    /> */}
                     <div className="edit-options-member">
-                {/* <PlusButton 
-                    onClick={this.addPreset}
-                /> */}
+                    {/* <PlusButton 
+                        onClick={this.addPreset}
+                    /> */}
                         <PrevButton
                             onClick={()=>{
                                 let NextPreset = this.state.currentPreset - 1;
@@ -278,7 +281,7 @@ export class Application extends React.Component {
                     <LargeGridIcon/>
                     <SmallGridIcon/>
                 </div>
-                <SymmetryButton 
+                {/* <SymmetryButton 
                     onClick={
                         ()=>this.setState({
                             backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
@@ -313,7 +316,7 @@ export class Application extends React.Component {
                     )}
                     isActive={this.state.verticalSymmetry}
                     className={""}
-                />
+                /> */}
                 {
                     [
                         (

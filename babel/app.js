@@ -213,6 +213,15 @@ class Application extends _react2.default.Component {
             { className: 'no-copy midi-toys-app' },
             _react2.default.createElement(
                 'div',
+                { className: 'app-title-div' },
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Arrowgrid'
+                )
+            ),
+            _react2.default.createElement(
+                'div',
                 { className: 'edit-options' },
                 _react2.default.createElement(
                     'div',
@@ -304,42 +313,6 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(_icons.LargeGridIcon, null),
                 _react2.default.createElement(_icons.SmallGridIcon, null)
             ),
-            _react2.default.createElement(_symmetryButton.SymmetryButton, {
-                onClick: function () {
-                    return _this2.setState({
-                        backwardDiagonalSymmetry: !_this2.state.backwardDiagonalSymmetry
-                    });
-                },
-                isActive: this.state.backwardDiagonalSymmetry,
-                className: "backward-diag"
-            }),
-            _react2.default.createElement(_symmetryButton.SymmetryButton, {
-                onClick: function () {
-                    return _this2.setState({
-                        forwardDiagonalSymmetry: !_this2.state.forwardDiagonalSymmetry
-                    });
-                },
-                isActive: this.state.forwardDiagonalSymmetry,
-                className: "forward-diag"
-            }),
-            _react2.default.createElement(_symmetryButton.SymmetryButton, {
-                onClick: function () {
-                    return _this2.setState({
-                        horizontalSymmetry: !_this2.state.horizontalSymmetry
-                    });
-                },
-                isActive: this.state.horizontalSymmetry,
-                className: "horizontal"
-            }),
-            _react2.default.createElement(_symmetryButton.SymmetryButton, {
-                onClick: function () {
-                    return _this2.setState({
-                        verticalSymmetry: !_this2.state.verticalSymmetry
-                    });
-                },
-                isActive: this.state.verticalSymmetry,
-                className: ""
-            }),
             [_react2.default.createElement(_arrowButton.ArrowButton, {
                 number: this.state.inputNumber,
                 onClick: function () {

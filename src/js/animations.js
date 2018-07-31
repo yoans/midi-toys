@@ -278,7 +278,8 @@ export const setUpCanvas = (state, arrowAdder) => {
 export const updateCanvas = (state, date) => {
     if (state.playing!==stateDrawing.playing ||
         state.noteLength!==stateDrawing.noteLength ||
-        state.grid.id!==stateDrawing.grid.id) {
+        state.grid.id!==stateDrawing.grid.id ||
+        state.currentPreset!==stateDrawing.currentPreset) {
 
             if(state.noteLength!==stateDrawing.noteLength || date.getTime() - previousTime.getTime()>=stateDrawing.noteLength-40){
                 previousTime = date;

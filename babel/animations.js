@@ -206,7 +206,7 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
     new _p2.default(drawingContext);
 };
 const updateCanvas = exports.updateCanvas = function (state, date) {
-    if (state.playing !== stateDrawing.playing || state.noteLength !== stateDrawing.noteLength || state.grid.id !== stateDrawing.grid.id) {
+    if (state.playing !== stateDrawing.playing || state.noteLength !== stateDrawing.noteLength || state.grid.id !== stateDrawing.grid.id || state.currentPreset !== stateDrawing.currentPreset) {
 
         if (state.noteLength !== stateDrawing.noteLength || date.getTime() - previousTime.getTime() >= stateDrawing.noteLength - 40) {
             previousTime = date;
