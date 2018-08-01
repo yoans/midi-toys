@@ -24,7 +24,19 @@ const ArrowIcon = exports.ArrowIcon = function ({ direction }) {
     return _react2.default.createElement(
         'svg',
         { 'class': 'Icon PlayIcon ' + direction, viewBox: '0 0 100 100' },
-        _react2.default.createElement('polygon', { 'class': 'Icon-shape', points: '24 92 24 7 100 49.4955227' })
+        _react2.default.createElement('polygon', {
+            'class': 'Icon-shape',
+            points: '24 92 24 7 100 50'
+        }),
+        _react2.default.createElement('polygon', {
+            'class': 'Icon-shape',
+            style: {
+                fill: 'black',
+                stroke: 'white',
+                'stroke-width': 0
+            },
+            points: '82,50 60,62 60,53 33,53 33,47 60,47 60,38'
+        })
     );
 };
 

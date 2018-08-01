@@ -5,7 +5,7 @@ export const ArrowButton = ({onClick, direction, number}) => (
         <div className={"number-overlayee"}>
             <ArrowIcon direction={direction}></ArrowIcon>
             <div className={'number-overlay'}>
-                <h4>{number}</h4>
+                {/* <h4>{number}</h4> */}
             </div>
         </div>
     </button>

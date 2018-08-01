@@ -9,7 +9,23 @@ export const ResizeIcon = () => (
     <img className='Icon Img-Shape' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGhSURBVGhD7ddNTgJBEIZhDin+oKJsvJMH8BQu3bryOhqweuZNMU53dWCsKcT0k7SJPR/1Y4joYmdYVGy32w9iGXm2IpZJz4hlUk1iRcQybYGxtoCBWCZ7QP7PYkx1/gs0TdP8L/x2m4wyh5NPwOfh4Xoy5piMMiaJvA+P+wcDZSajjImYagscS96mF3I+aZchZiKmQheQ8sva8AlREzEVtoAMfiXnizad0jLETcRUyAKV4Zf9d3u8xERMpeKvw0POjdS8kTMePn2/TM/7m73uRRUSeRoeruchg65Kw8u5JBLyDphEhrw1hr8m0uGR4vq0ZMj7Q4ZPeKy4Ph0Zcm0MX/xnn4ji+jRkyAdj+DsiGWKK63gy5ObY4ROiiutYleHXREzEFdcmifz8NSpf3LHMIz1d9R323BfgJ7+hnzvaqDkWmG34hDbKfQH6zIY2qi0wRp/Z0Ead4wL1f+p/iz5x6OuGsnHo64aycejrhrJx6OuGsnHo64aycejrhrJx6OuGsrOhjWoLjNGnSP5SfSGWkWdvxIqIZdoCY/QragtkdrtvCZSgb/wP8RYAAAAASUVORK5CYII='/>
 )
 export const ArrowIcon = ({direction}) => (
-    <svg class={'Icon PlayIcon ' + direction} viewBox='0 0 100 100'><polygon class='Icon-shape' points='24 92 24 7 100 49.4955227'></polygon></svg>
+    <svg class={'Icon PlayIcon ' + direction} viewBox='0 0 100 100'>
+        <polygon
+            class='Icon-shape'
+            points='24 92 24 7 100 50'
+        >
+        </polygon>
+        <polygon
+            class='Icon-shape'
+            style={{
+                fill:'black',
+                stroke:'white',
+                'stroke-width':0
+            }}
+            points='82,50 60,62 60,53 33,53 33,47 60,47 60,38'
+        >
+        </polygon>
+    </svg>
 )
 
 export const PlusIcon = () => (

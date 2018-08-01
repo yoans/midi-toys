@@ -21,15 +21,7 @@ const ArrowButton = exports.ArrowButton = function ({ onClick, direction, number
             'div',
             { className: "number-overlayee" },
             _react2.default.createElement(_icons.ArrowIcon, { direction: direction }),
-            _react2.default.createElement(
-                'div',
-                { className: 'number-overlay' },
-                _react2.default.createElement(
-                    'h4',
-                    null,
-                    number
-                )
-            )
+            _react2.default.createElement('div', { className: 'number-overlay' })
         )
     );
 };

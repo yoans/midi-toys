@@ -278,149 +278,187 @@ export class Application extends React.Component {
                         />
                     </div>
                 </div>
+            
                 <div
-                    className="slider-container"
-                    data-step="5"
-                    data-intro="Adjust the speed with this slider."
-                >
-                    <input
-                        id="note-length-slider"
-                        className="arrow-input"
-                        type="range"
-                        max={maxNoteLength}
-                        min={minNoteLength}
-                        value={-1*this.state.noteLength}
-                    />
-                </div>
-                <div
-                    className="slider-icon-container"
-                >
-                    <RabbitIcon/>
-                    <TurtleIcon/>
-                </div>
-                <div
-                    data-step="13"
-                    data-intro="Get Creative!"
+                    className="edit-options"
                 >
                     <div
-                        data-step="8"
-                        data-intro="Delete some arrows by clicking on them."
+                        className="edit-options-member"
                     >
                         <div
-                            id="sketch-holder"
-                            data-step="2"
-                            data-intro="click on the grid to add an Arrow."
-                        />
+                            className="slider-container"
+                            data-step="5"
+                            data-intro="Adjust the speed with this slider."
+                        >
+                            <input
+                                id="note-length-slider"
+                                className="arrow-input"
+                                type="range"
+                                max={maxNoteLength}
+                                min={minNoteLength}
+                                value={-1*this.state.noteLength}
+                            />
+                        </div>
+                        <div
+                            className="slider-icon-container"
+                        >
+                            <RabbitIcon/>
+                            <TurtleIcon/>
+                        </div>
                     </div>
                 </div>
                 <div
-                    className="slider-container"
-                    data-step="12"
-                    data-intro="Add or remove space with this slider."
+                    className="edit-options"
                 >
-                    <input
-                        id="grid-size-slider"
-                        className="arrow-input" 
-                        type="range"
-                        max={maxSize}
-                        min={minSize}
-                        value={this.state.grid.size}
-                    />
-                </div>
-                <div className="slider-icon-container">
-                    <LargeGridIcon/>
-                    <SmallGridIcon/>
-                </div>
-                {/* <SymmetryButton 
-                    onClick={
-                        ()=>this.setState({
-                            backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
-                        }
-                    )}
-                    isActive={this.state.backwardDiagonalSymmetry}
-                    className={"backward-diag"}
-                />
-                <SymmetryButton
-                    onClick={
-                        ()=>this.setState({
-                            forwardDiagonalSymmetry: !this.state.forwardDiagonalSymmetry
-                        }
-                    )}
-                    isActive={this.state.forwardDiagonalSymmetry}
-                    className={"forward-diag"}
-                />
-                <SymmetryButton
-                    onClick={
-                        ()=>this.setState({
-                            horizontalSymmetry: !this.state.horizontalSymmetry
-                        }
-                    )}
-                    isActive={this.state.horizontalSymmetry}
-                    className={"horizontal"}
-                />
-                <SymmetryButton
-                    onClick={
-                        ()=>this.setState({
-                            verticalSymmetry: !this.state.verticalSymmetry
-                        }
-                    )}
-                    isActive={this.state.verticalSymmetry}
-                    className={""}
-                /> */}
-                <div data-step="11" data-intro="Change the arrow direction." >
-                {
-                    [
-                        (
-                            <ArrowButton
-                                number={this.state.inputNumber}
-                                onClick={
-                                    () => this.newInputDirection(1)
-                                } 
-                                direction="Up"
-                            />),
-                        (
-                            <ArrowButton
-                                number={this.state.inputNumber}
-                                onClick={
-                                    () => this.newInputDirection(2)
-                                }
-                                direction="Right"
-                            />),
-                        (
-                            <ArrowButton
-                                number={this.state.inputNumber}
-                                onClick={
-                                    () => this.newInputDirection(3)
-                                }
-                                direction="Down"
-                            />),
-                        (
-                            <ArrowButton
-                                number={this.state.inputNumber}
-                                onClick={
-                                    () => this.newInputDirection(0)
-                                }
-                                direction="Left"
-                            />),
-                    ][this.state.inputDirection]
-                }</div>
-                {/* <PlusButton 
-                    onClick={
-                        ()=>this.setState({
-                            inputNumber: ((this.state.inputNumber + 1) % 5) || 1
-                        }
-                    )}
-                /> */}
-                <div data-step="6" data-intro="Switch to erase mode." >
-                <div data-step="10" data-intro="Switch to draw mode." >
-                    <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
-                </div>
+                    <div
+                        className="edit-options-member"
+                        data-step="13"
+                        data-intro="Get Creative!"
+                    >
+                        <div
+                            className="edit-options-member"
+                            data-step="8"
+                            data-intro="Delete some arrows by clicking on them."
+                        >
+                            <div
+                                id="sketch-holder"
+                                data-step="2"
+                                data-intro="click on the grid to add an Arrow."
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div
-                    data-step="9"
-                    data-intro="Trash the whole thing if you like."
+                    className="edit-options"
                 >
-                    <TrashButton onClick={this.emptyGrid}/>
+                    <div
+                        className="edit-options-member"
+                    >
+                        <div
+                            className="slider-container"
+                            data-step="12"
+                            data-intro="Add or remove space with this slider."
+                        >
+                            <input
+                                id="grid-size-slider"
+                                className="arrow-input" 
+                                type="range"
+                                max={maxSize}
+                                min={minSize}
+                                value={this.state.grid.size}
+                            />
+                        </div>
+                        <div className="slider-icon-container">
+                            <LargeGridIcon/>
+                            <SmallGridIcon/>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div className="edit-options">
+                    {/* <SymmetryButton 
+                        onClick={
+                            ()=>this.setState({
+                                backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
+                            }
+                        )}
+                        isActive={this.state.backwardDiagonalSymmetry}
+                        className={"backward-diag"}
+                    />
+                    <SymmetryButton
+                        onClick={
+                            ()=>this.setState({
+                                forwardDiagonalSymmetry: !this.state.forwardDiagonalSymmetry
+                            }
+                        )}
+                        isActive={this.state.forwardDiagonalSymmetry}
+                        className={"forward-diag"}
+                    />
+                    <SymmetryButton
+                        onClick={
+                            ()=>this.setState({
+                                horizontalSymmetry: !this.state.horizontalSymmetry
+                            }
+                        )}
+                        isActive={this.state.horizontalSymmetry}
+                        className={"horizontal"}
+                    />
+                    <SymmetryButton
+                        onClick={
+                            ()=>this.setState({
+                                verticalSymmetry: !this.state.verticalSymmetry
+                            }
+                        )}
+                        isActive={this.state.verticalSymmetry}
+                        className={""}
+                    /> */}
+                    <div 
+                        className="edit-options-member"
+                        data-step="11"
+                        data-intro="Change the arrow direction."
+                    >
+                    {
+                        [
+                            (
+                                <ArrowButton
+                                    number={this.state.inputNumber}
+                                    onClick={
+                                        () => this.newInputDirection(1)
+                                    } 
+                                    direction="Up"
+                                />),
+                            (
+                                <ArrowButton
+                                    number={this.state.inputNumber}
+                                    onClick={
+                                        () => this.newInputDirection(2)
+                                    }
+                                    direction="Right"
+                                />),
+                            (
+                                <ArrowButton
+                                    number={this.state.inputNumber}
+                                    onClick={
+                                        () => this.newInputDirection(3)
+                                    }
+                                    direction="Down"
+                                />),
+                            (
+                                <ArrowButton
+                                    number={this.state.inputNumber}
+                                    onClick={
+                                        () => this.newInputDirection(0)
+                                    }
+                                    direction="Left"
+                                />),
+                        ][this.state.inputDirection]
+                    }</div>
+                    {/* <PlusButton 
+                        onClick={
+                            ()=>this.setState({
+                                inputNumber: ((this.state.inputNumber + 1) % 5) || 1
+                            }
+                        )}
+                    /> */}
+                    <div
+                        className="edit-options-member"
+                        data-step="6"
+                        data-intro="Switch to erase mode."
+                    >
+                        <div 
+                            data-step="10"
+                            data-intro="Switch to draw mode."
+                        >
+                            <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
+                        </div>
+                    </div>
+                    <div
+                        className="edit-options-member"
+                        data-step="9"
+                        data-intro="Trash the whole thing if you like."
+                    >
+                        <TrashButton onClick={this.emptyGrid}/>
+                    </div>
                 </div>
                 <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>

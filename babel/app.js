@@ -312,113 +312,161 @@ class Application extends _react2.default.Component {
             _react2.default.createElement(
                 'div',
                 {
-                    className: 'slider-container',
-                    'data-step': '5',
-                    'data-intro': 'Adjust the speed with this slider.'
-                },
-                _react2.default.createElement('input', {
-                    id: 'note-length-slider',
-                    className: 'arrow-input',
-                    type: 'range',
-                    max: maxNoteLength,
-                    min: minNoteLength,
-                    value: -1 * this.state.noteLength
-                })
-            ),
-            _react2.default.createElement(
-                'div',
-                {
-                    className: 'slider-icon-container'
-                },
-                _react2.default.createElement(_icons.RabbitIcon, null),
-                _react2.default.createElement(_icons.TurtleIcon, null)
-            ),
-            _react2.default.createElement(
-                'div',
-                {
-                    'data-step': '13',
-                    'data-intro': 'Get Creative!'
+                    className: 'edit-options'
                 },
                 _react2.default.createElement(
                     'div',
                     {
-                        'data-step': '8',
-                        'data-intro': 'Delete some arrows by clicking on them.'
+                        className: 'edit-options-member'
                     },
-                    _react2.default.createElement('div', {
-                        id: 'sketch-holder',
-                        'data-step': '2',
-                        'data-intro': 'click on the grid to add an Arrow.'
-                    })
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            className: 'slider-container',
+                            'data-step': '5',
+                            'data-intro': 'Adjust the speed with this slider.'
+                        },
+                        _react2.default.createElement('input', {
+                            id: 'note-length-slider',
+                            className: 'arrow-input',
+                            type: 'range',
+                            max: maxNoteLength,
+                            min: minNoteLength,
+                            value: -1 * this.state.noteLength
+                        })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            className: 'slider-icon-container'
+                        },
+                        _react2.default.createElement(_icons.RabbitIcon, null),
+                        _react2.default.createElement(_icons.TurtleIcon, null)
+                    )
                 )
             ),
             _react2.default.createElement(
                 'div',
                 {
-                    className: 'slider-container',
-                    'data-step': '12',
-                    'data-intro': 'Add or remove space with this slider.'
+                    className: 'edit-options'
                 },
-                _react2.default.createElement('input', {
-                    id: 'grid-size-slider',
-                    className: 'arrow-input',
-                    type: 'range',
-                    max: maxSize,
-                    min: minSize,
-                    value: this.state.grid.size
-                })
-            ),
-            _react2.default.createElement(
-                'div',
-                { className: 'slider-icon-container' },
-                _react2.default.createElement(_icons.LargeGridIcon, null),
-                _react2.default.createElement(_icons.SmallGridIcon, null)
-            ),
-            _react2.default.createElement(
-                'div',
-                { 'data-step': '11', 'data-intro': 'Change the arrow direction.' },
-                [_react2.default.createElement(_arrowButton.ArrowButton, {
-                    number: this.state.inputNumber,
-                    onClick: function () {
-                        return _this2.newInputDirection(1);
-                    },
-                    direction: 'Up'
-                }), _react2.default.createElement(_arrowButton.ArrowButton, {
-                    number: this.state.inputNumber,
-                    onClick: function () {
-                        return _this2.newInputDirection(2);
-                    },
-                    direction: 'Right'
-                }), _react2.default.createElement(_arrowButton.ArrowButton, {
-                    number: this.state.inputNumber,
-                    onClick: function () {
-                        return _this2.newInputDirection(3);
-                    },
-                    direction: 'Down'
-                }), _react2.default.createElement(_arrowButton.ArrowButton, {
-                    number: this.state.inputNumber,
-                    onClick: function () {
-                        return _this2.newInputDirection(0);
-                    },
-                    direction: 'Left'
-                })][this.state.inputDirection]
-            ),
-            _react2.default.createElement(
-                'div',
-                { 'data-step': '6', 'data-intro': 'Switch to erase mode.' },
                 _react2.default.createElement(
                     'div',
-                    { 'data-step': '10', 'data-intro': 'Switch to draw mode.' },
-                    _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' })
+                    {
+                        className: 'edit-options-member',
+                        'data-step': '13',
+                        'data-intro': 'Get Creative!'
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            className: 'edit-options-member',
+                            'data-step': '8',
+                            'data-intro': 'Delete some arrows by clicking on them.'
+                        },
+                        _react2.default.createElement('div', {
+                            id: 'sketch-holder',
+                            'data-step': '2',
+                            'data-intro': 'click on the grid to add an Arrow.'
+                        })
+                    )
                 )
             ),
             _react2.default.createElement(
                 'div',
                 {
-                    'data-step': '9',
-                    'data-intro': 'Trash the whole thing if you like.'
+                    className: 'edit-options'
                 },
-                _react2.default.createElement(_trashButton.TrashButton, { onClick: this.emptyGrid })
+                _react2.default.createElement(
+                    'div',
+                    {
+                        className: 'edit-options-member'
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            className: 'slider-container',
+                            'data-step': '12',
+                            'data-intro': 'Add or remove space with this slider.'
+                        },
+                        _react2.default.createElement('input', {
+                            id: 'grid-size-slider',
+                            className: 'arrow-input',
+                            type: 'range',
+                            max: maxSize,
+                            min: minSize,
+                            value: this.state.grid.size
+                        })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'slider-icon-container' },
+                        _react2.default.createElement(_icons.LargeGridIcon, null),
+                        _react2.default.createElement(_icons.SmallGridIcon, null)
+                    )
+                )
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'edit-options' },
+                _react2.default.createElement(
+                    'div',
+                    {
+                        className: 'edit-options-member',
+                        'data-step': '11',
+                        'data-intro': 'Change the arrow direction.'
+                    },
+                    [_react2.default.createElement(_arrowButton.ArrowButton, {
+                        number: this.state.inputNumber,
+                        onClick: function () {
+                            return _this2.newInputDirection(1);
+                        },
+                        direction: 'Up'
+                    }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                        number: this.state.inputNumber,
+                        onClick: function () {
+                            return _this2.newInputDirection(2);
+                        },
+                        direction: 'Right'
+                    }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                        number: this.state.inputNumber,
+                        onClick: function () {
+                            return _this2.newInputDirection(3);
+                        },
+                        direction: 'Down'
+                    }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                        number: this.state.inputNumber,
+                        onClick: function () {
+                            return _this2.newInputDirection(0);
+                        },
+                        direction: 'Left'
+                    })][this.state.inputDirection]
+                ),
+                _react2.default.createElement(
+                    'div',
+                    {
+                        className: 'edit-options-member',
+                        'data-step': '6',
+                        'data-intro': 'Switch to erase mode.'
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            'data-step': '10',
+                            'data-intro': 'Switch to draw mode.'
+                        },
+                        _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    {
+                        className: 'edit-options-member',
+                        'data-step': '9',
+                        'data-intro': 'Trash the whole thing if you like.'
+                    },
+                    _react2.default.createElement(_trashButton.TrashButton, { onClick: this.emptyGrid })
+                )
             ),
             _react2.default.createElement(
                 'select',
