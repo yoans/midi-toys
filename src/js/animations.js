@@ -264,7 +264,7 @@ export const setUpCanvas = (state, arrowAdder) => {
                 ) {
                     if (arrowAdder) {
                         arrowAdder(mouseXindex, mouseYindex, e);
-                        return false;
+                        return true;
                     }
                 } else {
                 }

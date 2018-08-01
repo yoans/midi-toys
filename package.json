@@ -22,6 +22,7 @@
     "concurrently": "^3.6.0",
     "deep-equal": "^1.0.1",
     "express": "^4.13.3",
+    "intro.js": "^2.9.3",
     "jekyll": "^3.0.0-beta1",
     "node-sass": "^4.9.0",
     "notes-frequencies": "^1.0.0",

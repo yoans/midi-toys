@@ -311,10 +311,8 @@ canvas{
 
 }
 .app-title-div {
-    left: -63px;
     position: relative;
     h1 { 
-      left: -45px;
       color: white;
       font-family: 'Helvetica Neue', sans-serif;
       font-size: 76px;
@@ -323,7 +321,20 @@ canvas{
       line-height: 0;
       text-align: center;
     }
+    button {
+        color: black;
+        background-color: white;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 21px; font-weight: 300; margin: 0; text-align: center; 
+        border-width: 0;
+        border-radius: 17px;
+        cursor: pointer;
+        padding: 5px 12px;
+    }
+    
 
-    h2 { color: white; font-family: 'Open Sans', sans-serif; font-size: 30px; font-weight: 300; line-height: 32px; margin: 0 0 72px; text-align: center; }
+    h2 {
+        color: white; font-family: 'Open Sans', sans-serif; font-size: 21px; font-weight: 300; margin: 0; text-align: center; 
+    }
     p { color: #685206; font-family: 'Helvetica Neue', sans-serif; font-size: 14px; line-height: 24px; margin: 0 0 24px; text-align: justify; text-justify: inter-word; }
 }

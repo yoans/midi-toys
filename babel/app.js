@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.Application = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-// import {EraseButton} from './buttons/erase-button';
-
 
 var _react = require('react');
 
@@ -184,7 +182,7 @@ class Application extends _react2.default.Component {
             presets: _presets2.default,
             inputDirection: 0,
             noteLength: props.noteLength || 275,
-            grid: props.grid || (0, _arrowsLogic.newGrid)(11, 15),
+            grid: props.grid || (0, _arrowsLogic.newGrid)(11, 0),
             playing: false,
             muted: true,
             deleting: false,
@@ -216,8 +214,17 @@ class Application extends _react2.default.Component {
                 { className: 'app-title-div' },
                 _react2.default.createElement(
                     'h1',
-                    null,
+                    { 'data-step': '1', 'data-intro': 'Welcome to Arrowgrid!' },
                     'Arrowgrid'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    {
+                        onClick: function () {
+                            introJs().start();
+                        }
+                    },
+                    'Tutorial'
                 )
             ),
             _react2.default.createElement(
@@ -244,7 +251,11 @@ class Application extends _react2.default.Component {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'edit-options-member' },
+                    {
+                        className: 'edit-options-member',
+                        'data-step': '14',
+                        'data-intro': 'Turn on sound to hear your creation.'
+                    },
                     _react2.default.createElement(_reactPlayerControls.MuteToggleButton, {
                         isEnabled: true,
                         isMuted: this.state.muted,
@@ -253,12 +264,34 @@ class Application extends _react2.default.Component {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'edit-options-member' },
-                    this.state.playing ? _react2.default.createElement(_reactPlayerControls.PauseButton, { onClick: this.pause }) : _react2.default.createElement(_reactPlayerControls.PlayButton, { isEnabled: true, onClick: this.play })
+                    {
+                        className: 'edit-options-member',
+                        'data-step': '3',
+                        'data-intro': 'Press play to watch your creation unfold.'
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            'data-step': '7',
+                            'data-intro': 'Pause to erase arrows with ease.'
+                        },
+                        _react2.default.createElement(
+                            'div',
+                            {
+                                'data-step': '15',
+                                'data-intro': 'Make sure your device has sound enabled, and play your music.'
+                            },
+                            this.state.playing ? _react2.default.createElement(_reactPlayerControls.PauseButton, { onClick: this.pause }) : _react2.default.createElement(_reactPlayerControls.PlayButton, { isEnabled: true, onClick: this.play })
+                        )
+                    )
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'edit-options-member' },
+                    {
+                        className: 'edit-options-member',
+                        'data-step': '4',
+                        'data-intro': 'Press this to see other examples.'
+                    },
                     _react2.default.createElement(_reactPlayerControls.NextButton, {
                         onClick: function () {
                             let NextPreset = _this2.state.currentPreset + 1;
@@ -278,7 +311,11 @@ class Application extends _react2.default.Component {
             ),
             _react2.default.createElement(
                 'div',
-                { className: 'slider-container' },
+                {
+                    className: 'slider-container',
+                    'data-step': '5',
+                    'data-intro': 'Adjust the speed with this slider.'
+                },
                 _react2.default.createElement('input', {
                     id: 'note-length-slider',
                     className: 'arrow-input',
@@ -290,14 +327,38 @@ class Application extends _react2.default.Component {
             ),
             _react2.default.createElement(
                 'div',
-                { className: 'slider-icon-container' },
+                {
+                    className: 'slider-icon-container'
+                },
                 _react2.default.createElement(_icons.RabbitIcon, null),
                 _react2.default.createElement(_icons.TurtleIcon, null)
             ),
-            _react2.default.createElement('div', { id: 'sketch-holder' }),
             _react2.default.createElement(
                 'div',
-                { className: 'slider-container' },
+                {
+                    'data-step': '13',
+                    'data-intro': 'Get Creative!'
+                },
+                _react2.default.createElement(
+                    'div',
+                    {
+                        'data-step': '8',
+                        'data-intro': 'Delete some arrows by clicking on them.'
+                    },
+                    _react2.default.createElement('div', {
+                        id: 'sketch-holder',
+                        'data-step': '2',
+                        'data-intro': 'click on the grid to add an Arrow.'
+                    })
+                )
+            ),
+            _react2.default.createElement(
+                'div',
+                {
+                    className: 'slider-container',
+                    'data-step': '12',
+                    'data-intro': 'Add or remove space with this slider.'
+                },
                 _react2.default.createElement('input', {
                     id: 'grid-size-slider',
                     className: 'arrow-input',
@@ -313,40 +374,52 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(_icons.LargeGridIcon, null),
                 _react2.default.createElement(_icons.SmallGridIcon, null)
             ),
-            [_react2.default.createElement(_arrowButton.ArrowButton, {
-                number: this.state.inputNumber,
-                onClick: function () {
-                    return _this2.newInputDirection(1);
+            _react2.default.createElement(
+                'div',
+                { 'data-step': '11', 'data-intro': 'Change the arrow direction.' },
+                [_react2.default.createElement(_arrowButton.ArrowButton, {
+                    number: this.state.inputNumber,
+                    onClick: function () {
+                        return _this2.newInputDirection(1);
+                    },
+                    direction: 'Up'
+                }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                    number: this.state.inputNumber,
+                    onClick: function () {
+                        return _this2.newInputDirection(2);
+                    },
+                    direction: 'Right'
+                }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                    number: this.state.inputNumber,
+                    onClick: function () {
+                        return _this2.newInputDirection(3);
+                    },
+                    direction: 'Down'
+                }), _react2.default.createElement(_arrowButton.ArrowButton, {
+                    number: this.state.inputNumber,
+                    onClick: function () {
+                        return _this2.newInputDirection(0);
+                    },
+                    direction: 'Left'
+                })][this.state.inputDirection]
+            ),
+            _react2.default.createElement(
+                'div',
+                { 'data-step': '6', 'data-intro': 'Switch to erase mode.' },
+                _react2.default.createElement(
+                    'div',
+                    { 'data-step': '10', 'data-intro': 'Switch to draw mode.' },
+                    _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' })
+                )
+            ),
+            _react2.default.createElement(
+                'div',
+                {
+                    'data-step': '9',
+                    'data-intro': 'Trash the whole thing if you like.'
                 },
-                direction: 'Up'
-            }), _react2.default.createElement(_arrowButton.ArrowButton, {
-                number: this.state.inputNumber,
-                onClick: function () {
-                    return _this2.newInputDirection(2);
-                },
-                direction: 'Right'
-            }), _react2.default.createElement(_arrowButton.ArrowButton, {
-                number: this.state.inputNumber,
-                onClick: function () {
-                    return _this2.newInputDirection(3);
-                },
-                direction: 'Down'
-            }), _react2.default.createElement(_arrowButton.ArrowButton, {
-                number: this.state.inputNumber,
-                onClick: function () {
-                    return _this2.newInputDirection(0);
-                },
-                direction: 'Left'
-            })][this.state.inputDirection],
-            _react2.default.createElement(_plusButton.PlusButton, {
-                onClick: function () {
-                    return _this2.setState({
-                        inputNumber: (_this2.state.inputNumber + 1) % 5 || 1
-                    });
-                }
-            }),
-            _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' }),
-            _react2.default.createElement(_trashButton.TrashButton, { onClick: this.emptyGrid }),
+                _react2.default.createElement(_trashButton.TrashButton, { onClick: this.emptyGrid })
+            ),
             _react2.default.createElement(
                 'select',
                 { id: 'midiOut', className: 'arrow-input' },

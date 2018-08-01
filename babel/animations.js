@@ -195,7 +195,7 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
                 if (sketch.mouseX > 0 + gridCanvasBorderSize && sketch.mouseX < gridCanvasSize - gridCanvasBorderSize && sketch.mouseY > 0 + gridCanvasBorderSize && sketch.mouseY < gridCanvasSize - gridCanvasBorderSize) {
                     if (arrowAdder) {
                         arrowAdder(mouseXindex, mouseYindex, e);
-                        return false;
+                        return true;
                     }
                 } else {}
             };

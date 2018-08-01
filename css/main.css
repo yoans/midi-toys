@@ -721,10 +721,8 @@ canvas {
   pointer-events: none; }
 
 .app-title-div {
-  left: -63px;
   position: relative; }
   .app-title-div h1 {
-    left: -45px;
     color: white;
     font-family: 'Helvetica Neue', sans-serif;
     font-size: 76px;
@@ -732,13 +730,24 @@ canvas {
     letter-spacing: -1px;
     line-height: 0;
     text-align: center; }
+  .app-title-div button {
+    color: black;
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 21px;
+    font-weight: 300;
+    margin: 0;
+    text-align: center;
+    border-width: 0;
+    border-radius: 17px;
+    cursor: pointer;
+    padding: 5px 12px; }
   .app-title-div h2 {
     color: white;
     font-family: 'Open Sans', sans-serif;
-    font-size: 30px;
+    font-size: 21px;
     font-weight: 300;
-    line-height: 32px;
-    margin: 0 0 72px;
+    margin: 0;
     text-align: center; }
   .app-title-div p {
     color: #685206;
