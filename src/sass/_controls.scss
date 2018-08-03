@@ -27,7 +27,8 @@ $color-active: fade-out($color-hover, 0.5);
 .TrashButton,
 .EditButton,
 .EraseButton,
-.ArrowButton {
+.ArrowButton,
+.TutorialButton {
   .number-overlayee {
     position:relative;
   }
@@ -60,6 +61,7 @@ $color-active: fade-out($color-hover, 0.5);
   background: transparent;
   border: 2px solid $super-white;
   border-radius: 100%;
+  
   outline: none;
 
     &.ActiveControl {
@@ -120,27 +122,27 @@ $color-active: fade-out($color-hover, 0.5);
             }
         }
   .EditIconRotate {
-    -webkit-animation: FullRightRotation 1s ease-out;
+    -webkit-animation: FullRightRotation .3s ease-out;
     transform: rotate(0deg);
   }
   .EraseIconRotate {
-    -webkit-animation: FullLeftRotation 1s ease-out;
+    -webkit-animation: FullLeftRotation .3s ease-out;
     transform: rotate(180deg);
   }
   .Up {
-    -webkit-animation: upRotation .5s ease-out;
+    -webkit-animation: upRotation .2s ease-out;
     transform: rotate(270deg);
   } 
   .Down {
-    -webkit-animation: downRotation .5s ease-out;
+    -webkit-animation: downRotation .2s ease-out;
     transform: rotate(90deg);
   } 
   .Left {
-    -webkit-animation: leftRotation .5s ease-out;
+    -webkit-animation: leftRotation .2s ease-out;
     transform: rotate(180deg);
   } 
   .Right {
-    -webkit-animation: rightRotation .5s ease-out;
+    -webkit-animation: rightRotation .2s ease-out;
     transform: rotate(0deg);
   } 
   &.isEnabled {

@@ -17,7 +17,8 @@ import {
 } from './arrows-logic';
 import {
     updateCanvas,
-    setUpCanvas
+    setUpCanvas,
+    getAdderWithMousePosition
 } from './animations';
 import {TrashButton} from './buttons/trash-button';
 import {EditButton} from './buttons/edit-button';
@@ -28,7 +29,9 @@ import {
     LargeGridIcon,
     SmallGridIcon,
     RabbitIcon,
-    TurtleIcon
+    TurtleIcon,
+    InfoIcon,
+    ShareIcon
 } from './buttons/icons';
 import {setSliderOnChange} from './sliders';
 import presets from './presets';
@@ -40,7 +43,7 @@ const minNoteLength = -500;
 const maxNoteLength = -50;
 const sound = ({
     play:()=>{
-        const theSound = makePizzaSound(1);
+        const theSound = makePizzaSound(1, undefined, .001);
         theSound.play();
         setTimeout(
             ()=>{theSound.stop()},
@@ -69,7 +72,7 @@ export class Application extends React.Component {
             forwardDiagonalSymmetry: false,
             inputNumber: 1
         };
-        setUpCanvas(this.state, this.addToGrid);
+        setUpCanvas(this.state);
     }
 
     componentDidMount() {
@@ -89,6 +92,7 @@ export class Application extends React.Component {
             this.state.noteLength,
         );
         this.setState({ playing: true });
+        interactSound(this.state);
     }
     resetTimer = () => {
         clearInterval(this.timerID);
@@ -190,98 +194,36 @@ export class Application extends React.Component {
         updateCanvas(this.state, newDate);
         return (
             <div className="no-copy midi-toys-app">
-                <div className="app-title-div">
-                    <h1 data-step="1" data-intro="Welcome to Arrowgrid!">
-                        Arrowgrid
-                    </h1>
-                    <button
-                        onClick={()=>{introJs().start()}}
-                    >
-                        Tutorial
-                    </button>
-                </div>
                 <div className="edit-options">
-                    {/*<PlusButton 
-                        onClick={this.addPreset}
-                    /> */}
-                    <div className="edit-options-member">
-                    {/* <PlusButton 
-                        onClick={this.addPreset}
-                    /> */}
-                        <PrevButton
-                            onClick={()=>{
-                                let NextPreset = this.state.currentPreset - 1;
-                                
-                                if (NextPreset<0) {
-                                    NextPreset = this.state.presets.length -1;
-                                }
-
-                                this.setState({
-                                    grid: this.state.presets[NextPreset],
-                                    currentPreset: NextPreset
-                                });
-                            }}
-                            isEnabled={true}
-                        />
-                    </div> 
-                    <div
-                        className="edit-options-member"
-                        data-step="14"
-                        data-intro="Turn on sound to hear your creation."
-                    >
-                        <MuteToggleButton
-                            isEnabled={true}
-                            isMuted={this.state.muted}
-                            onMuteChange={this.muteToggle}
-                        />
-                    </div>
-                    <div
-                        className="edit-options-member"
-                        data-step="3"
-                        data-intro="Press play to watch your creation unfold."
-                    >
-                        <div
-                            data-step="7"
-                            data-intro="Pause to erase arrows with ease."
-                        >
-                        <div
-                            data-step="15"
-                            data-intro="Make sure your device has sound enabled, and play your music."
-                        >
-                            {
-                                this.state.playing ?
-                                <PauseButton  onClick={this.pause}></PauseButton> :
-                                <PlayButton isEnabled={true} onClick={this.play}></PlayButton>
-                            }
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        className="edit-options-member" 
-                        data-step="4"
-                        data-intro="Press this to see other examples."
-                    >
-                        <NextButton
-                            onClick={()=>{
-                                let NextPreset = this.state.currentPreset + 1;
-                                
-                                if (NextPreset>=this.state.presets.length) {
-                                    NextPreset = 0;
-                                }
-
-                                this.setState({
-                                    grid: this.state.presets[NextPreset],
-                                    currentPreset: NextPreset
-                                });
-                            }}
-                            isEnabled={true}
-                        />
+                    <div className=" edit-options-member app-title-div">
+                        <h1 data-step="1" data-intro="Welcome to Arrowgrid!">
+                            Arrowgrid
+                        </h1>
                     </div>
                 </div>
+                
             
                 <div
                     className="edit-options"
                 >
+                
+                <div className="edit-options-member">
+                        <div className="">
+                            <button
+                                className="PlayButton tutorialButton isEnabled"
+                                onClick={()=>{
+                                    introJs()
+                                    .setOption('hideNext', true)
+                                    .setOption('hidePrev', true)
+                                    .setOption('showStepNumbers', false)
+                                    .setOption('exitOnOverlayClick', false)
+                                    .start()
+                                }}
+                            >
+                                <InfoIcon/>
+                            </button> 
+                        </div>
+                    </div>
                     <div
                         className="edit-options-member"
                     >
@@ -306,6 +248,17 @@ export class Application extends React.Component {
                             <TurtleIcon/>
                         </div>
                     </div>
+                    <div
+                        className="edit-options-member"
+                        data-step="14"
+                        data-intro="Unmute to hear your creation."
+                    >
+                        <MuteToggleButton
+                            isEnabled={true}
+                            isMuted={this.state.muted}
+                            onMuteChange={this.muteToggle}
+                        />
+                    </div>
                 </div>
                 <div
                     className="edit-options"
@@ -323,7 +276,8 @@ export class Application extends React.Component {
                             <div
                                 id="sketch-holder"
                                 data-step="2"
-                                data-intro="click on the grid to add an Arrow."
+                                data-intro="Click on the grid to draw an Arrow."
+                                onClick={getAdderWithMousePosition(this.addToGrid)}
                             />
                         </div>
                     </div>
@@ -331,68 +285,7 @@ export class Application extends React.Component {
                 <div
                     className="edit-options"
                 >
-                    <div
-                        className="edit-options-member"
-                    >
-                        <div
-                            className="slider-container"
-                            data-step="12"
-                            data-intro="Add or remove space with this slider."
-                        >
-                            <input
-                                id="grid-size-slider"
-                                className="arrow-input" 
-                                type="range"
-                                max={maxSize}
-                                min={minSize}
-                                value={this.state.grid.size}
-                            />
-                        </div>
-                        <div className="slider-icon-container">
-                            <LargeGridIcon/>
-                            <SmallGridIcon/>
-                        </div>
-                    
-                    </div>
-                </div>
-                <div className="edit-options">
-                    {/* <SymmetryButton 
-                        onClick={
-                            ()=>this.setState({
-                                backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
-                            }
-                        )}
-                        isActive={this.state.backwardDiagonalSymmetry}
-                        className={"backward-diag"}
-                    />
-                    <SymmetryButton
-                        onClick={
-                            ()=>this.setState({
-                                forwardDiagonalSymmetry: !this.state.forwardDiagonalSymmetry
-                            }
-                        )}
-                        isActive={this.state.forwardDiagonalSymmetry}
-                        className={"forward-diag"}
-                    />
-                    <SymmetryButton
-                        onClick={
-                            ()=>this.setState({
-                                horizontalSymmetry: !this.state.horizontalSymmetry
-                            }
-                        )}
-                        isActive={this.state.horizontalSymmetry}
-                        className={"horizontal"}
-                    />
-                    <SymmetryButton
-                        onClick={
-                            ()=>this.setState({
-                                verticalSymmetry: !this.state.verticalSymmetry
-                            }
-                        )}
-                        isActive={this.state.verticalSymmetry}
-                        className={""}
-                    /> */}
-                    <div 
+                <div 
                         className="edit-options-member"
                         data-step="11"
                         data-intro="Change the arrow direction."
@@ -433,13 +326,30 @@ export class Application extends React.Component {
                                 />),
                         ][this.state.inputDirection]
                     }</div>
-                    {/* <PlusButton 
-                        onClick={
-                            ()=>this.setState({
-                                inputNumber: ((this.state.inputNumber + 1) % 5) || 1
-                            }
-                        )}
-                    /> */}
+                    <div
+                        className="edit-options-member"
+                    >
+                        <div
+                            className="slider-container"
+                            data-step="12"
+                            data-intro="Adjust the grid with this slider."
+                        >
+                            <input
+                                id="grid-size-slider"
+                                className="arrow-input" 
+                                type="range"
+                                max={maxSize}
+                                min={minSize}
+                                value={this.state.grid.size}
+                            />
+                        </div>
+                        <div className="slider-icon-container">
+                            <LargeGridIcon/>
+                            <SmallGridIcon/>
+                        </div>
+                    
+                    </div>
+                    
                     <div
                         className="edit-options-member"
                         data-step="6"
@@ -452,12 +362,138 @@ export class Application extends React.Component {
                             <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
                         </div>
                     </div>
+                </div>
+                <div className="edit-options">
+                    {/*<PlusButton 
+                        onClick={this.addPreset}
+                    /> */}
+                    
+                    <div className="edit-options-member">
+                    {/* <PlusButton 
+                        onClick={this.addPreset}
+                    /> */}
+                        <PrevButton
+                            onClick={()=>{
+                                let NextPreset = this.state.currentPreset - 1;
+                                
+                                if (NextPreset<0) {
+                                    NextPreset = this.state.presets.length -1;
+                                }
+
+                                this.setState({
+                                    grid: this.state.presets[NextPreset],
+                                    currentPreset: NextPreset
+                                });
+                            }}
+                            isEnabled={true}
+                        />
+                    </div> 
+                    <div
+                        className="edit-options-member"
+                        data-step="3"
+                        data-intro="Press play to watch your creation unfold."
+                    >
+                        <div
+                            data-step="7"
+                            data-intro="Pause to allow easier editing."
+                        >
+                        <div
+                            data-step="15"
+                            data-intro="Check to see that your device has sound enabled and play your music."
+                        >
+                            {
+                                this.state.playing ?
+                                <PauseButton  onClick={this.pause}></PauseButton> :
+                                <PlayButton isEnabled={true} onClick={this.play}></PlayButton>
+                            }
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        className="edit-options-member" 
+                        data-step="4"
+                        data-intro="Press this to see other examples."
+                    >
+                        <NextButton
+                            onClick={()=>{
+                                let NextPreset = this.state.currentPreset + 1;
+                                
+                                if (NextPreset>=this.state.presets.length) {
+                                    NextPreset = 0;
+                                }
+
+                                this.setState({
+                                    grid: this.state.presets[NextPreset],
+                                    currentPreset: NextPreset
+                                });
+                            }}
+                            isEnabled={true}
+                        />
+                    </div>
+                </div>
+                
+                <div className="edit-options">
+                    {/* <SymmetryButton 
+                        onClick={
+                            ()=>this.setState({
+                                backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
+                            }
+                        )}
+                        isActive={this.state.backwardDiagonalSymmetry}
+                        className={"backward-diag"}
+                    />
+                    <SymmetryButton
+                        onClick={
+                            ()=>this.setState({
+                                forwardDiagonalSymmetry: !this.state.forwardDiagonalSymmetry
+                            }
+                        )}
+                        isActive={this.state.forwardDiagonalSymmetry}
+                        className={"forward-diag"}
+                    />
+                    <SymmetryButton
+                        onClick={
+                            ()=>this.setState({
+                                horizontalSymmetry: !this.state.horizontalSymmetry
+                            }
+                        )}
+                        isActive={this.state.horizontalSymmetry}
+                        className={"horizontal"}
+                    />
+                    <SymmetryButton
+                        onClick={
+                            ()=>this.setState({
+                                verticalSymmetry: !this.state.verticalSymmetry
+                            }
+                        )}
+                        isActive={this.state.verticalSymmetry}
+                        className={""}
+                    /> */}
+                    
+                    {/* <PlusButton 
+                        onClick={
+                            ()=>this.setState({
+                                inputNumber: ((this.state.inputNumber + 1) % 5) || 1
+                            }
+                        )}
+                    /> */}
                     <div
                         className="edit-options-member"
                         data-step="9"
-                        data-intro="Trash the whole thing if you like."
+                        data-intro="Trash the whole thing."
                     >
                         <TrashButton onClick={this.emptyGrid}/>
+                    </div>
+                    <div className= "spacer-div-next-to-trash"/>
+                    <div
+                        className="edit-options-member"
+                    >
+                        <button
+                            className="PlayButton tutorialButton isEnabled"
+                            onClick={()=>{}}
+                        >
+                            <ShareIcon/>
+                        </button> 
                     </div>
                 </div>
                 <select id="midiOut" className="arrow-input">

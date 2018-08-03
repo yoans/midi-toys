@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.updateCanvas = exports.setUpCanvas = undefined;
+exports.updateCanvas = exports.setUpCanvas = exports.getAdderWithMousePosition = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -17,17 +17,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 let stateDrawing;
 let previousTime;
-
+let mouseX = 1;
+let mouseY = 1;
+let cellSize = 1;
+const gridCanvasSize = 320;
+const gridCanvasBorderSize = 2;
+const convertPixelToIndex = function (pixel) {
+    return Math.floor((pixel - gridCanvasBorderSize) / cellSize);
+};
 // const nat = () => chance.natural({
 //     min: 0,
 //     max: 255,
 // });
 
-const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
+const getAdderWithMousePosition = exports.getAdderWithMousePosition = function (arrowAdder) {
+    return function (e) {
+        if (mouseX > 0 + gridCanvasBorderSize && mouseX < gridCanvasSize - gridCanvasBorderSize && mouseY > 0 + gridCanvasBorderSize && mouseY < gridCanvasSize - gridCanvasBorderSize) {
+            const mouseXindex = convertPixelToIndex(mouseX);
+            const mouseYindex = convertPixelToIndex(mouseY);
+            arrowAdder(mouseXindex, mouseYindex, e);
+        } else {}
+    };
+};
+const setUpCanvas = exports.setUpCanvas = function (state) {
     stateDrawing = state;
     previousTime = new Date();
-    const gridCanvasSize = 300;
-    const gridCanvasBorderSize = 2;
     const triangleDrawingArray = [function (topLeft, cellSize, sketch) {
         return sketch.triangle(topLeft.x + cellSize / 2.0, topLeft.y, topLeft.x + cellSize, topLeft.y + cellSize, topLeft.x, topLeft.y + cellSize);
     }, function (topLeft, cellSize, sketch) {
@@ -65,6 +79,8 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
         };
         // eslint-disable-next-line no-param-reassign
         sketch.draw = function () {
+            mouseX = sketch.mouseX;
+            mouseY = sketch.mouseY;
             // draw background slash border
             sketch.background(255, 255, 255);
             // draw grid
@@ -72,7 +88,7 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
             sketch.fill(0, 0, 0);
             sketch.rect(gridCanvasBorderSize, gridCanvasBorderSize, gridCanvasSize, gridCanvasSize);
             //draw grid lines
-            const cellSize = gridCanvasSize * 1.0 / (1.0 * stateDrawing.grid.size);
+            cellSize = gridCanvasSize * 1.0 / (1.0 * stateDrawing.grid.size);
             sketch.push();
             sketch.stroke(45, 45, 45);
             sketch.strokeWeight(2);
@@ -172,9 +188,6 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
 
             // draw hover input
             sketch.cursor(sketch.CROSS);
-            const convertPixelToIndex = function (pixel) {
-                return Math.floor((pixel - gridCanvasBorderSize) / cellSize);
-            };
             const mouseXindex = convertPixelToIndex(sketch.mouseX);
             const mouseYindex = convertPixelToIndex(sketch.mouseY);
             if (!stateDrawing.deleting) {
@@ -191,14 +204,19 @@ const setUpCanvas = exports.setUpCanvas = function (state, arrowAdder) {
                 // );
             }
             // eslint-disable-next-line no-param-reassign
-            sketch.touchEnded = function (e) {
-                if (sketch.mouseX > 0 + gridCanvasBorderSize && sketch.mouseX < gridCanvasSize - gridCanvasBorderSize && sketch.mouseY > 0 + gridCanvasBorderSize && sketch.mouseY < gridCanvasSize - gridCanvasBorderSize) {
-                    if (arrowAdder) {
-                        arrowAdder(mouseXindex, mouseYindex, e);
-                        return false;
-                    }
-                } else {}
-            };
+            // sketch.touchEnded = (e) => {
+            //     if (sketch.mouseX > 0 + gridCanvasBorderSize &&
+            //         sketch.mouseX < gridCanvasSize - gridCanvasBorderSize &&
+            //         sketch.mouseY > 0 + gridCanvasBorderSize &&
+            //         sketch.mouseY < gridCanvasSize - gridCanvasBorderSize
+            //     ) {
+            //         if (arrowAdder) {
+            //             arrowAdder(mouseXindex, mouseYindex, e);
+            //             return false;
+            //         }
+            //     } else {
+            //     }
+            // };
         };
     };
 

@@ -63,7 +63,7 @@ const frequencies = (0, _notesFrequencies2.default)('e3 a3 b3 c4 e4 f4 a4 b4 e5 
 //     return aSound;
 // })
 const lengthSounds = {};
-const makePizzaSound = exports.makePizzaSound = function (index, length) {
+const makePizzaSound = exports.makePizzaSound = function (index, length, volume = .5) {
     //cacheSounds!
     // const frequencies = notesFrequencies('D3 F3 G#3 C4 D#4 G4 A#5');
     const noteIndex = index % frequencies.length;
@@ -74,7 +74,7 @@ const makePizzaSound = exports.makePizzaSound = function (index, length) {
             attack: 0.01,
             release: 0.1,
             type: 'sawtooth',
-            volume: .5
+            volume: volume
         }
     });
     return aSound;

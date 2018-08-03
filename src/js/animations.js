@@ -9,17 +9,34 @@ import {
 
 let stateDrawing;
 let previousTime;
-
+let mouseX = 1;
+let mouseY = 1;
+let cellSize = 1;
+const gridCanvasSize = 320;
+const gridCanvasBorderSize = 2;
+const convertPixelToIndex = pixel => Math.floor(
+    (pixel - gridCanvasBorderSize) / cellSize
+);
 // const nat = () => chance.natural({
 //     min: 0,
 //     max: 255,
 // });
 
-export const setUpCanvas = (state, arrowAdder) => {
+export const getAdderWithMousePosition = (arrowAdder) => (e) => {
+    if (mouseX > 0 + gridCanvasBorderSize &&
+        mouseX < gridCanvasSize - gridCanvasBorderSize &&
+        mouseY > 0 + gridCanvasBorderSize &&
+        mouseY < gridCanvasSize - gridCanvasBorderSize
+    ) {
+        const mouseXindex = convertPixelToIndex(mouseX);
+        const mouseYindex = convertPixelToIndex(mouseY);
+        arrowAdder(mouseXindex, mouseYindex, e);
+    } else {
+    }
+};
+export const setUpCanvas = (state) => {
     stateDrawing = state;
     previousTime = new Date();
-    const gridCanvasSize = 300;
-    const gridCanvasBorderSize = 2;
     const triangleDrawingArray = [
         (topLeft, cellSize, sketch) => sketch.triangle(
             topLeft.x + (cellSize / 2.0), topLeft.y,
@@ -88,6 +105,8 @@ export const setUpCanvas = (state, arrowAdder) => {
         };
         // eslint-disable-next-line no-param-reassign
         sketch.draw = () => {
+            mouseX = sketch.mouseX;
+            mouseY = sketch.mouseY;
             // draw background slash border
             sketch.background(255, 255, 255);
             // draw grid
@@ -95,7 +114,7 @@ export const setUpCanvas = (state, arrowAdder) => {
             sketch.fill(0, 0, 0);
             sketch.rect(gridCanvasBorderSize, gridCanvasBorderSize, gridCanvasSize, gridCanvasSize);
             //draw grid lines
-            const cellSize = (gridCanvasSize * 1.0) / (1.0 * stateDrawing.grid.size);
+            cellSize = (gridCanvasSize * 1.0) / (1.0 * stateDrawing.grid.size);
             sketch.push();
             sketch.stroke(45, 45, 45);
             sketch.strokeWeight(2);
@@ -237,9 +256,6 @@ export const setUpCanvas = (state, arrowAdder) => {
 
             // draw hover input
             sketch.cursor(sketch.CROSS);
-            const convertPixelToIndex = pixel => Math.floor(
-                (pixel - gridCanvasBorderSize) / cellSize
-            );
             const mouseXindex = convertPixelToIndex(sketch.mouseX);
             const mouseYindex = convertPixelToIndex(sketch.mouseY);
             if (!stateDrawing.deleting) {
@@ -256,19 +272,19 @@ export const setUpCanvas = (state, arrowAdder) => {
                 // );
             }
             // eslint-disable-next-line no-param-reassign
-            sketch.touchEnded = (e) => {
-                if (sketch.mouseX > 0 + gridCanvasBorderSize &&
-                    sketch.mouseX < gridCanvasSize - gridCanvasBorderSize &&
-                    sketch.mouseY > 0 + gridCanvasBorderSize &&
-                    sketch.mouseY < gridCanvasSize - gridCanvasBorderSize
-                ) {
-                    if (arrowAdder) {
-                        arrowAdder(mouseXindex, mouseYindex, e);
-                        return false;
-                    }
-                } else {
-                }
-            };
+            // sketch.touchEnded = (e) => {
+            //     if (sketch.mouseX > 0 + gridCanvasBorderSize &&
+            //         sketch.mouseX < gridCanvasSize - gridCanvasBorderSize &&
+            //         sketch.mouseY > 0 + gridCanvasBorderSize &&
+            //         sketch.mouseY < gridCanvasSize - gridCanvasBorderSize
+            //     ) {
+            //         if (arrowAdder) {
+            //             arrowAdder(mouseXindex, mouseYindex, e);
+            //             return false;
+            //         }
+            //     } else {
+            //     }
+            // };
         };
     };
 
@@ -276,7 +292,7 @@ export const setUpCanvas = (state, arrowAdder) => {
     new p5(drawingContext);
 };
 export const updateCanvas = (state, date) => {
-    if (state.playing!==stateDrawing.playing ||
+    if (state.playing !== stateDrawing.playing ||
         state.noteLength!==stateDrawing.noteLength ||
         state.grid.id!==stateDrawing.grid.id ||
         state.currentPreset!==stateDrawing.currentPreset) {

@@ -49,7 +49,7 @@ const frequencies = notesFrequencies('e3 a3 b3 c4 e4 f4 a4 b4 e5 a5 b5 c6 e6 f6 
 //     return aSound;
 // })
 const lengthSounds = {}
-export const makePizzaSound = (index, length) => {
+export const makePizzaSound = (index, length, volume = .5) => {
     //cacheSounds!
     // const frequencies = notesFrequencies('D3 F3 G#3 C4 D#4 G4 A#5');
     const noteIndex = index % frequencies.length;
@@ -60,7 +60,7 @@ export const makePizzaSound = (index, length) => {
             attack: 0.01,
             release: 0.1,
             type: 'sawtooth',
-            volume: .5
+            volume: volume
         },
     });
     return aSound;
