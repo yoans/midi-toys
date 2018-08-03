@@ -487,6 +487,8 @@ export class Application extends React.Component {
                     <div className= "spacer-div-next-to-trash"/>
                     <div
                         className="edit-options-member"
+                        data-step="16"
+                        data-intro="Share your creation on Facebook!"
                     >
                         <button
                             className="PlayButton tutorialButton isEnabled"

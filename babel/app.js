@@ -486,7 +486,9 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     {
-                        className: 'edit-options-member'
+                        className: 'edit-options-member',
+                        'data-step': '16',
+                        'data-intro': 'Share your creation on Facebook!'
                     },
                     _react2.default.createElement(
                         'button',
