@@ -210,7 +210,7 @@ export class Application extends React.Component {
                 <div className="edit-options-member">
                         <div className="">
                             <button
-                                className="PlayButton tutorialButton isEnabled"
+                                className="TutorialButton isEnabled"
                                 onClick={()=>{
                                     introJs()
                                     .setOption('hideNext', true)
@@ -491,7 +491,7 @@ export class Application extends React.Component {
                         data-intro="Share your creation on Facebook!"
                     >
                         <button
-                            className="PlayButton tutorialButton isEnabled"
+                            className="ShareButton isEnabled"
                             onClick={()=>{}}
                         >
                             <ShareIcon/>

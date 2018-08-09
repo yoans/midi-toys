@@ -28,7 +28,8 @@ $color-active: fade-out($color-hover, 0.5);
 .EditButton,
 .EraseButton,
 .ArrowButton,
-.TutorialButton {
+.TutorialButton,
+.ShareButton {
   .number-overlayee {
     position:relative;
   }

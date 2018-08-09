@@ -9,7 +9,8 @@
 .EditButton,
 .EraseButton,
 .ArrowButton,
-.TutorialButton {
+.TutorialButton,
+.ShareButton {
   margin: 3.75px;
   padding: 8px;
   background: transparent;
@@ -27,7 +28,8 @@
   .EditButton .number-overlayee,
   .EraseButton .number-overlayee,
   .ArrowButton .number-overlayee,
-  .TutorialButton .number-overlayee {
+  .TutorialButton .number-overlayee,
+  .ShareButton .number-overlayee {
     position: relative; }
   .PlusButton .left-side-button,
   .PlayButton .left-side-button,
@@ -40,7 +42,8 @@
   .EditButton .left-side-button,
   .EraseButton .left-side-button,
   .ArrowButton .left-side-button,
-  .TutorialButton .left-side-button {
+  .TutorialButton .left-side-button,
+  .ShareButton .left-side-button {
     left: 0px; }
   .PlusButton .right-side-button,
   .PlayButton .right-side-button,
@@ -53,7 +56,8 @@
   .EditButton .right-side-button,
   .EraseButton .right-side-button,
   .ArrowButton .right-side-button,
-  .TutorialButton .right-side-button {
+  .TutorialButton .right-side-button,
+  .ShareButton .right-side-button {
     right: 0px; }
   .PlusButton .number-overlay,
   .PlayButton .number-overlay,
@@ -66,7 +70,8 @@
   .EditButton .number-overlay,
   .EraseButton .number-overlay,
   .ArrowButton .number-overlay,
-  .TutorialButton .number-overlay {
+  .TutorialButton .number-overlay,
+  .ShareButton .number-overlay {
     font-weight: bold;
     color: black;
     text-align: center;
@@ -88,7 +93,8 @@
     .EditButton .number-overlay h4,
     .EraseButton .number-overlay h4,
     .ArrowButton .number-overlay h4,
-    .TutorialButton .number-overlay h4 {
+    .TutorialButton .number-overlay h4,
+    .ShareButton .number-overlay h4 {
       margin: auto;
       padding: 7px; }
   .PlusButton.ActiveControl,
@@ -102,7 +108,8 @@
   .EditButton.ActiveControl,
   .EraseButton.ActiveControl,
   .ArrowButton.ActiveControl,
-  .TutorialButton.ActiveControl {
+  .TutorialButton.ActiveControl,
+  .ShareButton.ActiveControl {
     background: rgba(204, 204, 204, 0.5); }
   .PlusButton[disabled],
   .PlayButton[disabled],
@@ -115,7 +122,8 @@
   .EditButton[disabled],
   .EraseButton[disabled],
   .ArrowButton[disabled],
-  .TutorialButton[disabled] {
+  .TutorialButton[disabled],
+  .ShareButton[disabled] {
     opacity: 0.5; }
 
 @-webkit-keyframes upRotation {
@@ -164,7 +172,8 @@
   .EditButton .EditIconRotate,
   .EraseButton .EditIconRotate,
   .ArrowButton .EditIconRotate,
-  .TutorialButton .EditIconRotate {
+  .TutorialButton .EditIconRotate,
+  .ShareButton .EditIconRotate {
     -webkit-animation: FullRightRotation .3s ease-out;
     transform: rotate(0deg); }
   .PlusButton .EraseIconRotate,
@@ -178,7 +187,8 @@
   .EditButton .EraseIconRotate,
   .EraseButton .EraseIconRotate,
   .ArrowButton .EraseIconRotate,
-  .TutorialButton .EraseIconRotate {
+  .TutorialButton .EraseIconRotate,
+  .ShareButton .EraseIconRotate {
     -webkit-animation: FullLeftRotation .3s ease-out;
     transform: rotate(180deg); }
   .PlusButton .Up,
@@ -192,7 +202,8 @@
   .EditButton .Up,
   .EraseButton .Up,
   .ArrowButton .Up,
-  .TutorialButton .Up {
+  .TutorialButton .Up,
+  .ShareButton .Up {
     -webkit-animation: upRotation .2s ease-out;
     transform: rotate(270deg); }
   .PlusButton .Down,
@@ -206,7 +217,8 @@
   .EditButton .Down,
   .EraseButton .Down,
   .ArrowButton .Down,
-  .TutorialButton .Down {
+  .TutorialButton .Down,
+  .ShareButton .Down {
     -webkit-animation: downRotation .2s ease-out;
     transform: rotate(90deg); }
   .PlusButton .Left,
@@ -220,7 +232,8 @@
   .EditButton .Left,
   .EraseButton .Left,
   .ArrowButton .Left,
-  .TutorialButton .Left {
+  .TutorialButton .Left,
+  .ShareButton .Left {
     -webkit-animation: leftRotation .2s ease-out;
     transform: rotate(180deg); }
   .PlusButton .Right,
@@ -234,7 +247,8 @@
   .EditButton .Right,
   .EraseButton .Right,
   .ArrowButton .Right,
-  .TutorialButton .Right {
+  .TutorialButton .Right,
+  .ShareButton .Right {
     -webkit-animation: rightRotation .2s ease-out;
     transform: rotate(0deg); }
   .PlusButton.isEnabled,
@@ -248,7 +262,8 @@
   .EditButton.isEnabled,
   .EraseButton.isEnabled,
   .ArrowButton.isEnabled,
-  .TutorialButton.isEnabled {
+  .TutorialButton.isEnabled,
+  .ShareButton.isEnabled {
     cursor: pointer; }
     .PlusButton.isEnabled:hover,
     .PlayButton.isEnabled:hover,
@@ -261,7 +276,8 @@
     .EditButton.isEnabled:hover,
     .EraseButton.isEnabled:hover,
     .ArrowButton.isEnabled:hover,
-    .TutorialButton.isEnabled:hover {
+    .TutorialButton.isEnabled:hover,
+    .ShareButton.isEnabled:hover {
       border-color: #cccccc; }
       .PlusButton.isEnabled:hover .Icon-shape,
       .PlayButton.isEnabled:hover .Icon-shape,
@@ -274,7 +290,8 @@
       .EditButton.isEnabled:hover .Icon-shape,
       .EraseButton.isEnabled:hover .Icon-shape,
       .ArrowButton.isEnabled:hover .Icon-shape,
-      .TutorialButton.isEnabled:hover .Icon-shape {
+      .TutorialButton.isEnabled:hover .Icon-shape,
+      .ShareButton.isEnabled:hover .Icon-shape {
         fill: #cccccc; }
       .PlusButton.isEnabled:hover .Img-Shape,
       .PlayButton.isEnabled:hover .Img-Shape,
@@ -287,7 +304,8 @@
       .EditButton.isEnabled:hover .Img-Shape,
       .EraseButton.isEnabled:hover .Img-Shape,
       .ArrowButton.isEnabled:hover .Img-Shape,
-      .TutorialButton.isEnabled:hover .Img-Shape {
+      .TutorialButton.isEnabled:hover .Img-Shape,
+      .ShareButton.isEnabled:hover .Img-Shape {
         filter: brightness(0.86); }
     .PlusButton.isEnabled:active,
     .PlayButton.isEnabled:active,
@@ -300,7 +318,8 @@
     .EditButton.isEnabled:active,
     .EraseButton.isEnabled:active,
     .ArrowButton.isEnabled:active,
-    .TutorialButton.isEnabled:active {
+    .TutorialButton.isEnabled:active,
+    .ShareButton.isEnabled:active {
       border-color: rgba(204, 204, 204, 0.5); }
       .PlusButton.isEnabled:active .Icon-shape,
       .PlayButton.isEnabled:active .Icon-shape,
@@ -313,7 +332,8 @@
       .EditButton.isEnabled:active .Icon-shape,
       .EraseButton.isEnabled:active .Icon-shape,
       .ArrowButton.isEnabled:active .Icon-shape,
-      .TutorialButton.isEnabled:active .Icon-shape {
+      .TutorialButton.isEnabled:active .Icon-shape,
+      .ShareButton.isEnabled:active .Icon-shape {
         fill: rgba(204, 204, 204, 0.5); }
       .PlusButton.isEnabled:active .Img-Shape,
       .PlayButton.isEnabled:active .Img-Shape,
@@ -326,7 +346,8 @@
       .EditButton.isEnabled:active .Img-Shape,
       .EraseButton.isEnabled:active .Img-Shape,
       .ArrowButton.isEnabled:active .Img-Shape,
-      .TutorialButton.isEnabled:active .Img-Shape {
+      .TutorialButton.isEnabled:active .Img-Shape,
+      .ShareButton.isEnabled:active .Img-Shape {
         filter: opacity(0.5); }
 
 .Icon {

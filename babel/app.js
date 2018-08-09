@@ -237,7 +237,7 @@ class Application extends _react2.default.Component {
                         _react2.default.createElement(
                             'button',
                             {
-                                className: 'PlayButton tutorialButton isEnabled',
+                                className: 'TutorialButton isEnabled',
                                 onClick: function () {
                                     introJs().setOption('hideNext', true).setOption('hidePrev', true).setOption('showStepNumbers', false).setOption('exitOnOverlayClick', false).start();
                                 }
@@ -493,7 +493,7 @@ class Application extends _react2.default.Component {
                     _react2.default.createElement(
                         'button',
                         {
-                            className: 'PlayButton tutorialButton isEnabled',
+                            className: 'ShareButton isEnabled',
                             onClick: function () {}
                         },
                         _react2.default.createElement(_icons.ShareIcon, null)
