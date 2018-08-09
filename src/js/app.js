@@ -189,6 +189,15 @@ export class Application extends React.Component {
             });
         }
     }
+    share = () => {
+        const gridString = window.btoa(JSON.stringify({
+            grid: this.state.grid,
+            noteLength: this.state.noteLength,
+            muted: this.state.muted
+        }));
+        const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmidi.nathaniel-young.com/?data=${gridString}&amp;src=sdkpreparse`;
+        window.open(shareUrl,'newwindow','width=300,height=250');return false;
+    }
     render() {
         const newDate = new Date();
         updateCanvas(this.state, newDate);
@@ -370,23 +379,20 @@ export class Application extends React.Component {
                     
                     <div className="edit-options-member">
 
-                        <div
-                            className="fb-share-button"
-                            data-href="https://midi.nathaniel-young.com/?data=hi"
-                            data-layout="button"
-                            data-size="large"
-                            data-mobile-iframe="true"
-                        >
-                            <a
-                                target="_blank"
-                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmidi.nathaniel-young.com/?data=hi%2F&amp;src=sdkpreparse"
-                                class="fb-xfbml-parse-ignore"
-                            >
-                                Share
-                            </a>
-                        </div>
-                        <PlusButton 
-                            onClick={this.addPreset}
+                        <PrevButton
+                            onClick={()=>{
+                                let NextPreset = this.state.currentPreset - 1;
+                                
+                                if (NextPreset<0) {
+                                    NextPreset = this.state.presets.length -1;
+                                }
+ 
+                                this.setState({
+                                    grid: this.state.presets[NextPreset],
+                                    currentPreset: NextPreset
+                                });
+                            }}
+                            isEnabled={true}
                         />
                     </div> 
                     <div
@@ -434,7 +440,40 @@ export class Application extends React.Component {
                 </div>
                 
                 <div className="edit-options">
-                    {/* <SymmetryButton 
+                    <div
+                        className="edit-options-member"
+                        data-step="9"
+                        data-intro="Trash the whole thing."
+                    >
+                        <TrashButton onClick={this.emptyGrid}/>
+                    </div>
+                    <div className= "spacer-div-next-to-trash"/>
+                    <div
+                        className="edit-options-member"
+                        data-step="16"
+                        data-intro="Share your creation on Facebook!"
+                    >
+                        <button
+                            className="ShareButton isEnabled"
+                            onClick={this.share}
+                        >
+                            <ShareIcon/>
+                        </button> 
+                    </div>
+                </div>
+                <select id="midiOut" className="arrow-input">
+                    <option value="">Not connected</option>
+                </select>
+            </div>
+        );
+    }
+}
+
+
+
+
+
+                    /* <SymmetryButton 
                         onClick={
                             ()=>this.setState({
                                 backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
@@ -469,40 +508,10 @@ export class Application extends React.Component {
                         )}
                         isActive={this.state.verticalSymmetry}
                         className={""}
-                    /> */}
-                    
-                    {/* <PlusButton 
+                    />  <PlusButton 
                         onClick={
                             ()=>this.setState({
                                 inputNumber: ((this.state.inputNumber + 1) % 5) || 1
                             }
                         )}
-                    /> */}
-                    <div
-                        className="edit-options-member"
-                        data-step="9"
-                        data-intro="Trash the whole thing."
-                    >
-                        <TrashButton onClick={this.emptyGrid}/>
-                    </div>
-                    <div className= "spacer-div-next-to-trash"/>
-                    <div
-                        className="edit-options-member"
-                        data-step="16"
-                        data-intro="Share your creation on Facebook!"
-                    >
-                        <button
-                            className="ShareButton isEnabled"
-                            onClick={()=>{}}
-                        >
-                            <ShareIcon/>
-                        </button> 
-                    </div>
-                </div>
-                <select id="midiOut" className="arrow-input">
-                    <option value="">Not connected</option>
-                </select>
-            </div>
-        );
-    }
-}
+                    /> */

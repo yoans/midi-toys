@@ -178,6 +178,16 @@ class Application extends _react2.default.Component {
             }
         };
 
+        this.share = function () {
+            const gridString = window.btoa(JSON.stringify({
+                grid: _this.state.grid,
+                noteLength: _this.state.noteLength,
+                muted: _this.state.muted
+            }));
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmidi.nathaniel-young.com/?data=${gridString}&amp;src=sdkpreparse`;
+            window.open(shareUrl, 'newwindow', 'width=300,height=250');return false;
+        };
+
         this.state = {
             currentPreset: -1,
             presets: _presets2.default,
@@ -407,27 +417,20 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     { className: 'edit-options-member' },
-                    _react2.default.createElement(
-                        'div',
-                        {
-                            className: 'fb-share-button',
-                            'data-href': 'https://midi.nathaniel-young.com/?data=hi',
-                            'data-layout': 'button',
-                            'data-size': 'large',
-                            'data-mobile-iframe': 'true'
+                    _react2.default.createElement(_reactPlayerControls.PrevButton, {
+                        onClick: function () {
+                            let NextPreset = _this2.state.currentPreset - 1;
+
+                            if (NextPreset < 0) {
+                                NextPreset = _this2.state.presets.length - 1;
+                            }
+
+                            _this2.setState({
+                                grid: _this2.state.presets[NextPreset],
+                                currentPreset: NextPreset
+                            });
                         },
-                        _react2.default.createElement(
-                            'a',
-                            {
-                                target: '_blank',
-                                href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmidi.nathaniel-young.com/?data=hi%2F&src=sdkpreparse',
-                                'class': 'fb-xfbml-parse-ignore'
-                            },
-                            'Share'
-                        )
-                    ),
-                    _react2.default.createElement(_plusButton.PlusButton, {
-                        onClick: this.addPreset
+                        isEnabled: true
                     })
                 ),
                 _react2.default.createElement(
@@ -501,7 +504,7 @@ class Application extends _react2.default.Component {
                         'button',
                         {
                             className: 'ShareButton isEnabled',
-                            onClick: function () {}
+                            onClick: this.share
                         },
                         _react2.default.createElement(_icons.ShareIcon, null)
                     )
@@ -519,4 +522,46 @@ class Application extends _react2.default.Component {
         );
     }
 }
-exports.Application = Application;
+
+exports.Application = Application; /* <SymmetryButton 
+                                       onClick={
+                                           ()=>this.setState({
+                                               backwardDiagonalSymmetry: !this.state.backwardDiagonalSymmetry
+                                           }
+                                       )}
+                                       isActive={this.state.backwardDiagonalSymmetry}
+                                       className={"backward-diag"}
+                                   />
+                                   <SymmetryButton
+                                       onClick={
+                                           ()=>this.setState({
+                                               forwardDiagonalSymmetry: !this.state.forwardDiagonalSymmetry
+                                           }
+                                       )}
+                                       isActive={this.state.forwardDiagonalSymmetry}
+                                       className={"forward-diag"}
+                                   />
+                                   <SymmetryButton
+                                       onClick={
+                                           ()=>this.setState({
+                                               horizontalSymmetry: !this.state.horizontalSymmetry
+                                           }
+                                       )}
+                                       isActive={this.state.horizontalSymmetry}
+                                       className={"horizontal"}
+                                   />
+                                   <SymmetryButton
+                                       onClick={
+                                           ()=>this.setState({
+                                               verticalSymmetry: !this.state.verticalSymmetry
+                                           }
+                                       )}
+                                       isActive={this.state.verticalSymmetry}
+                                       className={""}
+                                   />  <PlusButton 
+                                       onClick={
+                                           ()=>this.setState({
+                                               inputNumber: ((this.state.inputNumber + 1) % 5) || 1
+                                           }
+                                       )}
+                                   /> */
