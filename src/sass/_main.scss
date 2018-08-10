@@ -38,10 +38,8 @@ div.introjs-helperLayer{
   }
 
 body {
-        overflow: hidden;
-        position:fixed;
     font-family: 'Open Sans',Helvetica,Arial,sans-serif;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgb(0, 0, 0);
     // position: absolute; 
     top: 0;
     bottom: 0;
@@ -269,13 +267,13 @@ canvas{
         margin-bottom: 14px;
         margin-left: 22px;
         margin-right: 22px;
-      color: white;
-      font-family: 'Helvetica Neue', sans-serif;
-      font-size: 76px;
-      font-weight: bold;
-      letter-spacing: -3px;
-      line-height: 58px;
-      text-align: center;
+        color: white;
+        font-family: 'Helvetica Neue', sans-serif;
+        font-weight: bold;
+        letter-spacing: -3px;
+        font-size: 60px;
+        line-height: 40px;
+        text-align: center;
     }
 
     h2 {

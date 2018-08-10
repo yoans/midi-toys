@@ -511,10 +511,8 @@ div.introjs-helperLayer {
   /* Likely future */ }
 
 body {
-  overflow: hidden;
-  position: fixed;
   font-family: 'Open Sans',Helvetica,Arial,sans-serif;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: black;
   top: 0;
   bottom: 0;
   right: 0;
@@ -717,10 +715,10 @@ canvas {
     margin-right: 22px;
     color: white;
     font-family: 'Helvetica Neue', sans-serif;
-    font-size: 76px;
     font-weight: bold;
     letter-spacing: -3px;
-    line-height: 58px;
+    font-size: 60px;
+    line-height: 40px;
     text-align: center; }
   .app-title-div h2 {
     color: white;
