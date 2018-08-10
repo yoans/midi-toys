@@ -184,7 +184,7 @@ class Application extends _react2.default.Component {
                 noteLength: _this.state.noteLength,
                 muted: _this.state.muted
             }));
-            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmidi.nathaniel-young.com/?data=${gridString}&amp;src=sdkpreparse`;
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farrowgrid.sagaciasoft.com/?data=${gridString}&amp;src=sdkpreparse`;
             window.open(shareUrl, 'newwindow', 'width=300,height=250');return false;
         };
 
