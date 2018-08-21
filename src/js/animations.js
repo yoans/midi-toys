@@ -4,7 +4,8 @@ import {
     NO_BOUNDARY,
     getArrowBoundaryDictionary,
     locationKey,
-    arrowBoundaryKey
+    arrowBoundaryKey,
+    boundaryKey
 } from './arrows-logic';
 
 let stateDrawing;
@@ -142,6 +143,47 @@ export const setUpCanvas = (state) => {
                 1.0 * stateDrawing.noteLength
             ));
             const percentage = possiblePercentage > 1 ? 1 : possiblePercentage;
+            const boundaryDictionary = getArrowBoundaryDictionary(
+                stateDrawing.grid.arrows || [],
+                stateDrawing.grid.size,
+                boundaryKey
+            );
+            const boundaryDictionaryX = boundaryDictionary['x'] || [];
+            const boundaryDictionaryY = boundaryDictionary['y'] || [];
+            // draw highlighted rows and columns
+            boundaryDictionaryX.map((arrow) => {
+                const topLeft = {
+                    x:convertIndexToPixel(0),
+                    y:convertIndexToPixel(arrow.y)
+                };
+
+                sketch.push();
+                sketch.strokeWeight(0);
+                const scaledColor = 255*percentage*2+(percentage>.5?(-255*(percentage-.5)*2*2):0);
+                sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor);
+                translateAndRotate(topLeft, sketch, 0, cellSize);
+                sketch.rect(0, 0, cellSize*stateDrawing.grid.size, cellSize)
+
+                sketch.pop();
+                return undefined;
+            });
+            boundaryDictionaryY.map((arrow) => {
+                const topLeft = {
+                    x:convertIndexToPixel(arrow.x),
+                    y:convertIndexToPixel(0)
+                };
+
+                sketch.push();
+                sketch.strokeWeight(0);
+                const scaledColor = 255*percentage*2+(percentage>.5?(-255*(percentage-.5)*2*2):0);
+                sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor);
+                translateAndRotate(topLeft, sketch, 0, cellSize);
+                sketch.rect(0, 0, cellSize, cellSize*stateDrawing.grid.size)
+
+                sketch.pop();
+                return undefined;
+            });
+
             // draw arrows
 
             const arrowLocationDictionary = getArrowBoundaryDictionary(
@@ -224,18 +266,18 @@ export const setUpCanvas = (state) => {
                 const arrowsNotBouncing = bouncingDictionary[NO_BOUNDARY] || [];
                 arrowsNotBouncing.map((arrow) => {
                     const topLeft = convertArrowToTopLeft(arrow);
-
+                    
                     sketch.push();
                     sketch.strokeWeight(0);
                     sketch.fill(255, 255, 255);
                     translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
-
+                    
                     triangleRotatingArray[rotations](cellSize, sketch, percentage);
-
+                    
                     sketch.pop();
                     return undefined;
                 });
-
+                
                 const arrowsBouncing = bouncingDictionary[BOUNDARY] || [];
 
                 // bounced

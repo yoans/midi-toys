@@ -146,17 +146,22 @@ export const arrowKey = arrow => `{x:${arrow.x},y:${arrow.y},vector:${arrow.vect
 export const locationKey = arrow => `{x:${arrow.x},y:${arrow.y}}`;
 
 export const arrowBoundaryKey = (arrow, size, rotations = 0) => {
+    const returnVal = boundaryKey(arrow, size, rotations);
+    return (returnVal === 'x' || returnVal === 'y') ? BOUNDARY: returnVal;
+};
+
+export const boundaryKey = (arrow, size, rotations = 0) => {
     if (arrow.y === 0 && (arrow.vector + rotations) % 4 === 0) {
-        return BOUNDARY;
+        return 'y';
     }
     if (arrow.x === size - 1 && (arrow.vector + rotations) % 4 === 1) {
-        return BOUNDARY;
+        return 'x';
     }
     if (arrow.y === size - 1 && (arrow.vector + rotations) % 4 === 2) {
-        return BOUNDARY;
+        return 'y';
     }
     if (arrow.x === 0 && (arrow.vector + rotations) % 4 === 3) {
-        return BOUNDARY;
+        return 'x';
     }
     return NO_BOUNDARY;
 };

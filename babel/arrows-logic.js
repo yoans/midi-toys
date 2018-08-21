@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.nextGrid = exports.getArrowBoundaryDictionary = exports.arrowBoundaryKey = exports.locationKey = exports.arrowKey = exports.emptyGrid = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.BOUNDARY = exports.NO_BOUNDARY = undefined;
+exports.nextGrid = exports.getArrowBoundaryDictionary = exports.boundaryKey = exports.arrowBoundaryKey = exports.locationKey = exports.arrowKey = exports.emptyGrid = exports.newGrid = exports.addToGrid = exports.removeFromGrid = exports.BOUNDARY = exports.NO_BOUNDARY = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -178,17 +178,22 @@ const locationKey = exports.locationKey = function (arrow) {
 };
 
 const arrowBoundaryKey = exports.arrowBoundaryKey = function (arrow, size, rotations = 0) {
+    const returnVal = boundaryKey(arrow, size, rotations);
+    return returnVal === 'x' || returnVal === 'y' ? BOUNDARY : returnVal;
+};
+
+const boundaryKey = exports.boundaryKey = function (arrow, size, rotations = 0) {
     if (arrow.y === 0 && (arrow.vector + rotations) % 4 === 0) {
-        return BOUNDARY;
+        return 'y';
     }
     if (arrow.x === size - 1 && (arrow.vector + rotations) % 4 === 1) {
-        return BOUNDARY;
+        return 'x';
     }
     if (arrow.y === size - 1 && (arrow.vector + rotations) % 4 === 2) {
-        return BOUNDARY;
+        return 'y';
     }
     if (arrow.x === 0 && (arrow.vector + rotations) % 4 === 3) {
-        return BOUNDARY;
+        return 'x';
     }
     return NO_BOUNDARY;
 };

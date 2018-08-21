@@ -114,6 +114,43 @@ const setUpCanvas = exports.setUpCanvas = function (state) {
             const timeDiff = new Date().getTime() - previousTime.getTime();
             const possiblePercentage = (stateDrawing.playing ? timeDiff : 0) / (1.0 * stateDrawing.noteLength);
             const percentage = possiblePercentage > 1 ? 1 : possiblePercentage;
+            const boundaryDictionary = (0, _arrowsLogic.getArrowBoundaryDictionary)(stateDrawing.grid.arrows || [], stateDrawing.grid.size, _arrowsLogic.boundaryKey);
+            const boundaryDictionaryX = boundaryDictionary['x'] || [];
+            const boundaryDictionaryY = boundaryDictionary['y'] || [];
+            // draw highlighted rows and columns
+            boundaryDictionaryX.map(function (arrow) {
+                const topLeft = {
+                    x: convertIndexToPixel(0),
+                    y: convertIndexToPixel(arrow.y)
+                };
+
+                sketch.push();
+                sketch.strokeWeight(0);
+                const scaledColor = 255 * percentage * 2 + (percentage > .5 ? -255 * (percentage - .5) * 2 * 2 : 0);
+                sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor);
+                translateAndRotate(topLeft, sketch, 0, cellSize);
+                sketch.rect(0, 0, cellSize * stateDrawing.grid.size, cellSize);
+
+                sketch.pop();
+                return undefined;
+            });
+            boundaryDictionaryY.map(function (arrow) {
+                const topLeft = {
+                    x: convertIndexToPixel(arrow.x),
+                    y: convertIndexToPixel(0)
+                };
+
+                sketch.push();
+                sketch.strokeWeight(0);
+                const scaledColor = 255 * percentage * 2 + (percentage > .5 ? -255 * (percentage - .5) * 2 * 2 : 0);
+                sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor);
+                translateAndRotate(topLeft, sketch, 0, cellSize);
+                sketch.rect(0, 0, cellSize, cellSize * stateDrawing.grid.size);
+
+                sketch.pop();
+                return undefined;
+            });
+
             // draw arrows
 
             const arrowLocationDictionary = (0, _arrowsLogic.getArrowBoundaryDictionary)(stateDrawing.grid.arrows, stateDrawing.grid.size, _arrowsLogic.locationKey);
