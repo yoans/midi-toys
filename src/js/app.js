@@ -190,6 +190,12 @@ export class Application extends React.Component {
         }
     }
     share = () => {
+        ga('send', {
+            hitType: 'social',
+            socialNetwork: 'Facebook',
+            socialAction: 'share',
+            socialTarget: 'http://myownpersonaldomain.com'
+          });
         const gridString = window.btoa(JSON.stringify({
             grid: this.state.grid,
             noteLength: this.state.noteLength,

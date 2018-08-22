@@ -179,6 +179,12 @@ class Application extends _react2.default.Component {
         };
 
         this.share = function () {
+            ga('send', {
+                hitType: 'social',
+                socialNetwork: 'Facebook',
+                socialAction: 'share',
+                socialTarget: 'http://myownpersonaldomain.com'
+            });
             const gridString = window.btoa(JSON.stringify({
                 grid: _this.state.grid,
                 noteLength: _this.state.noteLength,
