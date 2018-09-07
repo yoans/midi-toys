@@ -216,8 +216,13 @@ export class Application extends React.Component {
                         </h1>
                     </div>
                 </div>
-                
-            
+                <div
+                    className="edit-options"
+                >
+                    <h1>Welcome to My Awesome App</h1>
+                    <div id="firebaseui-auth-container"></div>
+                    <div id="loader">Loading...</div>
+                </div>
                 <div
                     className="edit-options"
                 >

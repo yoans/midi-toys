@@ -245,6 +245,23 @@ class Application extends _react2.default.Component {
                     className: 'edit-options'
                 },
                 _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Welcome to My Awesome App'
+                ),
+                _react2.default.createElement('div', { id: 'firebaseui-auth-container' }),
+                _react2.default.createElement(
+                    'div',
+                    { id: 'loader' },
+                    'Loading...'
+                )
+            ),
+            _react2.default.createElement(
+                'div',
+                {
+                    className: 'edit-options'
+                },
+                _react2.default.createElement(
                     'div',
                     { className: 'edit-options-member' },
                     _react2.default.createElement(
