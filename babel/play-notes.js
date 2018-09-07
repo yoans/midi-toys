@@ -29,73 +29,54 @@ const getIndex = function (x, y, size, vector) {
 const frequencies = (0, _notesFrequencies2.default)('e3 a3 b3 c4 e4 f4 a4 b4 e5 a5 b5 c6 e6 f6 a6 b6 e7'); //ake bono scale
 // const frequencies = notesFrequencies('e3 b3 d4 e4 g4 a4 d5 e5 b5 d6 e6 g6 a6 d7 e7');//Yue-Diao scale
 // const frequencies = notesFrequencies('e3 a3 b3 C3 D3 E3 F3 G3 A3 E4 F4 G4 A4');//Bayati scale
-// const sounds = (length) => frequencies.map((freq, noteIndex)=>{
-// const aSound = new Pizzicato.Sound({
-//     source: 'wave',
-//     options: {
-//         frequency: frequencies[noteIndex][0],
-//         attack: 0,
-//         release: 0.1,
-//         type: 'sine',
-//         volume: .5
-//     },
-// });
-// var dubDelay = new Pizzicato.Effects.DubDelay({
-//     feedback: 0.1,
-//     time: length*2.5/1000,
-//     mix: 1,
-//     cutoff: 200
-// });
-// var dubDelay2 = new Pizzicato.Effects.DubDelay({
-//     feedback: 0.1,
-//     time: length*3.33/1000,
-//     mix: 1,
-//     cutoff: 700
-// });
-// var lowPassFilter = new Pizzicato.Effects.LowPassFilter({
-//     frequency: 1000,
-//     peak: 6
-// });
-
-// aSound.addEffect(dubDelay);
-// aSound.addEffect(dubDelay2);
-// aSound.addEffect(lowPassFilter);
-//     return aSound;
-// })
 const lengthSounds = {};
+const sounds = function (length) {
+    return frequencies.map(function (freq, noteIndex) {
+        const aSound = new _pizzicato2.default.Sound({
+            source: 'wave',
+            options: {
+                frequency: frequencies[noteIndex][0],
+                attack: 0,
+                release: 0.1,
+                type: 'sine',
+                volume: .5
+            }
+        });
+        var dubDelay = new _pizzicato2.default.Effects.DubDelay({
+            feedback: 0.1,
+            time: length * 2.5 / 1000,
+            mix: 1,
+            cutoff: 200
+        });
+        var dubDelay2 = new _pizzicato2.default.Effects.DubDelay({
+            feedback: 0.1,
+            time: length * 3.33 / 1000,
+            mix: 1,
+            cutoff: 700
+        });
+        var lowPassFilter = new _pizzicato2.default.Effects.LowPassFilter({
+            frequency: 1000,
+            peak: 6
+        });
+
+        aSound.addEffect(dubDelay);
+        aSound.addEffect(dubDelay2);
+        aSound.addEffect(lowPassFilter);
+        return aSound;
+    });
+};
 const makePizzaSound = exports.makePizzaSound = function (index, length, volume = .5) {
     //cacheSounds!
     // const frequencies = notesFrequencies('D3 F3 G#3 C4 D#4 G4 A#5');
     const noteIndex = index % frequencies.length;
-    const aSound = new _pizzicato2.default.Sound({
-        source: 'wave',
-        options: {
-            frequency: frequencies[noteIndex][0],
-            attack: 0.01,
-            release: 0.1,
-            type: 'sawtooth',
-            volume: volume
-        }
-    });
-    return aSound;
+    if (!lengthSounds[length]) {
+        lengthSounds[length] = sounds(length);
+    }
+    return lengthSounds[length][noteIndex];
 };
 const playSounds = exports.playSounds = function (boundaryArrows, size, length, muted) {
     const alreadyPlayedMap = {};
     var sounds = [];
-
-    // var dubDelay = new Pizzicato.Effects.DubDelay({
-    //     feedback: 0.1,
-    //     time: length*1.5/1000,
-    //     mix: 1,
-    //     cutoff: 200
-    // });
-    // var distortion = new Pizzicato.Effects.Distortion({
-    //     gain: 1
-    // });
-    // var lowPassFilter = new Pizzicato.Effects.LowPassFilter({
-    //     frequency: 800,
-    //     peak: .1
-    // });
 
     boundaryArrows.map(function (arrow) {
         const speed = getIndex(arrow.x, arrow.y, size, arrow.vector);
@@ -108,17 +89,11 @@ const playSounds = exports.playSounds = function (boundaryArrows, size, length, 
         (0, _midi.makeMIDImessage)(speed, length).play();
     });
     if (!muted) {
-        // group.addEffect(dubDelay);
-        // group.addEffect(distortion);
-        // group.addEffect(lowPassFilter);
-
-        var group = new _pizzicato2.default.Group(sounds);
-        group.play();
-        setTimeout(function () {
-            group.stop();
-            sounds.map(function (sound) {
-                group.removeSound(sound);
-            });
-        }, length - 1);
+        sounds.map(function (thisSound) {
+            thisSound.play();
+            setTimeout(function () {
+                thisSound.stop();
+            }, length - 1);
+        });
     }
 };

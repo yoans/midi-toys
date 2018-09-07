@@ -58,6 +58,7 @@ export class Application extends React.Component {
         super(props);
 
         this.state = {
+            tut: "TutorialButtonStartGreen",
             currentPreset:-1,
             presets,
             inputDirection: 0,
@@ -154,6 +155,11 @@ export class Application extends React.Component {
             grid: emptyGrid(this.state.grid.size),
         });
     }
+    removeTutHighlight = () => {
+        this.setState({
+            tut: '',
+        });
+    }
     addPreset = () => {
         
         const encoded = window.btoa(
@@ -225,14 +231,15 @@ export class Application extends React.Component {
                 <div className="edit-options-member">
                         <div className="">
                             <button
-                                className="TutorialButton isEnabled"
+                                className={"TutorialButton isEnabled " + this.state.tut} 
                                 onClick={()=>{
+                                    this.removeTutHighlight();
                                     introJs()
                                     .setOption('hideNext', true)
                                     .setOption('hidePrev', true)
                                     .setOption('showStepNumbers', false)
                                     .setOption('exitOnOverlayClick', false)
-                                    .start()
+                                    .start();
                                 }}
                             >
                                 <InfoIcon/>

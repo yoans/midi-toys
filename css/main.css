@@ -265,6 +265,20 @@
   .TutorialButton.isEnabled,
   .ShareButton.isEnabled {
     cursor: pointer; }
+    .PlusButton.isEnabled.TutorialButtonStartGreen,
+    .PlayButton.isEnabled.TutorialButtonStartGreen,
+    .PauseButton.isEnabled.TutorialButtonStartGreen,
+    .PrevButton.isEnabled.TutorialButtonStartGreen,
+    .NextButton.isEnabled.TutorialButtonStartGreen,
+    .SoundOnButton.isEnabled.TutorialButtonStartGreen,
+    .SoundOffButton.isEnabled.TutorialButtonStartGreen,
+    .TrashButton.isEnabled.TutorialButtonStartGreen,
+    .EditButton.isEnabled.TutorialButtonStartGreen,
+    .EraseButton.isEnabled.TutorialButtonStartGreen,
+    .ArrowButton.isEnabled.TutorialButtonStartGreen,
+    .TutorialButton.isEnabled.TutorialButtonStartGreen,
+    .ShareButton.isEnabled.TutorialButtonStartGreen {
+      background: rgba(12, 146, 0, 0.76); }
     .PlusButton.isEnabled:hover,
     .PlayButton.isEnabled:hover,
     .PauseButton.isEnabled:hover,
@@ -498,7 +512,7 @@
   cursor: none; }
 
 div.introjs-helperLayer {
-  background-color: rgba(254, 245, 245, 0.5); }
+  background-color: rgba(12, 146, 0, 0.76); }
 
 .no-copy {
   -webkit-user-select: none;

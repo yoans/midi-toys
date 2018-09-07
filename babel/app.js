@@ -143,6 +143,12 @@ class Application extends _react2.default.Component {
             });
         };
 
+        this.removeTutHighlight = function () {
+            _this.setState({
+                tut: ''
+            });
+        };
+
         this.addPreset = function () {
 
             const encoded = window.btoa(JSON.stringify({
@@ -195,6 +201,7 @@ class Application extends _react2.default.Component {
         };
 
         this.state = {
+            tut: "TutorialButtonStartGreen",
             currentPreset: -1,
             presets: _presets2.default,
             inputDirection: 0,
@@ -253,8 +260,9 @@ class Application extends _react2.default.Component {
                         _react2.default.createElement(
                             'button',
                             {
-                                className: 'TutorialButton isEnabled',
+                                className: "TutorialButton isEnabled " + this.state.tut,
                                 onClick: function () {
+                                    _this2.removeTutHighlight();
                                     introJs().setOption('hideNext', true).setOption('hidePrev', true).setOption('showStepNumbers', false).setOption('exitOnOverlayClick', false).start();
                                 }
                             },

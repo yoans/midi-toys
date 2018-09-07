@@ -30,6 +30,7 @@ $color-active: fade-out($color-hover, 0.5);
 .ArrowButton,
 .TutorialButton,
 .ShareButton {
+  
   .number-overlayee {
     position:relative;
   }
@@ -62,7 +63,7 @@ $color-active: fade-out($color-hover, 0.5);
   background: transparent;
   border: 2px solid $super-white;
   border-radius: 100%;
-  
+
   outline: none;
 
     &.ActiveControl {
@@ -148,7 +149,10 @@ $color-active: fade-out($color-hover, 0.5);
   } 
   &.isEnabled {
     cursor: pointer;
-
+    &.TutorialButtonStartGreen {
+      background: rgba(12, 146, 0, 0.76);
+    }
+    
     &:hover {
       border-color: $color-hover;
 
