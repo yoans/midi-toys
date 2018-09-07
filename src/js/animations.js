@@ -152,39 +152,40 @@ export const setUpCanvas = (state) => {
             const boundaryDictionaryY = boundaryDictionary['y'] || [];
             // draw highlighted rows and columns
             
-            const prepareDrawForColumnsAndRows = (topLeft) => {
-                sketch.push();
-                sketch.strokeWeight(0);
-                // const scaledColor = 255*percentage*2+(percentage>.5?(-255*(percentage-.5)*2*2):0);
-                const scaledColor = 255 - 255 * percentage;
-                sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor);
-                translateAndRotate(topLeft, sketch, 0, cellSize);
-                return scaledColor;
+            if (stateDrawing.playing) {
+                const prepareDrawForColumnsAndRows = (topLeft) => {
+                    sketch.push();
+                    sketch.strokeWeight(0);
+                    // const scaledColor = 255*percentage*2+(percentage>.5?(-255*(percentage-.5)*2*2):0);
+                    const scaledColor = 255 - 255 * percentage;
+                    sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor);
+                    translateAndRotate(topLeft, sketch, 0, cellSize);
+                    return scaledColor;
+                }
+                boundaryDictionaryX.map((arrow) => {
+                    const topLeft = {
+                        x:convertIndexToPixel(0),
+                        y:convertIndexToPixel(arrow.y)
+                    };
+
+                    prepareDrawForColumnsAndRows(topLeft);
+                    sketch.rect(0, 0, cellSize*stateDrawing.grid.size, cellSize)
+
+                    sketch.pop();
+                    return undefined;
+                });
+                boundaryDictionaryY.map((arrow) => {
+                    const topLeft = {
+                        x:convertIndexToPixel(arrow.x),
+                        y:convertIndexToPixel(0)
+                    };
+                    prepareDrawForColumnsAndRows(topLeft);
+                    sketch.rect(0, 0, cellSize, cellSize*stateDrawing.grid.size)
+
+                    sketch.pop();
+                    return undefined;
+                });
             }
-            boundaryDictionaryX.map((arrow) => {
-                const topLeft = {
-                    x:convertIndexToPixel(0),
-                    y:convertIndexToPixel(arrow.y)
-                };
-
-                prepareDrawForColumnsAndRows(topLeft);
-                sketch.rect(0, 0, cellSize*stateDrawing.grid.size, cellSize)
-
-                sketch.pop();
-                return undefined;
-            });
-            boundaryDictionaryY.map((arrow) => {
-                const topLeft = {
-                    x:convertIndexToPixel(arrow.x),
-                    y:convertIndexToPixel(0)
-                };
-                prepareDrawForColumnsAndRows(topLeft);
-                sketch.rect(0, 0, cellSize, cellSize*stateDrawing.grid.size)
-
-                sketch.pop();
-                return undefined;
-            });
-
             // draw arrows
 
             const arrowLocationDictionary = getArrowBoundaryDictionary(
