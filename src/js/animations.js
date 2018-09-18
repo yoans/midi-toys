@@ -15,6 +15,8 @@ let mouseY = 1;
 let cellSize = 1;
 const gridCanvasSize = 320;
 const gridCanvasBorderSize = 2;
+
+const arrowColor = [255, 255, 255, 45]
 const convertPixelToIndex = pixel => Math.floor(
     (pixel - gridCanvasBorderSize) / cellSize
 );
@@ -108,16 +110,21 @@ export const setUpCanvas = (state) => {
         sketch.draw = () => {
             mouseX = sketch.mouseX;
             mouseY = sketch.mouseY;
-            // draw background slash border
-            sketch.background(255, 255, 255);
             // draw grid
+            sketch.push()
             sketch.strokeWeight(0);
-            sketch.fill(0, 0, 0);
+            sketch.fill(0, 0, 0, 70);
             sketch.rect(gridCanvasBorderSize, gridCanvasBorderSize, gridCanvasSize, gridCanvasSize);
+            sketch.noFill();
+            sketch.strokeWeight(gridCanvasBorderSize*2);
+            sketch.stroke(255, 255, 255, 160);
+            sketch.rect(0, 0, gridCanvasSize+gridCanvasBorderSize*2, gridCanvasSize+gridCanvasBorderSize*2);
+
+            sketch.pop();
             //draw grid lines
             cellSize = (gridCanvasSize * 1.0) / (1.0 * stateDrawing.grid.size);
             sketch.push();
-            sketch.stroke(45, 45, 45);
+            sketch.stroke(30, 30, 30, 40);
             sketch.strokeWeight(2);
             for (var i=1; i<stateDrawing.grid.size; i++) {
                 // horizontal
@@ -127,8 +134,6 @@ export const setUpCanvas = (state) => {
             }
             sketch.pop();
 
-            sketch.fill(255, 255, 255);
-            sketch.strokeWeight(0);
             const convertIndexToPixel = index => (index * cellSize) + gridCanvasBorderSize;
             const convertArrowToTopLeft = xy => (
                 {
@@ -158,7 +163,7 @@ export const setUpCanvas = (state) => {
                     sketch.strokeWeight(0);
                     // const scaledColor = 255*percentage*2+(percentage>.5?(-255*(percentage-.5)*2*2):0);
                     const scaledColor = 255 - 255 * percentage;
-                    sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor);
+                    sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor/2);
                     translateAndRotate(topLeft, sketch, 0, cellSize);
                     return scaledColor;
                 }
@@ -213,6 +218,9 @@ export const setUpCanvas = (state) => {
                 arrowBoundaryKey
             );
             (arrowDictionary[NO_BOUNDARY] || []).map((arrow) => {
+                sketch.push();
+                sketch.strokeWeight(0);
+                sketch.fill(...arrowColor);
                 const shiftedTopLeft = timeShift(
                     convertArrowToTopLeft(arrow),
                     arrow.vector,
@@ -220,13 +228,14 @@ export const setUpCanvas = (state) => {
                 );
                 const triangleDrawer = triangleDrawingArray[arrow.vector];
                 triangleDrawer(shiftedTopLeft, cellSize, sketch);
+                sketch.pop();
                 return undefined;
             });
             // wall Arrows
             (arrowDictionary[BOUNDARY] || []).map((arrow) => {
                 sketch.push();
                 sketch.strokeWeight(0);
-                sketch.fill(255, 255, 255);
+                sketch.fill(...arrowColor);
                 const topLeft = convertArrowToTopLeft(arrow);
                 translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
                 sketch.quad(
@@ -271,7 +280,7 @@ export const setUpCanvas = (state) => {
                     
                     sketch.push();
                     sketch.strokeWeight(0);
-                    sketch.fill(255, 255, 255);
+                    sketch.fill(...arrowColor);
                     translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
                     
                     triangleRotatingArray[rotations](cellSize, sketch, percentage);
@@ -288,7 +297,7 @@ export const setUpCanvas = (state) => {
 
                     sketch.push();
                     sketch.strokeWeight(0);
-                    sketch.fill(255, 255, 255);
+                    sketch.fill(...arrowColor);
                     translateAndRotate(topLeft, sketch, arrow.vector, cellSize);
                     triangleRotatingArray[bouncedRotation](cellSize, sketch, percentage);
 
