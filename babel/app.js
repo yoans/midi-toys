@@ -72,7 +72,6 @@ class Application extends _react2.default.Component {
                 return _this.nextGrid(_this.state.noteLength);
             }, _this.state.noteLength);
             _this.setState({ playing: true });
-            interactSound(_this.state);
         };
 
         this.resetTimer = function () {
@@ -206,7 +205,7 @@ class Application extends _react2.default.Component {
             presets: _presets2.default,
             inputDirection: 0,
             noteLength: props.noteLength || 275,
-            grid: props.grid || (0, _arrowsLogic.newGrid)(11, 0),
+            grid: props.grid || (0, _arrowsLogic.newGrid)(11, 6),
             playing: false,
             muted: true,
             deleting: false,

@@ -278,7 +278,8 @@
     .ArrowButton.isEnabled.TutorialButtonStartGreen,
     .TutorialButton.isEnabled.TutorialButtonStartGreen,
     .ShareButton.isEnabled.TutorialButtonStartGreen {
-      background: rgba(12, 146, 0, 0.76); }
+      border-color: #0c9200;
+      background: #0c9200; }
     .PlusButton.isEnabled:hover,
     .PlayButton.isEnabled:hover,
     .PauseButton.isEnabled:hover,

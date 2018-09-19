@@ -59,11 +59,11 @@ export class Application extends React.Component {
 
         this.state = {
             tut: "TutorialButtonStartGreen",
-            currentPreset:-1,
+            currentPreset: -1,
             presets,
             inputDirection: 0,
             noteLength: props.noteLength || 275,
-            grid: props.grid || newGrid(11, 0),
+            grid: props.grid || newGrid(11, 6),
             playing: false,
             muted: true,
             deleting: false,
@@ -93,7 +93,6 @@ export class Application extends React.Component {
             this.state.noteLength,
         );
         this.setState({ playing: true });
-        interactSound(this.state);
     }
     resetTimer = () => {
         clearInterval(this.timerID);

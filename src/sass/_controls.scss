@@ -150,7 +150,8 @@ $color-active: fade-out($color-hover, 0.5);
   &.isEnabled {
     cursor: pointer;
     &.TutorialButtonStartGreen {
-      background: rgba(12, 146, 0, 0.76);
+      border-color: rgb(12, 146, 0);
+      background: rgb(12, 146, 0);
     }
     
     &:hover {
