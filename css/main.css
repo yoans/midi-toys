@@ -161,6 +161,17 @@
     -webkit-transform: rotate(180deg); }
   to {
     -webkit-transform: rotate(360deg); } }
+
+@-webkit-keyframes flashingButton {
+  from {
+    border-color: #9f11d400;
+    background: #9f11d400; }
+  50% {
+    border-color: #9f11d4;
+    background: #9f11d4; }
+  to {
+    border-color: #9f11d400;
+    background: #9f11d400; } }
   .PlusButton .EditIconRotate,
   .PlayButton .EditIconRotate,
   .PauseButton .EditIconRotate,
@@ -278,8 +289,7 @@
     .ArrowButton.isEnabled.TutorialButtonStartGreen,
     .TutorialButton.isEnabled.TutorialButtonStartGreen,
     .ShareButton.isEnabled.TutorialButtonStartGreen {
-      border-color: #0c9200;
-      background: #0c9200; }
+      -webkit-animation: flashingButton 1.25s infinite; }
     .PlusButton.isEnabled:hover,
     .PlayButton.isEnabled:hover,
     .PauseButton.isEnabled:hover,
@@ -513,7 +523,7 @@
   cursor: none; }
 
 div.introjs-helperLayer {
-  background-color: rgba(12, 146, 0, 0.76); }
+  background-color: #a011d4c5; }
 
 .no-copy {
   -webkit-user-select: none;
