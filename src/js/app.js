@@ -35,7 +35,14 @@ import {
 } from './buttons/icons';
 import {setSliderOnChange} from './sliders';
 import presets from './presets';
-
+const clickNext = () => {
+    const nextButtonElement = document.querySelectorAll('.introjs-button.introjs-nextbutton')[0];
+    nextButtonElement && nextButtonElement.click();
+}
+const clickDone = () => {
+    const doneButtonElement = document.querySelectorAll('.introjs-button.introjs-donebutton')[0];
+    doneButtonElement && doneButtonElement.click();
+}
 const chance = new Chance();
 const maxSize = 20;
 const minSize = 2;
@@ -62,8 +69,8 @@ export class Application extends React.Component {
             currentPreset: -1,
             presets,
             inputDirection: 0,
-            noteLength: props.noteLength || 275,
-            grid: props.grid || newGrid(11, 6),
+            noteLength: props.noteLength || 350,
+            grid: props.grid || newGrid(8, 6),
             playing: false,
             muted: true,
             deleting: false,
@@ -88,6 +95,7 @@ export class Application extends React.Component {
     timerID = undefined
 
     play = () => {
+        clickNext()
         this.timerID = setInterval(
             () => this.nextGrid(this.state.noteLength),
             this.state.noteLength,
@@ -105,6 +113,7 @@ export class Application extends React.Component {
         this.setState({ playing: false });
     }
     muteToggle = () => {
+        clickDone()
         this.setState({ muted: !this.state.muted });
         interactSound(this.state);
     }
@@ -150,6 +159,7 @@ export class Application extends React.Component {
         });
     }
     emptyGrid = () => {
+        clickNext()
         this.setState({
             grid: emptyGrid(this.state.grid.size),
         });
@@ -178,6 +188,7 @@ export class Application extends React.Component {
         // });
     }
     addToGrid = (x, y, e) => {
+        clickNext()
         if (e.shiftKey || this.state.deleting) {
             this.setState({
                 grid: removeFromGrid(this.state.grid, x, y)
@@ -216,7 +227,7 @@ export class Application extends React.Component {
             <div className="no-copy midi-toys-app">
                 <div className="edit-options">
                     <div className=" edit-options-member app-title-div">
-                        <h1 data-step="1" data-intro="Welcome to Arrowgrid!">
+                        <h1>
                             Arrowgrid
                         </h1>
                     </div>
@@ -250,8 +261,8 @@ export class Application extends React.Component {
                     >
                         <div
                             className="slider-container"
-                            data-step="5"
-                            data-intro="Adjust the speed with this slider."
+                            // data-step="5"
+                            // data-intro="Adjust the speed with this slider."
                         >
                             <input
                                 id="note-length-slider"
@@ -271,8 +282,8 @@ export class Application extends React.Component {
                     </div>
                     <div
                         className="edit-options-member"
-                        data-step="14"
-                        data-intro="Unmute to hear your creation."
+                        data-step="8"
+                        data-intro="Hear the thing."
                     >
                         <MuteToggleButton
                             isEnabled={true}
@@ -286,18 +297,18 @@ export class Application extends React.Component {
                 >
                     <div
                         className="edit-options-member"
-                        data-step="13"
-                        data-intro="Get Creative!"
+                        data-step="5"
+                        data-intro="Poke the thing."
                     >
                         <div
                             className="edit-options-member"
-                            data-step="8"
-                            data-intro="Delete some arrows by clicking on them."
+                            data-step="6"
+                            data-intro="Repeat!"
                         >
                             <div
                                 id="sketch-holder"
-                                data-step="2"
-                                data-intro="Click on the grid to draw an Arrow."
+                                data-step="7"
+                                data-intro="Once more."
                                 onClick={getAdderWithMousePosition(this.addToGrid)}
                             />
                         </div>
@@ -308,8 +319,8 @@ export class Application extends React.Component {
                 >
                 <div 
                         className="edit-options-member"
-                        data-step="11"
-                        data-intro="Change the arrow direction."
+                        // data-step="11"
+                        // data-intro="Change the arrow direction."
                     >
                     {
                         [
@@ -352,8 +363,8 @@ export class Application extends React.Component {
                     >
                         <div
                             className="slider-container"
-                            data-step="12"
-                            data-intro="Adjust the grid with this slider."
+                            // data-step="12"
+                            // data-intro="Adjust the grid with this slider."
                         >
                             <input
                                 id="grid-size-slider"
@@ -373,12 +384,12 @@ export class Application extends React.Component {
                     
                     <div
                         className="edit-options-member"
-                        data-step="6"
-                        data-intro="Switch to erase mode."
+                        // data-step="6"
+                        // data-intro="Switch to erase mode."
                     >
                         <div 
-                            data-step="10"
-                            data-intro="Switch to draw mode."
+                            // data-step="10"
+                            // data-intro="Switch to draw mode."
                         >
                             <EditButton isEditing={!this.state.deleting} onClick={this.changeEditMode} className={this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate'}/>
                         </div>
@@ -409,16 +420,16 @@ export class Application extends React.Component {
                     </div> 
                     <div
                         className="edit-options-member"
-                        data-step="3"
-                        data-intro="Press play to watch your creation unfold."
+                        data-step="1"
+                        data-intro="Start the thing."
                     >
                         <div
-                            data-step="7"
-                            data-intro="Pause to allow easier editing."
+                            // data-step="7"
+                            // data-intro="Pause to allow easier editing."
                         >
                         <div
-                            data-step="15"
-                            data-intro="Check to see that your device has sound enabled and play your music."
+                            // data-step="15"
+                            // data-intro="Check to see that your device has sound enabled and play your music."
                         >
                             {
                                 this.state.playing ?
@@ -430,11 +441,17 @@ export class Application extends React.Component {
                     </div>
                     <div
                         className="edit-options-member" 
-                        data-step="4"
-                        data-intro="Press this to see other examples."
+                        data-step="2"
+                        data-intro="Change the thing."
+                    >
+                    <div
+                        className="edit-options-member" 
+                        data-step="3"
+                        data-intro="Again!"
                     >
                         <NextButton
                             onClick={()=>{
+                                clickNext()
                                 let NextPreset = this.state.currentPreset + 1;
                                 
                                 if (NextPreset>=this.state.presets.length) {
@@ -449,21 +466,22 @@ export class Application extends React.Component {
                             isEnabled={true}
                         />
                     </div>
+                    </div>
                 </div>
                 
                 <div className="edit-options">
                     <div
                         className="edit-options-member"
-                        data-step="9"
-                        data-intro="Trash the whole thing."
+                        data-step="4"
+                        data-intro="Trash the thing."
                     >
                         <TrashButton onClick={this.emptyGrid}/>
                     </div>
                     <div className= "spacer-div-next-to-trash"/>
                     <div
                         className="edit-options-member"
-                        data-step="16"
-                        data-intro="Share your creation on Facebook!"
+                        // data-step="16"
+                        // data-intro="Share your creation on Facebook!"
                     >
                         <button
                             className="ShareButton isEnabled"

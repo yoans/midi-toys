@@ -39,6 +39,14 @@ var _presets2 = _interopRequireDefault(_presets);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const clickNext = function () {
+    const nextButtonElement = document.querySelectorAll('.introjs-button.introjs-nextbutton')[0];
+    nextButtonElement && nextButtonElement.click();
+};
+const clickDone = function () {
+    const doneButtonElement = document.querySelectorAll('.introjs-button.introjs-donebutton')[0];
+    doneButtonElement && doneButtonElement.click();
+};
 const chance = new Chance();
 const maxSize = 20;
 const minSize = 2;
@@ -68,6 +76,7 @@ class Application extends _react2.default.Component {
         this.timerID = undefined;
 
         this.play = function () {
+            clickNext();
             _this.timerID = setInterval(function () {
                 return _this.nextGrid(_this.state.noteLength);
             }, _this.state.noteLength);
@@ -87,6 +96,7 @@ class Application extends _react2.default.Component {
         };
 
         this.muteToggle = function () {
+            clickDone();
             _this.setState({ muted: !_this.state.muted });
             interactSound(_this.state);
         };
@@ -137,6 +147,7 @@ class Application extends _react2.default.Component {
         };
 
         this.emptyGrid = function () {
+            clickNext();
             _this.setState({
                 grid: (0, _arrowsLogic.emptyGrid)(_this.state.grid.size)
             });
@@ -166,6 +177,7 @@ class Application extends _react2.default.Component {
         };
 
         this.addToGrid = function (x, y, e) {
+            clickNext();
             if (e.shiftKey || _this.state.deleting) {
                 _this.setState({
                     grid: (0, _arrowsLogic.removeFromGrid)(_this.state.grid, x, y)
@@ -204,8 +216,8 @@ class Application extends _react2.default.Component {
             currentPreset: -1,
             presets: _presets2.default,
             inputDirection: 0,
-            noteLength: props.noteLength || 275,
-            grid: props.grid || (0, _arrowsLogic.newGrid)(11, 6),
+            noteLength: props.noteLength || 350,
+            grid: props.grid || (0, _arrowsLogic.newGrid)(8, 6),
             playing: false,
             muted: true,
             deleting: false,
@@ -240,7 +252,7 @@ class Application extends _react2.default.Component {
                     { className: ' edit-options-member app-title-div' },
                     _react2.default.createElement(
                         'h1',
-                        { 'data-step': '1', 'data-intro': 'Welcome to Arrowgrid!' },
+                        null,
                         'Arrowgrid'
                     )
                 )
@@ -277,9 +289,9 @@ class Application extends _react2.default.Component {
                     _react2.default.createElement(
                         'div',
                         {
-                            className: 'slider-container',
-                            'data-step': '5',
-                            'data-intro': 'Adjust the speed with this slider.'
+                            className: 'slider-container'
+                            // data-step="5"
+                            // data-intro="Adjust the speed with this slider."
                         },
                         _react2.default.createElement('input', {
                             id: 'note-length-slider',
@@ -303,8 +315,8 @@ class Application extends _react2.default.Component {
                     'div',
                     {
                         className: 'edit-options-member',
-                        'data-step': '14',
-                        'data-intro': 'Unmute to hear your creation.'
+                        'data-step': '8',
+                        'data-intro': 'Hear the thing.'
                     },
                     _react2.default.createElement(_reactPlayerControls.MuteToggleButton, {
                         isEnabled: true,
@@ -322,20 +334,20 @@ class Application extends _react2.default.Component {
                     'div',
                     {
                         className: 'edit-options-member',
-                        'data-step': '13',
-                        'data-intro': 'Get Creative!'
+                        'data-step': '5',
+                        'data-intro': 'Poke the thing.'
                     },
                     _react2.default.createElement(
                         'div',
                         {
                             className: 'edit-options-member',
-                            'data-step': '8',
-                            'data-intro': 'Delete some arrows by clicking on them.'
+                            'data-step': '6',
+                            'data-intro': 'Repeat!'
                         },
                         _react2.default.createElement('div', {
                             id: 'sketch-holder',
-                            'data-step': '2',
-                            'data-intro': 'Click on the grid to draw an Arrow.',
+                            'data-step': '7',
+                            'data-intro': 'Once more.',
                             onClick: (0, _animations.getAdderWithMousePosition)(this.addToGrid)
                         })
                     )
@@ -349,9 +361,9 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     {
-                        className: 'edit-options-member',
-                        'data-step': '11',
-                        'data-intro': 'Change the arrow direction.'
+                        className: 'edit-options-member'
+                        // data-step="11"
+                        // data-intro="Change the arrow direction."
                     },
                     [_react2.default.createElement(_arrowButton.ArrowButton, {
                         number: this.state.inputNumber,
@@ -387,9 +399,9 @@ class Application extends _react2.default.Component {
                     _react2.default.createElement(
                         'div',
                         {
-                            className: 'slider-container',
-                            'data-step': '12',
-                            'data-intro': 'Adjust the grid with this slider.'
+                            className: 'slider-container'
+                            // data-step="12"
+                            // data-intro="Adjust the grid with this slider."
                         },
                         _react2.default.createElement('input', {
                             id: 'grid-size-slider',
@@ -410,16 +422,13 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     {
-                        className: 'edit-options-member',
-                        'data-step': '6',
-                        'data-intro': 'Switch to erase mode.'
+                        className: 'edit-options-member'
+                        // data-step="6"
+                        // data-intro="Switch to erase mode."
                     },
                     _react2.default.createElement(
                         'div',
-                        {
-                            'data-step': '10',
-                            'data-intro': 'Switch to draw mode.'
-                        },
+                        null,
                         _react2.default.createElement(_editButton.EditButton, { isEditing: !this.state.deleting, onClick: this.changeEditMode, className: this.state.deleting ? 'EraseIconRotate' : 'EditIconRotate' })
                     )
                 )
@@ -450,21 +459,15 @@ class Application extends _react2.default.Component {
                     'div',
                     {
                         className: 'edit-options-member',
-                        'data-step': '3',
-                        'data-intro': 'Press play to watch your creation unfold.'
+                        'data-step': '1',
+                        'data-intro': 'Start the thing.'
                     },
                     _react2.default.createElement(
                         'div',
-                        {
-                            'data-step': '7',
-                            'data-intro': 'Pause to allow easier editing.'
-                        },
+                        null,
                         _react2.default.createElement(
                             'div',
-                            {
-                                'data-step': '15',
-                                'data-intro': 'Check to see that your device has sound enabled and play your music.'
-                            },
+                            null,
                             this.state.playing ? _react2.default.createElement(_reactPlayerControls.PauseButton, { onClick: this.pause }) : _react2.default.createElement(_reactPlayerControls.PlayButton, { isEnabled: true, onClick: this.play })
                         )
                     )
@@ -473,24 +476,33 @@ class Application extends _react2.default.Component {
                     'div',
                     {
                         className: 'edit-options-member',
-                        'data-step': '4',
-                        'data-intro': 'Press this to see other examples.'
+                        'data-step': '2',
+                        'data-intro': 'Change the thing.'
                     },
-                    _react2.default.createElement(_reactPlayerControls.NextButton, {
-                        onClick: function () {
-                            let NextPreset = _this2.state.currentPreset + 1;
-
-                            if (NextPreset >= _this2.state.presets.length) {
-                                NextPreset = 0;
-                            }
-
-                            _this2.setState({
-                                grid: _this2.state.presets[NextPreset],
-                                currentPreset: NextPreset
-                            });
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            className: 'edit-options-member',
+                            'data-step': '3',
+                            'data-intro': 'Again!'
                         },
-                        isEnabled: true
-                    })
+                        _react2.default.createElement(_reactPlayerControls.NextButton, {
+                            onClick: function () {
+                                clickNext();
+                                let NextPreset = _this2.state.currentPreset + 1;
+
+                                if (NextPreset >= _this2.state.presets.length) {
+                                    NextPreset = 0;
+                                }
+
+                                _this2.setState({
+                                    grid: _this2.state.presets[NextPreset],
+                                    currentPreset: NextPreset
+                                });
+                            },
+                            isEnabled: true
+                        })
+                    )
                 )
             ),
             _react2.default.createElement(
@@ -500,8 +512,8 @@ class Application extends _react2.default.Component {
                     'div',
                     {
                         className: 'edit-options-member',
-                        'data-step': '9',
-                        'data-intro': 'Trash the whole thing.'
+                        'data-step': '4',
+                        'data-intro': 'Trash the thing.'
                     },
                     _react2.default.createElement(_trashButton.TrashButton, { onClick: this.emptyGrid })
                 ),
@@ -509,9 +521,9 @@ class Application extends _react2.default.Component {
                 _react2.default.createElement(
                     'div',
                     {
-                        className: 'edit-options-member',
-                        'data-step': '16',
-                        'data-intro': 'Share your creation on Facebook!'
+                        className: 'edit-options-member'
+                        // data-step="16"
+                        // data-intro="Share your creation on Facebook!"
                     },
                     _react2.default.createElement(
                         'button',
