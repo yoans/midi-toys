@@ -287,6 +287,19 @@ canvas{
 a.introjs-button {
         font: 14px/normal sans-serif;
 }
+
+.introjs-button.introjs-nextbutton {
+    height: 0;
+    width: 0;
+    padding: 0;
+    border-width: 0;
+}
+.introjs-button.introjs-prevbutton {
+    height: 0;
+    width: 0;
+    padding: 0;
+    border-width: 0;
+}
 .introjs-tooltip{
     .introjs-bullets{
         ul {

@@ -247,6 +247,8 @@ export class Application extends React.Component {
                                     introJs()
                                     .setOption('hideNext', true)
                                     .setOption('hidePrev', true)
+                                    .setOption('nextLabel', '')
+                                    .setOption('prevLabel', '')
                                     .setOption('showStepNumbers', false)
                                     .setOption('exitOnOverlayClick', false)
                                     .start();

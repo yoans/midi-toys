@@ -274,7 +274,7 @@ class Application extends _react2.default.Component {
                                 className: "TutorialButton isEnabled " + this.state.tut,
                                 onClick: function () {
                                     _this2.removeTutHighlight();
-                                    introJs().setOption('hideNext', true).setOption('hidePrev', true).setOption('showStepNumbers', false).setOption('exitOnOverlayClick', false).start();
+                                    introJs().setOption('hideNext', true).setOption('hidePrev', true).setOption('nextLabel', '').setOption('prevLabel', '').setOption('showStepNumbers', false).setOption('exitOnOverlayClick', false).start();
                                 }
                             },
                             _react2.default.createElement(_icons.InfoIcon, null)
