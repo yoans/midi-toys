@@ -34,6 +34,32 @@ div.introjs-helperLayer{
 
   border-radius: 33px;
 }
+div.introjs-tooltip {
+    border-radius: 51px;
+    text-align: center;
+    div.introjs-arrow.top {
+        border-color: transparent;
+    }
+    div.introjs-arrow.bottom {
+        border-color: transparent;
+    }
+    div.introjs-arrow.right {
+        border-color: transparent;
+    }
+    div.introjs-arrow.left {
+        border-color: transparent;
+    }
+}
+div.introjs-tooltipbuttons {
+    text-align: center;
+}
+
+a.introjs-skipbutton {
+    margin-right: 0;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+}
 
 .no-copy {
     -webkit-user-select: none;  /* Chrome all / Safari all */
