@@ -20,6 +20,7 @@
     color: #010101
 }
 #sketch-holder{
+    padding: 6px;
     background-color: transparent;
     margin: auto;
     cursor: none;
@@ -27,7 +28,11 @@
 #arrows-animation{
 }
 div.introjs-helperLayer{
-  background-color: #a011d4c5
+  background-color: #a011d4c5;
+  
+  -webkit-animation: flashingButton 1.25s infinite;
+
+  border-radius: 33px;
 }
 
 .no-copy {
