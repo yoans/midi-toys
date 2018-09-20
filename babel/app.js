@@ -482,9 +482,9 @@ class Application extends _react2.default.Component {
                     _react2.default.createElement(
                         'div',
                         {
-                            className: 'edit-options-member',
-                            'data-step': '3',
-                            'data-intro': 'Again!'
+                            className: 'edit-options-member'
+                            // data-step="3"
+                            // data-intro="Again!"
                         },
                         _react2.default.createElement(_reactPlayerControls.NextButton, {
                             onClick: function () {

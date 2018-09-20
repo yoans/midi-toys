@@ -448,8 +448,8 @@ export class Application extends React.Component {
                     >
                     <div
                         className="edit-options-member" 
-                        data-step="3"
-                        data-intro="Again!"
+                        // data-step="3"
+                        // data-intro="Again!"
                     >
                         <NextButton
                             onClick={()=>{
