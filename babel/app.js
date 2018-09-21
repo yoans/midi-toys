@@ -271,6 +271,7 @@ class Application extends _react2.default.Component {
                         _react2.default.createElement(
                             'button',
                             {
+                                title: 'Start Tutorial',
                                 className: "TutorialButton isEnabled " + this.state.tut,
                                 onClick: function () {
                                     _this2.removeTutHighlight();
@@ -316,7 +317,8 @@ class Application extends _react2.default.Component {
                     {
                         className: 'edit-options-member',
                         'data-step': '8',
-                        'data-intro': 'Hear the thing.'
+                        'data-intro': 'Hear the thing.',
+                        title: 'Sound On/Off'
                     },
                     _react2.default.createElement(_reactPlayerControls.MuteToggleButton, {
                         isEnabled: true,
@@ -517,7 +519,16 @@ class Application extends _react2.default.Component {
                     },
                     _react2.default.createElement(_trashButton.TrashButton, { onClick: this.emptyGrid })
                 ),
-                _react2.default.createElement('div', { className: 'spacer-div-next-to-trash' }),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'spacer-div-next-to-trash' },
+                    _react2.default.createElement(
+                        'h4',
+                        null,
+                        'Draw Mode: ',
+                        !this.state.deleting ? '' + ["Up", "Right", "Down", "Left"][this.state.inputDirection] + ' Arrows' : 'Eraser'
+                    )
+                ),
                 _react2.default.createElement(
                     'div',
                     {
@@ -528,6 +539,7 @@ class Application extends _react2.default.Component {
                     _react2.default.createElement(
                         'button',
                         {
+                            title: 'Facebook Share',
                             className: 'ShareButton isEnabled',
                             onClick: this.share
                         },

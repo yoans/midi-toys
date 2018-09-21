@@ -16,7 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const EditButton = exports.EditButton = function ({ onClick, isEditing, className }) {
     return _react2.default.createElement(
         'button',
-        { className: "EditButton isEnabled", onClick: onClick },
+        {
+            title: 'Change Draw Mode',
+            className: "EditButton isEnabled", onClick: onClick },
         _react2.default.createElement(_icons.EditIcon, { className: className })
     );
 };

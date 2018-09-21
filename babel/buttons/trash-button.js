@@ -16,7 +16,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const TrashButton = exports.TrashButton = function ({ onClick }) {
     return _react2.default.createElement(
         'button',
-        { className: 'TrashButton isEnabled', onClick: onClick },
+        {
+            title: 'Clear Grid',
+            className: 'TrashButton isEnabled', onClick: onClick
+        },
         _react2.default.createElement(_icons.TrashIcon, null)
     );
 };

@@ -16,7 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const ArrowButton = exports.ArrowButton = function ({ onClick, direction, number }) {
     return _react2.default.createElement(
         'button',
-        { className: "ArrowButton isEnabled", onClick: onClick },
+        {
+            title: 'Change Arrow Direction',
+            className: "ArrowButton isEnabled", onClick: onClick },
         _react2.default.createElement(
             'div',
             { className: "number-overlayee" },

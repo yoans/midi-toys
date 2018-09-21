@@ -241,6 +241,7 @@ export class Application extends React.Component {
                 <div className="edit-options-member">
                         <div className="">
                             <button
+                                title="Start Tutorial"
                                 className={"TutorialButton isEnabled " + this.state.tut} 
                                 onClick={()=>{
                                     this.removeTutHighlight();
@@ -286,6 +287,7 @@ export class Application extends React.Component {
                         className="edit-options-member"
                         data-step="8"
                         data-intro="Hear the thing."
+                        title="Sound On/Off"
                     >
                         <MuteToggleButton
                             isEnabled={true}
@@ -479,13 +481,18 @@ export class Application extends React.Component {
                     >
                         <TrashButton onClick={this.emptyGrid}/>
                     </div>
-                    <div className= "spacer-div-next-to-trash"/>
+                    <div className= "spacer-div-next-to-trash">
+                        <h4>
+                        Draw Mode: {!this.state.deleting ? ''+["Up","Right","Down","Left"][this.state.inputDirection]+' Arrows': 'Eraser'}
+                        </h4>
+                    </div>
                     <div
                         className="edit-options-member"
                         // data-step="16"
                         // data-intro="Share your creation on Facebook!"
                     >
                         <button
+                            title="Facebook Share"
                             className="ShareButton isEnabled"
                             onClick={this.share}
                         >
