@@ -339,19 +339,19 @@ class Application extends _react2.default.Component {
                     {
                         className: 'edit-options-member',
                         'data-step': '5',
-                        'data-intro': 'Poke the thing.'
+                        'data-intro': 'Swipe Right!'
                     },
                     _react2.default.createElement(
                         'div',
                         {
-                            className: 'edit-options-member',
-                            'data-step': '6',
-                            'data-intro': 'Repeat!'
+                            className: 'edit-options-member'
+                            // data-step="6"
+                            // data-intro="Repeat!"
                         },
                         _react2.default.createElement('div', {
-                            id: 'sketch-holder',
-                            'data-step': '7',
-                            'data-intro': 'Once more.'
+                            id: 'sketch-holder'
+                            // data-step="7"
+                            // data-intro="Once more."
                         })
                     )
                 )

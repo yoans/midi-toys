@@ -96,7 +96,17 @@ const setUpCanvas = exports.setUpCanvas = function (state) {
                 mouseXstart = mouseX;
                 mouseYstart = mouseY;
 
-                thisArrowAdder(mouseXindex, mouseYindex, e, true);
+                if (mouseIsInSketch()) {
+                    thisArrowAdder(mouseXindex, mouseYindex, e, true);
+                }
+            };
+            const setTouchStart = function (e) {
+                mouseXstart = mouseX;
+                mouseYstart = mouseY;
+
+                if (mouseIsPressed && mouseIsInSketch()) {
+                    thisArrowAdder(mouseXindex, mouseYindex, e, true);
+                }
             };
             const sameAsStart = function () {
                 const mouseXindex = convertPixelToIndex(mouseX);
@@ -105,9 +115,12 @@ const setUpCanvas = exports.setUpCanvas = function (state) {
                 const mouseYindexStart = convertPixelToIndex(mouseYstart);
                 return mouseXindexStart === mouseXindex && mouseYindexStart === mouseYindex;
             };
-            const setMouseEnd = function (e) {};
+            const setMouseEnd = function (e) {
+                mouseXstart = -1000;
+                mouseYstart = -1000;
+            };
 
-            sketch.touchStarted = setMouseStart;
+            sketch.touchStarted = setTouchStart;
             sketch.touchEnded = setMouseEnd;
             sketch.mousePressed = setMouseStart;
             sketch.mouseReleased = setMouseEnd;
@@ -170,8 +183,8 @@ const setUpCanvas = exports.setUpCanvas = function (state) {
                     sketch.push();
                     sketch.strokeWeight(0);
                     // const scaledColor = 255*percentage*2+(percentage>.5?(-255*(percentage-.5)*2*2):0);
-                    const scaledColor = 255 - 255 * percentage;
-                    sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor / 2);
+                    const scaledColor = 200 - 200 * percentage;
+                    sketch.fill(scaledColor, scaledColor, scaledColor, scaledColor / 3);
                     translateAndRotate(topLeft, sketch, 0, cellSize);
                     return scaledColor;
                 };

@@ -304,17 +304,17 @@ export class Application extends React.Component {
                     <div
                         className="edit-options-member"
                         data-step="5"
-                        data-intro="Poke the thing."
+                        data-intro="Swipe Right!"
                     >
                         <div
                             className="edit-options-member"
-                            data-step="6"
-                            data-intro="Repeat!"
+                            // data-step="6"
+                            // data-intro="Repeat!"
                         >
                             <div
                                 id="sketch-holder"
-                                data-step="7"
-                                data-intro="Once more."
+                                // data-step="7"
+                                // data-intro="Once more."
                             />
                         </div>
                     </div>
