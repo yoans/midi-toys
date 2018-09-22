@@ -176,7 +176,7 @@ class Application extends _react2.default.Component {
             // });
         };
 
-        this.addToGrid = function (x, y, e) {
+        this.addToGrid = function (x, y, e, forced) {
             clickNext();
             if (e.shiftKey || _this.state.deleting) {
                 _this.setState({
@@ -190,7 +190,7 @@ class Application extends _react2.default.Component {
                     forwardDiagonalSymmetry: _this.state.forwardDiagonalSymmetry
                 };
                 _this.setState({
-                    grid: (0, _arrowsLogic.addToGrid)(_this.state.grid, x, y, _this.state.inputDirection, symmetries, _this.state.inputNumber)
+                    grid: (0, _arrowsLogic.addToGrid)(_this.state.grid, x, y, _this.state.inputDirection, symmetries, _this.state.inputNumber, forced)
                 });
             }
         };
@@ -234,6 +234,8 @@ class Application extends _react2.default.Component {
         // this.play();
         const idsAndCallbacks = [{ id: '#grid-size-slider', onChange: this.newSize }, { id: '#note-length-slider', onChange: this.newNoteLength }];
         (0, _sliders.setSliderOnChange)(idsAndCallbacks);
+
+        (0, _animations.getAdderWithMousePosition)(this.addToGrid)();
     }
 
     render() {
@@ -349,8 +351,7 @@ class Application extends _react2.default.Component {
                         _react2.default.createElement('div', {
                             id: 'sketch-holder',
                             'data-step': '7',
-                            'data-intro': 'Once more.',
-                            onClick: (0, _animations.getAdderWithMousePosition)(this.addToGrid)
+                            'data-intro': 'Once more.'
                         })
                     )
                 )

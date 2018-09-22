@@ -90,6 +90,8 @@ export class Application extends React.Component {
             {id: '#note-length-slider', onChange: this.newNoteLength}
         ]
         setSliderOnChange(idsAndCallbacks);
+        
+        getAdderWithMousePosition(this.addToGrid)()
     }
 
     timerID = undefined
@@ -187,7 +189,7 @@ export class Application extends React.Component {
         //     ]
         // });
     }
-    addToGrid = (x, y, e) => {
+    addToGrid = (x, y, e, forced) => {
         clickNext()
         if (e.shiftKey || this.state.deleting) {
             this.setState({
@@ -201,7 +203,7 @@ export class Application extends React.Component {
                 forwardDiagonalSymmetry: this.state.forwardDiagonalSymmetry
             };
             this.setState({
-                grid: addToGrid(this.state.grid, x, y, this.state.inputDirection, symmetries, this.state.inputNumber)
+                grid: addToGrid(this.state.grid, x, y, this.state.inputDirection, symmetries, this.state.inputNumber, forced)
             });
         }
     }
@@ -313,7 +315,6 @@ export class Application extends React.Component {
                                 id="sketch-holder"
                                 data-step="7"
                                 data-intro="Once more."
-                                onClick={getAdderWithMousePosition(this.addToGrid)}
                             />
                         </div>
                     </div>

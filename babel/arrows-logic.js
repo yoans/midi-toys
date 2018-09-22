@@ -102,8 +102,10 @@ const calculateHorizontalVector = function (vector) {
 const calculateVerticalDiagonalVector = function (vector) {
     return [0, 3, 2, 1][vector];
 };
-const addToGrid = exports.addToGrid = function (grid, x, y, dir, symmetries, inputNumber) {
-    if (grid.arrows.length > 200) {
+const addToGrid = exports.addToGrid = function (grid, x, y, dir, symmetries, inputNumber, forced) {
+    if (grid.arrows.length > 400 || !forced && grid.arrows.filter(function (arrow) {
+        return arrow.x === x && arrow.y === y && arrow.vector === dir;
+    }).length) {
         return grid;
     }
     const symmetricArrowsToAdd = R.range(0, inputNumber).map(function () {

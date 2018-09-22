@@ -12,7 +12,11 @@ let stateDrawing;
 let previousTime;
 let mouseX = 1;
 let mouseY = 1;
+let mouseXstart = 1;
+let mouseYstart = 1;
 let cellSize = 1;
+let thisArrowAdder = () => {};
+let mouseIsPressed;
 const gridCanvasSize = 320;
 const gridCanvasBorderSize = 2;
 
@@ -24,13 +28,14 @@ const convertPixelToIndex = pixel => Math.floor(
 //     min: 0,
 //     max: 255,
 // });
-
-export const getAdderWithMousePosition = (arrowAdder) => (e) => {
-    if (mouseX > 0 + gridCanvasBorderSize &&
+const mouseIsInSketch = () => mouseX > 0 + gridCanvasBorderSize &&
         mouseX < gridCanvasSize - gridCanvasBorderSize &&
         mouseY > 0 + gridCanvasBorderSize &&
         mouseY < gridCanvasSize - gridCanvasBorderSize
-    ) {
+    ;
+export const getAdderWithMousePosition = (arrowAdder) => (e) => {
+    thisArrowAdder = arrowAdder;
+    if (mouseIsInSketch()) {
         const mouseXindex = convertPixelToIndex(mouseX);
         const mouseYindex = convertPixelToIndex(mouseY);
         arrowAdder(mouseXindex, mouseYindex, e);
@@ -110,6 +115,42 @@ export const setUpCanvas = (state) => {
         sketch.draw = () => {
             mouseX = sketch.mouseX;
             mouseY = sketch.mouseY;
+            mouseIsPressed = sketch.mouseIsPressed;
+            
+            const setMouseStart = (e) => {
+                mouseXstart=mouseX;
+                mouseYstart=mouseY;
+                
+                thisArrowAdder(mouseXindex, mouseYindex, e, true);
+            }
+            const sameAsStart = ()=>{
+                const mouseXindex = convertPixelToIndex(mouseX);
+                const mouseYindex = convertPixelToIndex(mouseY);
+                const mouseXindexStart = convertPixelToIndex(mouseXstart);
+                const mouseYindexStart = convertPixelToIndex(mouseYstart);
+                return mouseXindexStart === mouseXindex && mouseYindexStart === mouseYindex;
+            };
+            const setMouseEnd = (e) => {
+            }
+            
+            sketch.touchStarted = setMouseStart;
+            sketch.touchEnded = setMouseEnd;
+            sketch.mousePressed = setMouseStart;
+            sketch.mouseReleased = setMouseEnd;
+
+
+            const onDrag = (e) =>{
+                
+                if(mouseIsPressed && mouseIsInSketch() && !sameAsStart()){
+                    const mouseXindex = convertPixelToIndex(mouseX);
+                    const mouseYindex = convertPixelToIndex(mouseY);
+                    thisArrowAdder(mouseXindex, mouseYindex, e);
+                    e.preventDefault()
+                }
+            }
+            sketch.mouseDragged = onDrag;
+            sketch.touchMoved = onDrag;
+            
             // draw grid
             sketch.push()
             sketch.strokeWeight(0);
