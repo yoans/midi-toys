@@ -752,15 +752,15 @@ canvas {
 .app-title-div {
   position: relative; }
   .app-title-div h1 {
-    margin-top: 22px;
+    margin-top: 14px;
     margin-bottom: 14px;
     margin-left: 22px;
     margin-right: 22px;
     color: white;
     font-family: 'Helvetica Neue', sans-serif;
     font-weight: bold;
-    letter-spacing: -3px;
-    font-size: 60px;
+    letter-spacing: 16px;
+    font-size: 44px;
     line-height: 40px;
     text-align: center; }
   .app-title-div h2 {
