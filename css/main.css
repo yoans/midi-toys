@@ -754,8 +754,8 @@ canvas {
   .app-title-div h1 {
     margin-top: 14px;
     margin-bottom: 14px;
-    margin-left: 22px;
-    margin-right: 22px;
+    margin-right: 0;
+    margin-left: 16px;
     color: white;
     font-family: 'Helvetica Neue', sans-serif;
     font-weight: bold;
