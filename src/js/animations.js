@@ -120,7 +120,8 @@ export const setUpCanvas = (state) => {
             const setMouseStart = (e) => {
                 mouseXstart=mouseX;
                 mouseYstart=mouseY;
-                
+                const mouseXindex = convertPixelToIndex(mouseX);
+                const mouseYindex = convertPixelToIndex(mouseY);
                 if(mouseIsInSketch()){
                     thisArrowAdder(mouseXindex, mouseYindex, e, true);
                 }
@@ -128,7 +129,8 @@ export const setUpCanvas = (state) => {
             const setTouchStart = (e) => {
                 mouseXstart=mouseX;
                 mouseYstart=mouseY;
-                
+                const mouseXindex = convertPixelToIndex(mouseX);
+                const mouseYindex = convertPixelToIndex(mouseY);
                 if(mouseIsPressed && mouseIsInSketch()){
                     thisArrowAdder(mouseXindex, mouseYindex, e, true);
                 }
@@ -362,8 +364,6 @@ export const setUpCanvas = (state) => {
 
             // draw hover input
             sketch.cursor(sketch.CROSS);
-            const mouseXindex = convertPixelToIndex(sketch.mouseX);
-            const mouseYindex = convertPixelToIndex(sketch.mouseY);
             if (!stateDrawing.deleting) {
                 sketch.cursor(sketch.HAND);
                 // triangleDrawingArray[stateDrawing.inputDirection](
