@@ -30,7 +30,7 @@
 div.introjs-helperLayer{
   background-color: #a011d4c5;
   
-  -webkit-animation: flashingButton 1.25s infinite;
+  -webkit-animation: flashingButton 0.35s infinite;
 
   border-radius: 33px;
 }
@@ -52,13 +52,6 @@ div.introjs-tooltip {
 }
 div.introjs-tooltipbuttons {
     text-align: center;
-}
-
-a.introjs-skipbutton {
-    margin-right: 0;
-    border: none;
-    box-shadow: none;
-    text-shadow: none;
 }
 
 .no-copy {
@@ -330,6 +323,28 @@ a.introjs-button {
     width: 0;
     padding: 0;
     border-width: 0;
+}
+.introjs-button.introjs-prevbutton.introjs-fullbutton {
+    height: 0;
+    width: 0;
+    padding: 0;
+    border-width: 0;
+}
+.introjs-button.introjs-prevbutton {
+    height: 0;
+    width: 0;
+    padding: 0;
+    border-width: 0;
+}
+
+.introjs-button.introjs-skipbutton {
+    height: 0;
+    width: 0;
+    padding: 0;
+    border-width: 0;
+}
+.introjs-tooltipbuttons {
+    height: 0;
 }
 .introjs-tooltip{
     .introjs-bullets{

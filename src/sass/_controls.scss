@@ -169,7 +169,7 @@ $color-active: fade-out($color-hover, 0.5);
       // border-color: rgb(12, 146, 0);
       // background: rgb(12, 146, 0);
 
-      -webkit-animation: flashingButton 1.25s infinite;
+      -webkit-animation: flashingButton 0.35s infinite;
     }
     
     &:hover {

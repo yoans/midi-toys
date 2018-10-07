@@ -250,8 +250,11 @@ export class Application extends React.Component {
                                     introJs()
                                     .setOption('hideNext', true)
                                     .setOption('hidePrev', true)
+                                    .setOption('showBullets', false)
                                     .setOption('nextLabel', '')
                                     .setOption('prevLabel', '')
+                                    .setOption('skipLabel', '')
+                                    .setOption('doneLabel', '')
                                     .setOption('showStepNumbers', false)
                                     .setOption('exitOnOverlayClick', false)
                                     .start();

@@ -289,7 +289,7 @@
     .ArrowButton.isEnabled.TutorialButtonStartGreen,
     .TutorialButton.isEnabled.TutorialButtonStartGreen,
     .ShareButton.isEnabled.TutorialButtonStartGreen {
-      -webkit-animation: flashingButton 1.25s infinite; }
+      -webkit-animation: flashingButton 0.35s infinite; }
     .PlusButton.isEnabled:hover,
     .PlayButton.isEnabled:hover,
     .PauseButton.isEnabled:hover,
@@ -525,7 +525,7 @@
 
 div.introjs-helperLayer {
   background-color: #a011d4c5;
-  -webkit-animation: flashingButton 1.25s infinite;
+  -webkit-animation: flashingButton 0.35s infinite;
   border-radius: 33px; }
 
 div.introjs-tooltip {
@@ -542,12 +542,6 @@ div.introjs-tooltip {
 
 div.introjs-tooltipbuttons {
   text-align: center; }
-
-a.introjs-skipbutton {
-  margin-right: 0;
-  border: none;
-  box-shadow: none;
-  text-shadow: none; }
 
 .no-copy {
   -webkit-user-select: none;
@@ -802,6 +796,27 @@ a.introjs-button {
   width: 0;
   padding: 0;
   border-width: 0; }
+
+.introjs-button.introjs-prevbutton.introjs-fullbutton {
+  height: 0;
+  width: 0;
+  padding: 0;
+  border-width: 0; }
+
+.introjs-button.introjs-prevbutton {
+  height: 0;
+  width: 0;
+  padding: 0;
+  border-width: 0; }
+
+.introjs-button.introjs-skipbutton {
+  height: 0;
+  width: 0;
+  padding: 0;
+  border-width: 0; }
+
+.introjs-tooltipbuttons {
+  height: 0; }
 
 .introjs-tooltip .introjs-bullets ul li a {
   width: 8px;
