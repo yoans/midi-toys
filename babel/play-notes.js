@@ -74,7 +74,7 @@ const makePizzaSound = exports.makePizzaSound = function (index, length, volume 
     }
     return lengthSounds[length][noteIndex];
 };
-const playSounds = exports.playSounds = function (boundaryArrows, size, length, muted) {
+const playSounds = exports.playSounds = function (boundaryArrows, size, length, muted, scale, musicalKey) {
     const alreadyPlayedMap = {};
     var sounds = [];
 
@@ -86,7 +86,7 @@ const playSounds = exports.playSounds = function (boundaryArrows, size, length, 
             const snd = makePizzaSound(speed, length);
             sounds.push(snd);
         }
-        (0, _midi.makeMIDImessage)(speed, length).play();
+        (0, _midi.makeMIDImessage)(speed, length, scale, musicalKey).play();
     });
     if (!muted) {
         sounds.map(function (thisSound) {

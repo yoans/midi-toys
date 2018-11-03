@@ -33,6 +33,7 @@
     "rangeslider.js": "^2.3.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-dropdown": "^1.6.2",
     "react-player-controls": "^0.5.20"
   },
   "engines": {

@@ -37,6 +37,14 @@ var _presets = require('./presets');
 
 var _presets2 = _interopRequireDefault(_presets);
 
+var _scales = require('./scales');
+
+var _scales2 = _interopRequireDefault(_scales);
+
+var _reactDropdown = require('react-dropdown');
+
+var _reactDropdown2 = _interopRequireDefault(_reactDropdown);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const clickNext = function () {
@@ -130,7 +138,7 @@ class Application extends _react2.default.Component {
                 grid: (0, _arrowsLogic.nextGrid)(_extends({}, _this.state.grid, {
                     id: chance.guid(),
                     muted: _this.state.muted
-                }), length)
+                }), length, _this.state.scale, _this.state.musicalKey)
             });
         };
 
@@ -225,7 +233,9 @@ class Application extends _react2.default.Component {
             verticalSymmetry: false,
             backwardDiagonalSymmetry: false,
             forwardDiagonalSymmetry: false,
-            inputNumber: 1
+            inputNumber: 1,
+            scale,
+            musicalKey
         };
         (0, _animations.setUpCanvas)(this.state);
     }
@@ -241,6 +251,25 @@ class Application extends _react2.default.Component {
     render() {
         var _this2 = this;
 
+        const options = Object.keys(_scales2.default).map(function (scale) {
+            return { value: scale, label: _scales2.default[scale] };
+        });
+        // const options = [
+        //     { value: 'one', label: 'One' },
+        //     { value: 'two', label: 'Two', className: 'myOptionClassName' },
+        //     {
+        //      type: 'group', name: 'group1', items: [
+        //        { value: 'three', label: 'Three', className: 'myOptionClassName' },
+        //        { value: 'four', label: 'Four' }
+        //      ]
+        //     },
+        //     {
+        //      type: 'group', name: 'group2', items: [
+        //        { value: 'five', label: 'Five' },
+        //        { value: 'six', label: 'Six' }
+        //      ]
+        //     }
+        // ];
         const newDate = new Date();
         (0, _animations.updateCanvas)(this.state, newDate);
         return _react2.default.createElement(
@@ -556,7 +585,15 @@ class Application extends _react2.default.Component {
                     { value: '' },
                     'Not connected'
                 )
-            )
+            ),
+            _react2.default.createElement(_reactDropdown2.default, {
+                options: options,
+                onChange: function (e) {
+                    console.log(e);
+                },
+                value: this.state.scale,
+                placeholder: 'Select an scale'
+            })
         );
     }
 }

@@ -11,7 +11,7 @@ import {makePizzaSound} from './play-notes';
 import {
     emptyGrid,
     newGrid,
-    nextGrid,
+    nextGrid as nextGridLogic,
     removeFromGrid,
     addToGrid
 } from './arrows-logic';
@@ -35,6 +35,8 @@ import {
 } from './buttons/icons';
 import {setSliderOnChange} from './sliders';
 import presets from './presets';
+import scales from './scales';
+import Dropdown from 'react-dropdown';
 const clickNext = () => {
     const nextButtonElement = document.querySelectorAll('.introjs-button.introjs-nextbutton')[0];
     nextButtonElement && nextButtonElement.click();
@@ -78,7 +80,9 @@ export class Application extends React.Component {
             verticalSymmetry: false,
             backwardDiagonalSymmetry: false,
             forwardDiagonalSymmetry: false,
-            inputNumber: 1
+            inputNumber: 1,
+            scale,
+            musicalKey
         };
         setUpCanvas(this.state);
     }
@@ -143,11 +147,14 @@ export class Application extends React.Component {
     }
     nextGrid = (length) => {
         this.setState({
-            grid: nextGrid({
+            grid: nextGridLogic({
                 ...this.state.grid,
                 id: chance.guid(),
                 muted: this.state.muted 
-            }, length),
+            },
+            length,
+            this.state.scale,
+            this.state.musicalKey),
         });
     }
     newInputDirection = (inputDirection) => {
@@ -223,6 +230,27 @@ export class Application extends React.Component {
         window.open(shareUrl,'newwindow','width=300,height=250');return false;
     }
     render() {
+        const options = Object.keys(scales).map(
+            (scale)=>{
+                return {value: scale, label: scales[scale]}
+            }
+        )
+        // const options = [
+        //     { value: 'one', label: 'One' },
+        //     { value: 'two', label: 'Two', className: 'myOptionClassName' },
+        //     {
+        //      type: 'group', name: 'group1', items: [
+        //        { value: 'three', label: 'Three', className: 'myOptionClassName' },
+        //        { value: 'four', label: 'Four' }
+        //      ]
+        //     },
+        //     {
+        //      type: 'group', name: 'group2', items: [
+        //        { value: 'five', label: 'Five' },
+        //        { value: 'six', label: 'Six' }
+        //      ]
+        //     }
+        // ];
         const newDate = new Date();
         updateCanvas(this.state, newDate);
         return (
@@ -507,6 +535,13 @@ export class Application extends React.Component {
                 <select id="midiOut" className="arrow-input">
                     <option value="">Not connected</option>
                 </select>
+                
+                <Dropdown
+                    options={options}
+                    onChange={(e)=>{console.log(e)}}
+                    value={this.state.scale}
+                    placeholder="Select an scale"
+                />
             </div>
         );
     }

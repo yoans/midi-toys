@@ -230,7 +230,7 @@ const getArrowBoundaryDictionary = exports.getArrowBoundaryDictionary = function
     }, {});
 };
 
-const nextGrid = exports.nextGrid = function (grid, length) {
+const nextGrid = exports.nextGrid = function (grid, length, scale, key) {
     const {
         size,
         arrows
@@ -256,7 +256,7 @@ const nextGrid = exports.nextGrid = function (grid, length) {
     const movedFlippedBoundaryArrows = newArrayIfFalsey(arrowBoundaryDictionary[BOUNDARY]).map(flipArrow).map(moveArrow);
     const nextGridArrows = [...movedArrowsInMiddle, ...movedFlippedBoundaryArrows];
     const noisyArrowBoundaryDictionary = getArrowBoundaryDictionary(nextGridArrows, size, arrowBoundaryKey);
-    (0, _playNotes.playSounds)(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted);
+    (0, _playNotes.playSounds)(newArrayIfFalsey(noisyArrowBoundaryDictionary[BOUNDARY]), size, length, grid.muted, scale, key);
     return _extends({}, grid, {
         id: chance.guid(),
         size,

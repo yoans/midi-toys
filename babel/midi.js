@@ -3,6 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+
 let selectMIDIOut = null;
 let midiAccess = null;
 let midiOut = null;
@@ -13,15 +15,18 @@ function onMIDIFail(err) {
     // console.log(`MIDI initialization failed. ${err}`);
 }
 
-const makeMIDImessage = exports.makeMIDImessage = function (index, length) {
-    const midiKeyNumbers = [45, 47, 48, 50, 52, 54, 55, 57, 59, 61, 62, 64, 66, 67, 69, 71, 73, 74];
-    const noteIndex = index % midiKeyNumbers.length;
+const makeMIDImessage = exports.makeMIDImessage = function (index, length, scale, musicalKey) {
+    // const midiKeyNumbers = [
+    //     45, 47, 48, 50, 52, 54, 55, 57, 59, 61, 62, 64, 66, 67, 69, 71, 73, 74
+    // ];
+    const noteIndex = index % scale.length;
 
+    const noteToPlay = musicalKey + scale[noteIndex];
     return {
         play() {
-            (midiOut || { send: function () {} }).send([0x90, midiKeyNumbers[noteIndex], 0x40]);
+            (midiOut || { send: function () {} }).send([0x90, noteToPlay, 0x40]);
             setTimeout(function () {
-                (midiOut || { send: function () {} }).send([0x80, midiKeyNumbers[noteIndex], 0x00]);
+                (midiOut || { send: function () {} }).send([0x80, noteToPlay, 0x00]);
             }, length - 1);
         }
     };
