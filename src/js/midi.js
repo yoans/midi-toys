@@ -16,7 +16,13 @@ export const makeMIDImessage = (index, length, scale, musicalKey) => {
     // ];
     const noteIndex = index % scale.length;
 
-    const noteToPlay = musicalKey+scale[noteIndex];
+    const noteToPlay = 45+musicalKey+scale[noteIndex];
+    console.log({
+        noteToPlay,
+        musicalKey,
+        scale,
+        noteIndex
+    });
     return {
         play() {
             (midiOut || { send: () => { } }).send([

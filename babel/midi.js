@@ -21,7 +21,13 @@ const makeMIDImessage = exports.makeMIDImessage = function (index, length, scale
     // ];
     const noteIndex = index % scale.length;
 
-    const noteToPlay = musicalKey + scale[noteIndex];
+    const noteToPlay = 45 + musicalKey + scale[noteIndex];
+    console.log({
+        noteToPlay,
+        musicalKey,
+        scale,
+        noteIndex
+    });
     return {
         play() {
             (midiOut || { send: function () {} }).send([0x90, noteToPlay, 0x40]);

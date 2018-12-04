@@ -81,8 +81,8 @@ export class Application extends React.Component {
             backwardDiagonalSymmetry: false,
             forwardDiagonalSymmetry: false,
             inputNumber: 1,
-            scale,
-            musicalKey
+            scale: [0,2,4,5,7,9,11,12],
+            musicalKey: 0
         };
         setUpCanvas(this.state);
     }
@@ -150,7 +150,7 @@ export class Application extends React.Component {
             grid: nextGridLogic({
                 ...this.state.grid,
                 id: chance.guid(),
-                muted: this.state.muted 
+                muted: this.state.muted
             },
             length,
             this.state.scale,
@@ -538,9 +538,9 @@ export class Application extends React.Component {
                 
                 <Dropdown
                     options={options}
-                    onChange={(e)=>{console.log(e)}}
-                    value={this.state.scale}
-                    placeholder="Select an scale"
+                    onChange={(e)=>{this.setState({scale: e.label})}}
+                    value={this.state.scale.join('-')}
+                    placeholder="Select a scale"
                 />
             </div>
         );

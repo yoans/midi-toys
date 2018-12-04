@@ -79,14 +79,14 @@ const playSounds = exports.playSounds = function (boundaryArrows, size, length, 
     var sounds = [];
 
     boundaryArrows.map(function (arrow) {
-        const speed = getIndex(arrow.x, arrow.y, size, arrow.vector);
+        const arrowIndex = getIndex(arrow.x, arrow.y, size, arrow.vector);
 
-        if (!muted && !alreadyPlayedMap[speed]) {
-            alreadyPlayedMap[speed] = [speed];
-            const snd = makePizzaSound(speed, length);
+        if (!muted && !alreadyPlayedMap[arrowIndex]) {
+            alreadyPlayedMap[arrowIndex] = [arrowIndex];
+            const snd = makePizzaSound(arrowIndex, length);
             sounds.push(snd);
         }
-        (0, _midi.makeMIDImessage)(speed, length, scale, musicalKey).play();
+        (0, _midi.makeMIDImessage)(arrowIndex, length, scale, musicalKey).play();
     });
     if (!muted) {
         sounds.map(function (thisSound) {

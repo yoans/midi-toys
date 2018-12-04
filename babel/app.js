@@ -234,8 +234,8 @@ class Application extends _react2.default.Component {
             backwardDiagonalSymmetry: false,
             forwardDiagonalSymmetry: false,
             inputNumber: 1,
-            scale,
-            musicalKey
+            scale: [0, 2, 4, 5, 7, 9, 11, 12],
+            musicalKey: 0
         };
         (0, _animations.setUpCanvas)(this.state);
     }
@@ -589,10 +589,10 @@ class Application extends _react2.default.Component {
             _react2.default.createElement(_reactDropdown2.default, {
                 options: options,
                 onChange: function (e) {
-                    console.log(e);
+                    _this2.setState({ scale: e.label });
                 },
-                value: this.state.scale,
-                placeholder: 'Select an scale'
+                value: this.state.scale.join('-'),
+                placeholder: 'Select a scale'
             })
         );
     }
